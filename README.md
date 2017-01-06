@@ -1,2 +1,1 @@
-# Final_Project
-# A pictionary-like multiplayer online game.
+# Pictatory Shenanigans: A pictionary-like multiplayer online game.

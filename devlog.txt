@@ -1,5 +1,9 @@
-DEVLOG
+julianA -- 2017-01-03 13:51
+finding socketio library for networking
+testing socketio in python
 
-jordanC -- 2017-01-05 10:59
-created component mapt and site map
+julianA -- 2017-01-04 13:50
+began writing js drawing program
 
+julianA -- 2017-01-09 13:37
+sending drawing data over the network to other users

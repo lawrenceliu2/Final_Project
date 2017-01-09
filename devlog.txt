@@ -7,3 +7,6 @@ began writing js drawing program
 
 julianA -- 2017-01-09 13:37
 sending drawing data over the network to other users
+
+fortuneS -- 2017-01-09 13:49
+recalled past events for julian

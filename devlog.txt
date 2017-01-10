@@ -9,7 +9,10 @@ julianA -- 2017-01-09 13:37
 sending drawing data over the network to other users
 
 fortuneS -- 2017-01-09 13:49
-recalled past events for julian
+retroactively updated devlog based on current state of affairs
 
 julianA -- 2017-01-09 22:41
 fixed & cleaned up js, started designing page
+
+fortuneS -- 2017-01-10 13:55
+created a simple test html page for login

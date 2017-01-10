@@ -10,3 +10,6 @@ sending drawing data over the network to other users
 
 fortuneS -- 2017-01-09 13:49
 recalled past events for julian
+
+julianA -- 2017-01-09 22:41
+fixed & cleaned up js, started designing page

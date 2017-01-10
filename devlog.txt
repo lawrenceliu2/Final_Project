@@ -11,6 +11,9 @@ sending drawing data over the network to other users
 fortuneS -- 2017-01-09 13:49
 retroactively updated devlog based on current state of affairs
 
+lawrenceL -- 2017-01-09 14:08
+Started database methods, created database
+
 julianA -- 2017-01-09 22:41
 fixed & cleaned up js, started designing page
 
@@ -19,3 +22,6 @@ created a simple test html page for login
 
 jordanC -- 2017-01-10 14:03
 created routes for login and register
+
+lawrenceL -- 2017-01-10 14:06
+Finished basic adding to database and authentication

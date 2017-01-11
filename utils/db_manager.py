@@ -35,7 +35,12 @@ def addUser(username, password):
         q = '''INSERT INTO users(username, password, wins, gamesPlayed) VALUES("%s", "%s", "%s", %s)''' % (username, m, 0, 0)
         users.execute(q)
         db.commit()
-        return "User added"
-    return "User not added"
+        return True
+    return False
 
-print addUser("lawrence", "puggo")
+'''def getUsersInRoom (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    room = db.cursor()
+    m = hashlib.sha1(password).hexdigest()
+
+    q = "SELECT userNum FROM rooms WHERE roomName =='''

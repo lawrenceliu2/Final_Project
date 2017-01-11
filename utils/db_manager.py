@@ -38,9 +38,47 @@ def addUser(username, password):
         return True
     return False
 
+def getWins (username):
+    db = sqlite3.connect("data/dbsm.db")
+    users = db.cursor()
+
+    q = "SELECT wins FROM users WHERE username = \"%s\";" % (username)
+    users.execute(q)
+    return users.fetchall()[0][0]
+
+def getGamesPlayed (username):
+    db = sqlite3.connect("../data/dbsm.db")
+    users = db.cursor()
+
+    q = "SELECT gamesPlayed FROM users WHERE username = \"%s\";" % (username)
+    users.execute(q)
+    return users.fetchall()[0][0]
+
+#Note that if you have not played any games, this returns -1
+def getWinrate (username):
+    db = sqlite3.connect("../data/dbsm.db")
+    users = db.cursor()
+
+    wins = getWins(username)
+    gamesPlayed = getGamesPlayed(username)
+    if (gamesPlayed < 1):
+        return -1
+    return float(wins) / gamesPlayed
+
+def addLoss (username):
+    db = sqlite3.connect("../data/dbsm.db")
+    users = db.cursor()
+
+    gamesPlayed = getGamesPlayed(username)+1
+    q = "UPDATE users SET gamesPlayed = %s WHERE username = \"%s\";" % (gamesPlayed, username,)
+    users.execute(q)
+    return True
+
+print addLoss ("username")
+print getGamesPlayed ("lawrence")
+
 '''def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")
     room = db.cursor()
-    m = hashlib.sha1(password).hexdigest()
 
     q = "SELECT userNum FROM rooms WHERE roomName =='''

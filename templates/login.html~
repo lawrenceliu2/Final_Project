@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Login</title>
+    <h1>Login</h1>
+  </head>
+  
+  <body>
+    <p>
+      {{ msg }}
+    </p>
+    <form>
+      <input type="text" placeholder="Username" name="user"><br>
+      <input type="password" placeholder="Password" name="pass"><br><br>
+      <input type="submit" value="Login" action="/login" method="POST">
+    </form>
+  </body>
+  
+</html>

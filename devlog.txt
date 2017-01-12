@@ -25,3 +25,9 @@ created routes for login and register
 
 lawrenceL -- 2017-01-10 14:06
 Finished basic adding to database and authentication
+
+lawrenceL -- 2017-01-11 14:08
+Added basic methods to get info about users, finished adding users/authentication
+
+lawrenceL -- 2017-01-12 14:02
+Finished all basic methods for manipulation/retrieval of users information (getWinrate, getWins, addWin, addLoss, etc.)

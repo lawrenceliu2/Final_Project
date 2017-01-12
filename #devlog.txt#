@@ -1,16 +1,29 @@
 julianA -- 2017-01-03 13:51
-Finding socketio library for networking
-Testing socketio in python
+finding socketio library for networking
+testing socketio in python
 
 julianA -- 2017-01-04 13:50
-Began writing js drawing program
+began writing js drawing program
 
 julianA -- 2017-01-09 13:37
-Sending drawing data over the network to other users
+sending drawing data over the network to other users
 
 fortuneS -- 2017-01-09 13:49
-Recalled past events for julian
+retroactively updated devlog based on current state of affairs
 
-lawrenceL -- 2017-01-09 14:04
-Started database stuffs, created database and methods
+lawrenceL -- 2017-01-09 14:08
+Started database methods, created database
+
+julianA -- 2017-01-09 22:41
+fixed & cleaned up js, started designing page
+
+fortuneS -- 2017-01-10 13:55
+created a simple test html page for login
+
+jordanC -- 2017-01-10 14:03
+created routes for login and register
+
+lawrenceL -- 2017-01-10 14:06
+Finished basic adding to database and authentication
+
 

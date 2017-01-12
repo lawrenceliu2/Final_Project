@@ -47,7 +47,7 @@ def getWins (username):
     return users.fetchall()[0][0]
 
 def getGamesPlayed (username):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT gamesPlayed FROM users WHERE username = \"%s\";" % (username)
@@ -56,7 +56,7 @@ def getGamesPlayed (username):
 
 #Note that if you have not played any games, this returns -1
 def getWinrate (username):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     wins = getWins(username)
@@ -65,17 +65,33 @@ def getWinrate (username):
         return -1
     return float(wins) / gamesPlayed
 
+#Adds a game played to the specified user
 def addLoss (username):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     gamesPlayed = getGamesPlayed(username)+1
     q = "UPDATE users SET gamesPlayed = %s WHERE username = \"%s\";" % (gamesPlayed, username,)
     users.execute(q)
+    db.commit()
     return True
 
-print addLoss ("username")
-print getGamesPlayed ("lawrence")
+#Adds a game played and a win to the specified user
+def addWin (username):
+    db = sqlite3.connect("data/dbsm.db")
+    users = db.cursor()
+
+    wins = getWins(username) + 1
+    addLoss(username)
+    q = "UPDATE users SET wins = %s WHERE username = \"%s\";" % (wins, username,)
+    users.execute(q)
+    db.commit()
+    return True
+
+print addWin("lawrence")
+print getWins("lawrence")
+print getGamesPlayed("lawrence")
+print getWinrate("lawrence")
 
 '''def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")

@@ -25,3 +25,6 @@ created routes for login and register
 
 lawrenceL -- 2017-01-10 14:06
 Finished basic adding to database and authentication
+
+julianA -- 2017-01-11 14:00
+Added basic chat functionality

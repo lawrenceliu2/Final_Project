@@ -7,6 +7,11 @@ var SocketMgr = {
 	SocketMgr.socket.on("buf",function(data) {
 	    Canvas.draw(data);
 	});
+	SocketMgr.socket.on("chat",function(data) {
+	    var elem = document.createElement("p");
+	    elem.innerHTML = data;
+	    document.getElementById("chat-display").appendChild(elem);
+	});
     },
 };
 
@@ -34,6 +39,7 @@ var Canvas = {
       	    Canvas.ctx.moveTo(e.clientX,e.clientY);
       	    Canvas.canv.addEventListener("mousemove",fx);
 	    Canvas.canv.addEventListener("mouseoff",function() {
+		//SocketMgr.socket.emit("draw",{x:e.clientX,y:e.clientY,isDrawing:false});
 		Canvas.ctx.stroke();
 		Canvas.ctx.closePath();
 	    });
@@ -51,7 +57,7 @@ var Canvas = {
 	if (!(data.isDrawing)) {
 	    Canvas.ctx.closePath();
 	    Canvas.ctx.beginPath();
-	    Canvas.ctx.moveTo(data[0].x,data[0].y);
+	    Canvas.ctx.moveTo(data.x,data.y);
 	}
 	else {
 	    Canvas.ctx.lineTo(data.x,data.y);
@@ -60,9 +66,24 @@ var Canvas = {
     },
 };
 
+var bindMiscEvents = function() {
+    var field = document.getElementById("chat-field");
+    document.getElementById("msg_sub").addEventListener("click", function(e) {
+	console.log('ayy');
+	var data = field.value;
+	SocketMgr.socket.emit("message",data);
+	field.value = "";
+	var elem = document.createElement("p");
+	elem.style.margin = "0";//"15px 0 0 15px";
+	elem.innerHTML = data;
+	document.getElementById("chat-display").appendChild(elem);
+    });
+};
+
 var init = function() {
     SocketMgr.init();
     Canvas.init();
     SocketMgr.bindSocketEvents();
     Canvas.bindCanvasEvents();
+    bindMiscEvents();
 };

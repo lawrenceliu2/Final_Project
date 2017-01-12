@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO
-import utils.db_manager as db_manager
+import utils.db_manager
 import hashlib, random, os
 
 app = Flask(__name__)
@@ -11,9 +11,9 @@ socket = SocketIO(app)
 @app.route("/")
 
 def root():
-    if "user" in session:
+    #if "user" in session:
         return render_template("index.html")
-    return render_template("login.html")
+    #return render_template("login.html")
 
 #------------------------------
 @app.route("/login", methods=['GET', 'POST'])
@@ -45,12 +45,12 @@ def regauth():
         return render_template("register.html", msg="Please enter a username and password.")
     if (pwd != confirm):
         return render_template("register.html", msg="Failed to confirm password.  Try again:")
-    if 
 
 #------------------------------
 @socket.on("message")
-def message(msg):
-    print "received message from client: "+msg
+def message(data):
+    socket.emit("chat",data,include_self=False)
+    #print "received message from client: "+msg
     
 @socket.on("draw")
 def draw(data):

@@ -10,11 +10,11 @@
     <p>
       {{ msg }}
     </p>
-    <form>
+    <form method="POST" action="/regauth">
       <input type="text" placeholder="Username" name="user"><br>
-      <input type="password" placeholder="Password" name="pass"><br>
+      <input type="password" placeholder="Password" name="pwd"><br>
       <input type="password" placeholder="Confirm Password" name="confirm"><br><br>
-      <input type="submit" value="Sign Up" action="/regauth" method="POST">
+      <input type="submit" value="Sign Up">
     </form>
   </body>
   

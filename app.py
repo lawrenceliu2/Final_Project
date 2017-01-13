@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO
-import utils.db_manager
+#import utils.db_manager
+from utils.db_manager import *
 import hashlib, random, os
 
 app = Flask(__name__)
@@ -13,20 +14,16 @@ def root():
     if "user" in session:
         return render_template("index.html")
     return render_template("login.html")
-def root():
-    if "user" in session:
-        return render_template("index.html")
-    return render_template("login.html")
 
-#------------------------------
+#-----------------------------
 @app.route("/login", methods=['GET', 'POST'])
 
 def login():
     user = request.form["user"]
-    pwd = request.form["pass"]
+    pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):
         return render_template("login.html", msg="Please enter your username and password.")
-    if db_manager.UserAuth(user, pwd):
+    if UserAuth(user, pwd):
         session["user"] = user
         return redirect("/")
     return render_template("login.html", msg="Username or password incorrect.")
@@ -42,7 +39,7 @@ def reg():
 
 def regauth():
     user = request.form["user"]
-    pwd = request.form["pass"]
+    pwd = request.form["pwd"]
     confirm = request.form["confirm"]
     if (user == "") or (pwd == ""):
         return render_template("register.html", msg="Please enter a username and password.")

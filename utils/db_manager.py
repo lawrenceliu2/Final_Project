@@ -88,10 +88,10 @@ def addWin (username):
     db.commit()
     return True
 
-print addWin("lawrence")
-print getWins("lawrence")
-print getGamesPlayed("lawrence")
-print getWinrate("lawrence")
+#print addWin("lawrence")
+#print getWins("lawrence")
+#print getGamesPlayed("lawrence")
+#print getWinrate("lawrence")
 
 '''def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")

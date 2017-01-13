@@ -1,5 +1,7 @@
 import sqlite3, hashlib
 
+#Methods for users table
+
 #Checks if username and password exist
 def UserAuth(username, password):
     db = sqlite3.connect("data/dbsm.db")
@@ -26,6 +28,7 @@ def nameAvail(username):
         return False
     return True
 
+#Adds a new user to the database if the username is not taken already
 def addUser(username, password):
     db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
@@ -38,6 +41,7 @@ def addUser(username, password):
         return True
     return False
 
+#Returns how many wins a user has
 def getWins (username):
     db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
@@ -46,6 +50,7 @@ def getWins (username):
     users.execute(q)
     return users.fetchall()[0][0]
 
+#Returns how many games the user has played
 def getGamesPlayed (username):
     db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
@@ -54,6 +59,7 @@ def getGamesPlayed (username):
     users.execute(q)
     return users.fetchall()[0][0]
 
+#Returns the users winrate as a decimal
 #Note that if you have not played any games, this returns -1
 def getWinrate (username):
     db = sqlite3.connect("data/dbsm.db")
@@ -88,12 +94,30 @@ def addWin (username):
     db.commit()
     return True
 
-print addWin("lawrence")
+
+#Methods for words table
+
+#Returns an array of the words in the database
+def getWords():
+    db = sqlite3.connect("../data/dbsm.db")
+    words = db.cursor()
+
+    q = "SELECT noun FROM words"
+    words.execute(q)
+    wordList = words.fetchall()
+    realWordList = []
+    for word in wordList:
+        realWordList.append(str(word[0]))
+    return realWordList
+
+print getWords()
+
+'''print addWin("lawrence")
 print getWins("lawrence")
 print getGamesPlayed("lawrence")
 print getWinrate("lawrence")
 
-'''def getUsersInRoom (roomname):
+def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")
     room = db.cursor()
 

@@ -98,7 +98,7 @@ def addWin (username):
 
 #Returns an array of the words in the database
 def getWords():
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     words = db.cursor()
 
     q = "SELECT noun FROM words"

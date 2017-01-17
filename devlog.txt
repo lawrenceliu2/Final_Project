@@ -37,3 +37,7 @@ Finished all basic methods for manipulation/retrieval of users information (getW
 
 lawrenceL -- 2017-01-13 14:03
 Added 3 words to the words table, added a method getWords to return an array of all the words currently in the database
+
+lawrenceL -- 2017-01-17 14:03
+Fixed a bug that got past me, user authentication was comparing your number of wins to the inputted password, BUG FIXED
+Minor db_manager changes, all methods are now working, beginning to work on hardcoding words and further methods for rooms

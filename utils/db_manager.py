@@ -92,7 +92,8 @@ def addWin (username):
     q = "UPDATE users SET wins = %s WHERE username = \"%s\";" % (wins, username,)
     users.execute(q)
     db.commit()
-    return Tru
+    return True
+
 
 #Methods for words table
 
@@ -118,6 +119,10 @@ print getWinrate("lawrence")
 
 def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")
-    room = db.cursor()
+    rooms = db.cursor()
 
-    q = "SELECT userNum FROM rooms WHERE roomName =='''
+    q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    numUsers = rooms.execute(q)
+    for num in numUsers:
+       
+    '''

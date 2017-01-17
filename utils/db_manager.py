@@ -12,7 +12,7 @@ def UserAuth(username, password):
         q = "SELECT * FROM users WHERE username = \"%s\";" % (username)
         users.execute(q)
         info = users.fetchall()
-        if (info[0][2] == m):
+        if (info[0][1] == m):
             return True
     return False
 
@@ -109,7 +109,7 @@ def getWords():
         realWordList.append(str(word[0]))
     return realWordList
 
-print getWords()
+#print getWords()
 
 '''print addWin("lawrence")
 print getWins("lawrence")

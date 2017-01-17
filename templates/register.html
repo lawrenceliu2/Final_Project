@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Register</title>
+    <h1>Register</h1>
+  </head>
+  
+  <body>
+    <p>
+      {{ msg }}
+    </p>
+    <form method="POST" action="/regauth">
+      <input type="text" placeholder="Username" name="user"><br>
+      <input type="password" placeholder="Password" name="pwd"><br>
+      <input type="password" placeholder="Confirm Password" name="confirm"><br><br>
+      <input type="submit" value="Sign Up">
+    </form>
+  </body>
+  
+</html>

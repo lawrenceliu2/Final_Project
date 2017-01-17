@@ -10,10 +10,10 @@
     <p>
       {{ msg }}
     </p>
-    <form>
+    <form method="POST" action="/login">
       <input type="text" placeholder="Username" name="user"><br>
-      <input type="password" placeholder="Password" name="pass"><br><br>
-      <input type="submit" value="Login" action="/login" method="POST">
+      <input type="password" placeholder="Password" name="pwd"><br><br>
+      <input type="submit" value="Login">
     </form>
   </body>
   

@@ -4,7 +4,7 @@ import sqlite3, hashlib
 
 #Checks if username and password exist
 def UserAuth(username, password):
-    db = sqlite3.connect("data/dbsm.db")
+    db = sqlite3.connect("../data/dbsm.db")
     users = db.cursor()
     m = hashlib.sha1(password).hexdigest()
      
@@ -12,13 +12,13 @@ def UserAuth(username, password):
         q = "SELECT * FROM users WHERE username = \"%s\";" % (username)
         users.execute(q)
         info = users.fetchall()
-        if (info[0][2] == m):
+        if (info[0][1] == m):
             return True
     return False
 
 #Checks if username is taken
 def nameAvail(username):
-    db = sqlite3.connect("data/dbsm.db")
+    db = sqlite3.connect("../data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT * FROM users WHERE username = \"%s\";" % (username)
@@ -109,7 +109,7 @@ def getWords():
         realWordList.append(str(word[0]))
     return realWordList
 
-print getWords()
+#print getWords()
 
 '''print addWin("lawrence")
 print getWins("lawrence")

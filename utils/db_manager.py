@@ -92,9 +92,7 @@ def addWin (username):
     q = "UPDATE users SET wins = %s WHERE username = \"%s\";" % (wins, username,)
     users.execute(q)
     db.commit()
-    return True
-
-<<<<<<< HEAD
+    return Tru
 
 #Methods for words table
 
@@ -117,12 +115,6 @@ print getWords()
 print getWins("lawrence")
 print getGamesPlayed("lawrence")
 print getWinrate("lawrence")
-=======
-#print addWin("lawrence")
-#print getWins("lawrence")
-#print getGamesPlayed("lawrence")
-#print getWinrate("lawrence")
->>>>>>> 2eb69917cc60a241213feeccd0c37640b6486a5c
 
 def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")

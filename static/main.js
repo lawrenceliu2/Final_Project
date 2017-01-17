@@ -9,6 +9,7 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("chat",function(data) {
 	    var elem = document.createElement("p");
+	    elem.style.margin = "0";//"15px 0 0 15px";
 	    elem.innerHTML = data;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
@@ -79,7 +80,7 @@ var bindMiscEvents = function() {
 	document.getElementById("chat-display").appendChild(elem);
     });
     field.addEventListener("keypress", function(e) {
-	if (e.which == 13 && field.value != "") {
+	if (e.which == 13 && !e.shiftKey && field.value != "") {
 	    console.log('ayy');
 	    var data = field.value;
 	    SocketMgr.socket.emit("message",data);

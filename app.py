@@ -11,9 +11,9 @@ socket = SocketIO(app)
 #------------------------------
 @app.route("/")
 def root():
-    if "user" in session:
+    #if "user" in session:
         return render_template("index.html")
-    return render_template("login.html")
+    #return render_template("login.html")
 
 #-----------------------------
 @app.route("/login", methods=['GET', 'POST'])

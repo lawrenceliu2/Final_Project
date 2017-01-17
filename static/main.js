@@ -48,7 +48,7 @@ var Canvas = {
 		Canvas.ctx.moveTo(e.clientX,e.clientY);
 	    });
       	});
-      	Canvas.canv.addEventListener("mouseup",function() {
+      	document.addEventListener("mouseup",function() {
       		Canvas.canv.removeEventListener("mousemove",fx);
       		Canvas.ctx.closePath();
       	});

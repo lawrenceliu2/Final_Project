@@ -4,7 +4,7 @@ import sqlite3, hashlib
 
 #Checks if username and password exist
 def UserAuth(username, password):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
     m = hashlib.sha1(password).hexdigest()
      
@@ -18,7 +18,7 @@ def UserAuth(username, password):
 
 #Checks if username is taken
 def nameAvail(username):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT * FROM users WHERE username = \"%s\";" % (username)

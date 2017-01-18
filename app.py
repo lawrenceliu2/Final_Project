@@ -10,15 +10,28 @@ socket = SocketIO(app)
 
 #------------------------------
 @app.route("/")
+
 def root():
     #if "user" in session:
-        return render_template("index.html")
+        return render_template("home.html")
     #return render_template("login.html")
 
-#-----------------------------
-@app.route("/login", methods=['GET', 'POST'])
+#------------------------------
+@app.route("/play")
+
+def play():
+    return render_template("index.html")
+
+#------------------------------
+@app.route("/login")
 
 def login():
+    return render_template("login.html")
+
+#-----------------------------
+@app.route("/loginauth", methods=['GET', 'POST'])
+
+def loginauth():
     user = request.form["user"]
     pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):

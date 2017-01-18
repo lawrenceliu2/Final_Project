@@ -12,9 +12,9 @@ socket = SocketIO(app)
 @app.route("/")
 
 def root():
-    #if "user" in session:
-        return render_template("home.html")
-    #return render_template("login.html")
+    if "user" in session:
+        return render_template("home.html", isLoggedIn=True)
+    return render_template("home.html", isLoggedIn=False)
 
 #------------------------------
 @app.route("/play")
@@ -38,7 +38,7 @@ def loginauth():
         return render_template("login.html", msg="Please enter your username and password.")
     if UserAuth(user, pwd):
         session["user"] = user
-        return redirect("/")
+        return redirect("/profile")
     return render_template("login.html", msg="Username or password incorrect.")
 
 #------------------------------
@@ -69,6 +69,14 @@ def logout():
     if "user" in session:
         session.pop("user")
     return render_template("login.html", msg="You have been logged out.  Log back in here:")
+
+#------------------------------
+@app.route("/profile")
+
+def profile():
+    if "user" in session:
+        return render_template("profile.html", user="user")
+    return redirect("/login")
 
 #------------------------------
 @socket.on("message")

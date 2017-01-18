@@ -9,7 +9,7 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("chat",function(data) {
 	    var elem = document.createElement("p");
-	    elem.style.margin = "0";//"15px 0 0 15px";
+	    //elem.style.margin = "0";//"15px 0 0 15px";
 	    elem.innerHTML = data;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
@@ -69,7 +69,7 @@ var Canvas = {
 
 var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
-    document.getElementById("msg_sub").addEventListener("click", function(e) {
+    /*document.getElementById("msg_sub").addEventListener("click", function(e) {
 	console.log('ayy');
 	var data = field.value;
 	SocketMgr.socket.emit("message",data);
@@ -78,7 +78,7 @@ var bindMiscEvents = function() {
 	elem.style.margin = "0";//"15px 0 0 15px";
 	elem.innerHTML = data;
 	document.getElementById("chat-display").appendChild(elem);
-    });
+    });*/
     field.addEventListener("keypress", function(e) {
 	if (e.which == 13 && !e.shiftKey && field.value != "") {
 	    console.log('ayy');
@@ -86,7 +86,8 @@ var bindMiscEvents = function() {
 	    SocketMgr.socket.emit("message",data);
 	    field.value = "";
 	    var elem = document.createElement("p");
-	    elem.style.margin = "0";//"15px 0 0 15px";
+	    //elem.style.margin = "0";//"15px 0 0 15px";
+	    //elem.style.fontFamily = "monospace";
 	    elem.innerHTML = data;
 	    document.getElementById("chat-display").appendChild(elem);
 	}

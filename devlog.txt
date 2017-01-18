@@ -47,3 +47,6 @@ Added home.html and navigational features.
 
 jordanC -- 2017-01-18 14:03
 More navigational features to login and register and home.  New profile route and html page.
+
+julianA -- 2017-01-18 14:03
+Spruced up chat, fixed word wrapping over edge of screen

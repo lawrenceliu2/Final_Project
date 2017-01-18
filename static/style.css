@@ -35,29 +35,37 @@ html, body {
 }
 
 #chat-display {
-    width: 100%;
-    height: calc(100% - 100px);
+    /*width: 100%;*/
+    height: calc(100% - 85px);
     margin: auto;
     padding: 15px;
 }
 
 #chat-display > p {
-    white-space: pre;
+    white-space: normal;
+    word-break: break-all;
+    font-family: monospace;
+    margin: 0 0 15px 0;
 }
 
 #chat-input {
     width: 100%;
-    height: 75px;
+    height: 50px;
     box-sizing: border-box;
     padding: 5px;
 }
 
 #chat-field {
     outline: none;
-    border: none;
+    border: 1px solid #e7e7e7;
+    border-radius: 3px;
+    padding: 5px 0;
     resize: none;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
+    margin: auto 0;
+    font-family: monospace;
+/*padding: 0;*/
     
 }
 

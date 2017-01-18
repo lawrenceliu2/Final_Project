@@ -1,4 +1,4 @@
-import sqlite3, hashlib
+import sqlite3, hashlib, random
 
 #Methods for users table
 
@@ -110,7 +110,17 @@ def getWords():
         realWordList.append(str(word[0]))
     return realWordList
 
-#print getWords()
+#Returns a random word from the current array for the user to draw
+def getRandomWord():
+    words = getWords()
+    which = random.randint(0,len(words)-1)
+    return words[which]
+
+#Checks if the word the user guessed is the word being drawn, actual is the word being drawn
+#Not sure if this is necessary but whatever
+def checkWord(actual, guess):
+    return actual.lower() == guess.lower()
+
 
 '''print addWin("lawrence")
 print getWins("lawrence")

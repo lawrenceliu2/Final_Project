@@ -57,3 +57,7 @@ Spruced up chat, fixed word wrapping over edge of screen
 
 fortuneS -- 2017-01-19 13:48
 Added jinja to home.html, pass username to profile and play
+
+lawrenceL -- 2017-01-19 14:02
+Hardcoded a bunch of words in our database
+

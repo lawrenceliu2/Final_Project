@@ -21,12 +21,13 @@ var Canvas = {
     ctx: null,
     init: function() {
 	this.canv = document.getElementById("canv");
-	this.canv.width = screen.width;
-	this.canv.height = screen.height;
+	this.canv.width = 1000;//screen.width;
+	this.canv.height = 800;//screen.height;
 	this.ctx = this.canv.getContext("2d");
 	this.ctx.lineWidth = 3;
 	this.ctx.fillStyle = "#000";
 	this.ctx.strokeStyle = "#000";
+	this.canv.imageSmoothingEnabled = false;
     },
     bindCanvasEvents: function() {
       	var fx = function(e) {
@@ -67,6 +68,20 @@ var Canvas = {
     },
 };
 
+var initStyle = function() {
+    var canv = document.getElementById("canv");
+    var panel = document.getElementById("canvas-panel");
+    console.log(panel);
+    canv.style.width = "100%";
+    canv.style.height = "100%";
+    //console.log(window.width);
+    var width = window.innerWidth - (300 + 15 + 15); //width of viewport minus sidebar and margin
+    panel.style.width = width+"px";
+    panel.style.height = (width * 0.8)+"px";
+//    console.log(width);
+    console.log(panel.style);
+};
+
 var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
     /*document.getElementById("msg_sub").addEventListener("click", function(e) {
@@ -92,6 +107,8 @@ var bindMiscEvents = function() {
 	    document.getElementById("chat-display").appendChild(elem);
 	}
     });
+
+    window.addEventListener("resize", initStyle);
 };
 
 var init = function() {
@@ -100,4 +117,5 @@ var init = function() {
     SocketMgr.bindSocketEvents();
     Canvas.bindCanvasEvents();
     bindMiscEvents();
+    initStyle();
 };

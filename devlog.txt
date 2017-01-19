@@ -61,3 +61,5 @@ Added jinja to home.html, pass username to profile and play
 lawrenceL -- 2017-01-19 14:02
 Hardcoded a bunch of words in our database
 
+julianA -- 2017-01-19 14:07
+Spruced up drawing page & added a scaling viewport w/ a standard size

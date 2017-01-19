@@ -56,4 +56,4 @@ julianA -- 2017-01-18 14:03
 Spruced up chat, fixed word wrapping over edge of screen
 
 fortuneS -- 2017-01-19 13:48
-Added jinja to home.html, fixed username pass issue
+Added jinja to home.html, pass username to profile and play

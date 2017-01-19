@@ -75,7 +75,7 @@ def logout():
 
 def profile():
     if "user" in session:
-        return render_template("profile.html", user="user")
+        return render_template("profile.html", user=session["user"])
     return redirect("/login")
 
 #------------------------------

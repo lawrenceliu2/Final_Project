@@ -36,6 +36,8 @@ def loginauth():
     pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):
         return render_template("login.html", msg="Please enter your username and password.")
+    if (nameAvail(user)):
+        return render_template("login.html", msg="Username does not exist.")
     if UserAuth(user, pwd):
         session["user"] = user
         return redirect("/profile")

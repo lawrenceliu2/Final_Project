@@ -49,8 +49,11 @@ lawrenceL -- 2017-01-18 13:57
 Added getRandomWord method to get a random word from our database, should be used to give the user a word to draw and checkWord to compare the guessed word to the word being drawn. Not sure if that one is necessary.
 More hardocoding words.
 
-jordanC -- 2017-01-18 14:03
+jordanC -- 2017-01-18 14:00
 More navigational features to login and register and home.  New profile route and html page.
 
 julianA -- 2017-01-18 14:03
 Spruced up chat, fixed word wrapping over edge of screen
+
+fortuneS -- 2017-01-19 13:48
+Added jinja to home.html, fixed username pass issue

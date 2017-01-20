@@ -129,6 +129,7 @@ print getWinrate("lawrence")'''
 
 #Methods for rooms table
 
+#Returns an array of the users currently playing
 def getUsersInRoom (roomname):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -145,4 +146,15 @@ def getUsersInRoom (roomname):
         a.append(person)
         i+=1
     return a
-       
+
+#Returns the user who is currently drawing
+def getCurrentUser (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "SELECT currentTurn FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    q=rooms.fetchall()[0][0]
+    return q
+
+

@@ -66,3 +66,6 @@ Spruced up drawing page & added a scaling viewport w/ a standard size
 
 fortuneS -- 2017-01-20 13:58
 Wrote method to retrieve the array of users in a room
+
+lawrenceL -- 2017-01-20 14:08
+Made method to get the user who is currently playing, need to write method to change the current user

@@ -63,3 +63,6 @@ Hardcoded a bunch of words in our database
 
 julianA -- 2017-01-19 14:07
 Spruced up drawing page & added a scaling viewport w/ a standard size
+
+fortuneS -- 2017-01-20 13:58
+Wrote method to retrieve the array of users in a room

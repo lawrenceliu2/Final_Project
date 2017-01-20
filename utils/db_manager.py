@@ -125,14 +125,26 @@ def checkWord(actual, guess):
 '''print addWin("lawrence")
 print getWins("lawrence")
 print getGamesPlayed("lawrence")
-print getWinrate("lawrence")
+print getWinrate("lawrence")'''
+
+#Methods for rooms table
 
 def getUsersInRoom (roomname):
-    db = sqlite3.connect("data/dbsm.db")
+    db = sqlite3.connect("../data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
-    numUsers = rooms.execute(q)
-    for num in numUsers:
+    rooms.execute(q)
+    numUsers = rooms.fetchall()[0][0]
+    i = 1
+    a = []
+    while (i < numUsers + 1):
+        q = "SELECT user%s FROM rooms where roomName = \"%s\";" %(i, roomname)
+        rooms.execute(q)
+        person = str(rooms.fetchall()[0][0])
+        a.append(person)
+        i+=1
+    return a
+
+print getUsersInRoom("test")
        
-    '''

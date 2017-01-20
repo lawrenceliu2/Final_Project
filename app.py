@@ -20,7 +20,9 @@ def root():
 @app.route("/play")
 
 def play():
-    return render_template("index.html", user=session["user"])
+    if "user" in session:
+        return render_template("index.html", user=session["user"])
+    return render_template("index.html", user=Guest)
 
 #------------------------------
 @app.route("/login")

@@ -20,7 +20,9 @@ def root():
 @app.route("/play")
 
 def play():
-    return render_template("index.html", user=session["user"])
+    if "user" in session:
+        return render_template("index.html", user=session["user"])
+    return render_template("index.html", user=Guest)
 
 #------------------------------
 @app.route("/login")
@@ -58,6 +60,8 @@ def regauth():
     confirm = request.form["confirm"]
     if (user == "") or (pwd == ""):
         return render_template("register.html", msg="Please enter a username and password.")
+    if (len(pwd) > 16) or (len(pwd) < 4):
+        return render_template("register.html", msg="Password must be between 4 and 16 characters long.  Try again:")
     if (pwd != confirm):
         return render_template("register.html", msg="Failed to confirm password.  Try again:")
     if addUser(user, pwd):

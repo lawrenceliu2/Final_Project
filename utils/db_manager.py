@@ -130,7 +130,7 @@ print getWinrate("lawrence")'''
 #Methods for rooms table
 
 def getUsersInRoom (roomname):
-    db = sqlite3.connect("../data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
@@ -145,6 +145,4 @@ def getUsersInRoom (roomname):
         a.append(person)
         i+=1
     return a
-
-print getUsersInRoom("test")
        

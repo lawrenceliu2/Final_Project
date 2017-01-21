@@ -18,57 +18,53 @@ var SocketMgr = {
 
 var Canvas = {
     canv: null,
+    panel: null,
+    wrapper: null,
     ctx: null,
     init: function() {
 	//initializing canvas settings
 	this.canv = document.getElementById("canv");
+	this.panel = document.getElementById("canvas-panel");
+	this.wrapper = document.getElementById("canvas-wrapper");
 	this.canv.width = 1000;
 	this.canv.height = 800;
 	this.ctx = this.canv.getContext("2d");
 	this.ctx.lineWidth = 3;
 	this.ctx.fillStyle = "#000";
 	this.ctx.strokeStyle = "#000";
-	this.canv.imageSmoothingEnabled = false;
+	//this.canv.imageSmoothingEnabled = false;
     },
     bindCanvasEvents: function() {
-      	var fx = function(e) {
-	    var canv = document.getElementById("canv");
-	    var cx = parseInt(getComputedStyle(canv).width);
-	    var cy = parseInt(getComputedStyle(canv).height);
-	    //console.log("cx: "+cx);
-	    var x = (e.clientX / cx) * 1000;
-	    var y = (e.clientY / cy) * 800;
+	var computeCanvasCoords = function(ix,iy) {
+	    var cx = parseInt(getComputedStyle(Canvas.canv).width);
+	    var cy = parseInt(getComputedStyle(Canvas.canv).height);
+	    console.log("cy: "+cy);
+	    var x = (ix - Canvas.wrapper.offsetLeft) / cx * 1000;
+	    var y = ((iy - (window.innerHeight - cy)/2)) / cy * 800;
 	    console.log("x: "+x+", "+"y: "+y);
-	    //SocketMgr.socket.emit("draw",{x:e.clientX,y:e.clientY,isDrawing:true});
-	    SocketMgr.socket.emit("draw",{x:x,y:y,isDrawing:true});
-      	    //Canvas.ctx.lineTo(e.clientX,e.clientY);
-	    Canvas.ctx.lineTo(x,y);
+	    return {x:x,y:y};
+	};
+      	var fx = function(e) {
+	    console.log("e.clientX: "+e.clientX+", e.clientY: "+e.clientY);
+	    var coords = computeCanvasCoords(e.clientX,e.clientY);
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true});
+	    Canvas.ctx.lineTo(coords.x,coords.y);
       	    Canvas.ctx.stroke();
         };	
       	Canvas.canv.addEventListener("mousedown",function(e) {
-	    var canv = document.getElementById("canv");
-	    var cx = parseInt(getComputedStyle(canv).width);
-	    var cy = parseInt(getComputedStyle(canv).height);
-	    var x = (e.clientX / cx) * 1000;
-	    var y = (e.clientY / cy) * 800;
-	    //SocketMgr.socket.emit("draw",{x:e.clientX,y:e.clientY,isDrawing:false});
-	    SocketMgr.socket.emit("draw",{x:x,y:y,isDrawing:false});
+	    var coords = computeCanvasCoords(e.clientX,e.clientY);
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false});
       	    Canvas.ctx.beginPath();
-      	    //Canvas.ctx.moveTo(e.clientX,e.clientY);
-	    Canvas.ctx.moveTo(x,y);
+	    Canvas.ctx.moveTo(coords.x,coords.y);
       	    Canvas.canv.addEventListener("mousemove",fx);
 	    Canvas.canv.addEventListener("mouseoff",function() {
 		Canvas.ctx.stroke();
 		Canvas.ctx.closePath();
 	    });
 	    Canvas.canv.addEventListener("mouseover",function(e) {
-		var canv = document.getElementById("canv");
-		var cx = parseInt(getComputedStyle(canv).width);
-		var cy = parseInt(getComputedStyle(canv).height);
-		var x = (e.clientX / cx) * 1000;
-		var y = (e.clientY / cy) * 800;
+		var coords = computeCanvasCoords(e.clientX,e.clientY);
 		Canvas.ctx.beginPath();
-		Canvas.ctx.moveTo(x,y);
+		Canvas.ctx.moveTo(coords.x,coords.y);
 	    });
       	});
       	document.addEventListener("mouseup",function() {
@@ -90,25 +86,18 @@ var Canvas = {
 };
 
 var initStyle = function() {
-    var canv = document.getElementById("canv");
-    var panel = document.getElementById("canvas-panel");
-    var wrap = document.getElementById("canvas-wrapper");
-    //console.log(panel);
-    //canv.style.width = "100%";
-    //canv.style.height = "100%";
     var width = window.innerWidth - (300 + 15 + 15); //width of viewport minus sidebar and margin
-    wrap.style.width = width+"px";
-    wrap.style.height = "100%";
-    panel.style.width = width+"px";
-    panel.style.height = (width * 0.8)+"px";
-    //console.log(panel.style);
+    Canvas.wrapper.style.width = Math.max(375,Math.min(width,1000))+"px";
+    Canvas.wrapper.style.height = "100%";
+    Canvas.wrapper.style.left = (window.innerWidth - (300 + parseInt(Canvas.wrapper.style.width,10)))/2+"px";
+    Canvas.panel.style.width = "100%";
+    Canvas.panel.style.height = Math.max(300,Math.min((width * 0.8),800))+"px";
 };
 
 var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
     field.addEventListener("keypress", function(e) {
 	if (e.which == 13 && !e.shiftKey && field.value != "") {
-	    console.log('ayy');
 	    var data = field.value;
 	    SocketMgr.socket.emit("message",data);
 	    field.value = "";
@@ -117,7 +106,6 @@ var bindMiscEvents = function() {
 	    document.getElementById("chat-display").appendChild(elem);
 	}
     });
-
     window.addEventListener("resize", initStyle);
 };
 

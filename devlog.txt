@@ -69,3 +69,6 @@ Wrote method to retrieve the array of users in a room
 
 lawrenceL -- 2017-01-20 14:08
 Made method to get the user who is currently playing, need to write method to change the current user
+
+julianA -- 2017-01-21 18:44
+Fixed canvas resizing & added floating indicator/tooltip

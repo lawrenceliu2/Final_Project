@@ -95,6 +95,9 @@ def draw(data):
     #print "hey got draw event, sending Buf"
     socket.emit("buf",data,include_self=False)
 
+@socket.on("clear")
+def clear(data):
+    socket.emit("clear",data,include_self=False)
 #------------------------------
 
 if (__name__ == '__main__'):

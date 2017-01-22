@@ -13,6 +13,9 @@ var SocketMgr = {
 	    elem.innerHTML = data;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
+	SocketMgr.socket.on("clear",function(data) {
+	    Canvas.ctx.clearRect(0,0,1000,800);
+	});
     },
 };
 
@@ -110,6 +113,18 @@ var bindMiscEvents = function() {
 	}
     });
     window.addEventListener("resize", initStyle);
+    var board = document.getElementById("erase-board");
+    board.addEventListener("mouseover",function() {
+	this.innerHTML = "[X] erase board";
+    });
+    board.addEventListener("mouseout",function() {
+	console.log("hey");
+	this.innerHTML = "[X]";
+    });
+    board.addEventListener("click",function() {
+	SocketMgr.socket.emit("clear",{hey:"hey"});
+	Canvas.ctx.clearRect(0,0,1000,800);
+    });
 };
 
 var pulseIndicator = function(str) {

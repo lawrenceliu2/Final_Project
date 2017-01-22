@@ -29,6 +29,7 @@ body {
 #canv {
     width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 #canvas-panel {
@@ -133,6 +134,19 @@ body {
     font-weight: 700;
 }
 
+#erase-board {
+    position: relative;
+    width: auto;
+    height: 25px;
+    /*left: calc(100% - 75px);*/
+    float: right;
+    top: calc(100% - 25px);
+    user-select: none;
+    cursor: pointer;
+    margin-right: 5px;
+    background-color: #fff;
+    z-index: 999;
+}
 ::selection {
-    color: transparent;
+    color: rgba(0,0,0,0);
 }

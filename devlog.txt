@@ -75,3 +75,6 @@ Fixed canvas resizing & added floating indicator/tooltip
 
 julianA -- 2017-01-21 19:05
 Added functionality to tooltip
+
+julianA -- 2017-01-21 19:43
+Added button to clear the canvas

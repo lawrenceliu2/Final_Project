@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="static/style.css">
   </head>
   <body onload="init()">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+    <script type="text/javascript" src="static/socket.io.js" <!--src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"-->></script>
     <script type="text/javascript" src="static/main.js"></script>
     <div id="wrapper">
       <div id="floating-indicator">
@@ -12,6 +12,9 @@
 	</div>
       <div id="canvas-wrapper">
 	<div id="canvas-panel">
+	  <span id="erase-board">
+	    [X]
+	  </span>
 	  <canvas id="canv"></canvas>
 	</div>
       </div>

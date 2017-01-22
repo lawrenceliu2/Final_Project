@@ -72,3 +72,6 @@ Made method to get the user who is currently playing, need to write method to ch
 
 julianA -- 2017-01-21 18:44
 Fixed canvas resizing & added floating indicator/tooltip
+
+julianA -- 2017-01-21 19:05
+Added functionality to tooltip

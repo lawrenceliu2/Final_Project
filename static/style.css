@@ -21,8 +21,9 @@ body {
     position: relative;
     float: right;
     right: 0;
-    border-left: 2px solid #e7e7e7;
+    /*border-left: 2px solid #e7e7e7;*/
     background-color: white;
+    box-shadow: 0 0 15px #aaa;
 }
 
 #canv {
@@ -116,11 +117,12 @@ body {
     /*background: linear-gradient(0deg, rgba(33,33,33,0.75), rgba(33,33,33,0.85));*/
     background-color: rgba(33,33,33,0.85);
     border: 3px solid #3e3e3e;
-    border-radius: 10px;
+    border-radius: 3px;
     pointer-events: none;
     box-sizing: border-box;
     padding: 15px;
     transition: opacity ease-in 0.25s;
+    opacity: 0;
 }
 
 #indicator-text {
@@ -129,4 +131,8 @@ body {
     text-align: center;
     position: relative;
     font-weight: 700;
+}
+
+::selection {
+    color: transparent;
 }

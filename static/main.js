@@ -21,6 +21,7 @@ var Canvas = {
     panel: null,
     wrapper: null,
     ctx: null,
+    isTurn: null,
     init: function() {
 	//initializing canvas settings
 	this.canv = document.getElementById("canv");
@@ -54,6 +55,7 @@ var Canvas = {
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
 	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false});
+	    Canvas.canv.style.cursor = "sw-resize";
       	    Canvas.ctx.beginPath();
 	    Canvas.ctx.moveTo(coords.x,coords.y);
       	    Canvas.canv.addEventListener("mousemove",fx);
@@ -68,8 +70,9 @@ var Canvas = {
 	    });
       	});
       	document.addEventListener("mouseup",function() {
-      		Canvas.canv.removeEventListener("mousemove",fx);
-      		Canvas.ctx.closePath();
+      	    Canvas.canv.removeEventListener("mousemove",fx);
+      	    Canvas.ctx.closePath();
+	    Canvas.canv.style.cursor = "auto";
       	});
     },
     draw: function(data) {
@@ -107,6 +110,14 @@ var bindMiscEvents = function() {
 	}
     });
     window.addEventListener("resize", initStyle);
+};
+
+var pulseIndicator = function(str) {
+    var ind = document.getElementById("floating-indicator");
+    var txt = document.getElementById("indicator-text");
+    txt.innerHTML = str;
+    ind.style.opacity = "1";
+    setTimeout(function(){ind.style.opacity="0";}, 3500);
 };
 
 var init = function() {

@@ -78,3 +78,6 @@ Added functionality to tooltip
 
 julianA -- 2017-01-21 19:43
 Added button to clear the canvas
+
+fortuneS -- 2017-01-21 21:38
+Updated design doc to reflect expanding roles and changing db structure

@@ -154,7 +154,35 @@ def getCurrentUser (roomname):
 
     q = "SELECT currentTurn FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
-    q=rooms.fetchall()[0][0]
+    q = rooms.fetchall()[0][0]
     return q
 
+#returns the room's current word being drawn
+def getCurrWord (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
 
+    q = "SELECT currWord FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    q = rooms.fetchall()[0][0]
+    return q
+
+#updates the current word to the new one provided
+def newCurrWord (roomname, newWord):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+    
+    q = "UPDATE rooms SET currWord = \"%s\" WHERE roomName = \"%s\";" % (newWord, roomname,)
+    rooms.execute(q)
+    db.commit()
+    return True
+
+#updates the current drawer to the new one provided
+def newCurrentUser (roomname, username):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "UPDATE rooms SET currentTurn = \"%s\" WHERE roomName = \"%s\";" % (username, roomname,)
+    rooms.execute(q)
+    db.commit()
+    return True

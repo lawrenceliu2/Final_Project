@@ -81,3 +81,6 @@ Added button to clear the canvas
 
 fortuneS -- 2017-01-21 21:38
 Updated design doc to reflect expanding roles and changing db structure
+
+fortuneS -- 2017-01-21 21:58
+Added current word to rooms table, and wrote related db methods

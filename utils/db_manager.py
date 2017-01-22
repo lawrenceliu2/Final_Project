@@ -187,6 +187,7 @@ def newCurrentUser (roomname, username):
     db.commit()
     return True
 
+#create a room based on name and creator's username
 def makeRoom (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -196,6 +197,7 @@ def makeRoom (roomname, username):
     db.commit()
     return True
 
+#add the player to the room; return false if there is no space
 def addPlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()

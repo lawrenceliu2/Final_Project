@@ -110,6 +110,10 @@ def draw(data):
 def clear(data):
     socket.emit("clear",data,include_self=False,room=session["room"])
 
+@socket.on("off")
+def off(data):
+    socket.emit("closepath",null,room=session["room"])
+
 @socket.on("join")
 def join(data):
     join_room(data)

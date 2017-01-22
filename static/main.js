@@ -70,7 +70,6 @@ var Canvas = {
 	    Canvas.ctx.moveTo(coords.x,coords.y);
       	    Canvas.canv.addEventListener("mousemove",fx);
 	    Canvas.canv.addEventListener("mouseoff",function() {
-		Canvas.ctx.stroke();
 		Canvas.ctx.closePath();
 	    });
 	    Canvas.canv.addEventListener("mouseover",function(e) {

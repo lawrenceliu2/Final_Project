@@ -186,3 +186,29 @@ def newCurrentUser (roomname, username):
     rooms.execute(q)
     db.commit()
     return True
+
+def makeRoom (roomname, username):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
+    rooms.execute(q)
+    db.commit()
+    return True
+
+def addPlayer (roomname, username):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+    
+    q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    numUsers = rooms.fetchall()[0][0]
+    numUsers += 1
+    if (numUsers < 6):
+        q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (numUsers, username, roomname,)
+        rooms.execute(q)
+        q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname,)
+        rooms.execute(q)
+        db.commit()
+        return True
+    return False # MESSAGE: FAILED TO JOIN ROOM

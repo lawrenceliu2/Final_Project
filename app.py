@@ -44,7 +44,7 @@ def loginauth():
         return render_template("login.html", msg="Username does not exist.")
     if UserAuth(user, pwd):
         session["user"] = user
-        return redirect("/profile")
+        return redirect("/")
     return render_template("login.html", msg="Username or password incorrect.")
 
 #------------------------------

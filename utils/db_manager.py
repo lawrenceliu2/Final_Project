@@ -95,7 +95,9 @@ def addWin (username):
     return True
 
 
-#Methods for words table
+
+##################Methods for words table
+
 
 #Returns an array of the words in the database
 def getWords():
@@ -122,12 +124,9 @@ def checkWord(actual, guess):
     return actual.lower() == guess.lower()
 
 
-'''print addWin("lawrence")
-print getWins("lawrence")
-print getGamesPlayed("lawrence")
-print getWinrate("lawrence")'''
 
-#Methods for rooms table
+##################Methods for rooms table
+
 
 #Returns an array of the users currently playing
 def getUsersInRoom (roomname):
@@ -157,8 +156,29 @@ def getCurrentUser (roomname):
     q = rooms.fetchall()[0][0]
     return q
 
-#returns the room's current word being drawn
-def getCurrWord (roomname):
+#Changes the current user drawing to the next user
+#ie user1 finished their turn, user2 is next to draw after changeTurn
+def changeTurn (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    users = getUsersInRoom(roomname)
+    currentUser = getCurrentUser(roomname)
+    nextUser = 0
+    for num in range(0, len(users) - 1):
+        if users[num] == currentUser:
+            if num == len(users) - 1:
+                nextUser = 0
+            else:
+                nextUser = num + 1
+    currentUser = users[nextUser]
+    q = "UPDATE rooms SET currentTurn = \"%s\" WHERE roomname = \"%s\";" % (currentUser,roomname)
+    rooms.execute(q)
+    db.commit()
+    return True
+
+#Returns the room's current word being drawn
+def getCurrentWord (roomname):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
@@ -167,8 +187,8 @@ def getCurrWord (roomname):
     q = rooms.fetchall()[0][0]
     return q
 
-#updates the current word to the new one provided
-def newCurrWord (roomname, newWord):
+#Updates the current word to the new one provided
+def newCurrentWord (roomname, newWord):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
     
@@ -177,7 +197,7 @@ def newCurrWord (roomname, newWord):
     db.commit()
     return True
 
-#updates the current drawer to the new one provided
+#Updates the current drawer to the new one provided
 def newCurrentUser (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -187,7 +207,7 @@ def newCurrentUser (roomname, username):
     db.commit()
     return True
 
-#create a room based on name and creator's username
+#Create a room based on name and creator's username
 def makeRoom (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -197,7 +217,7 @@ def makeRoom (roomname, username):
     db.commit()
     return True
 
-#add the player to the room; return false if there is no space
+#Add the player to the room; return false if there is no space
 def addPlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()

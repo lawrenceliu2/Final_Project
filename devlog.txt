@@ -90,3 +90,6 @@ Added support for rooms suffixed to the /play/ route
 
 fortuneS -- 2017-01-21 22:57
 Added database methods for adding a room and a player to a room
+
+lawrenceL -- 2017-01-22 17:50
+Added changeTurn, changes the user drawing to the next one in line

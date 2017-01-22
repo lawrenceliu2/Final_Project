@@ -172,10 +172,7 @@ def changeTurn (roomname):
             else:
                 nextUser = num + 1
     currentUser = users[nextUser]
-    q = "UPDATE rooms SET currentTurn = \"%s\" WHERE roomname = \"%s\";" % (currentUser,roomname)
-    rooms.execute(q)
-    db.commit()
-    return True
+    return newCurrentUser(roomname, currentUser)
 
 #Returns the room's current word being drawn
 def getCurrentWord (roomname):

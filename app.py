@@ -22,7 +22,7 @@ def root():
 def play():
     if "user" in session:
         return render_template("index.html", user=session["user"])
-    return render_template("index.html", user=Guest)
+    return render_template("index.html", user="Guest")
 
 #------------------------------
 @app.route("/login")
@@ -85,6 +85,10 @@ def profile():
     return redirect("/login")
 
 #------------------------------
+@socket.on("connect", namespace="/play")
+def initUser():
+    socket.emit("init",session["user"])
+    
 @socket.on("message")
 def message(data):
     socket.emit("chat",data,include_self=False)

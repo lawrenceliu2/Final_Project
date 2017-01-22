@@ -1,3 +1,5 @@
+var USERNAME;
+
 var SocketMgr = {
     socket: null,
     init: function() {
@@ -15,6 +17,9 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("clear",function(data) {
 	    Canvas.ctx.clearRect(0,0,1000,800);
+	});
+	SocketMgr.socket.on("connect",function(data) {
+	    USERNAME = data;
 	});
     },
 };

@@ -138,6 +138,9 @@ body {
     position: relative;
     width: auto;
     height: 25px;
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size: 12px;
     /*left: calc(100% - 75px);*/
     float: right;
     top: calc(100% - 25px);
@@ -146,7 +149,4 @@ body {
     margin-right: 5px;
     background-color: #fff;
     z-index: 999;
-}
-::selection {
-    color: rgba(0,0,0,0);
 }

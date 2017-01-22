@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 #import utils.db_manager
 from utils.db_manager import *
 import hashlib, random, os
@@ -17,12 +17,14 @@ def root():
     return render_template("home.html", isLoggedIn=False)
 
 #------------------------------
-@app.route("/play")
-
-def play():
+@app.route("/play/<roomname>")
+def play(roomname):
+    if (roomname == ""):
+        return redirect(url_for(root))
+    session["room"] = roomname
     if "user" in session:
-        return render_template("index.html", user=session["user"])
-    return render_template("index.html", user="Guest")
+        return render_template("index.html")
+    return render_template("index.html")
 
 #------------------------------
 @app.route("/login")
@@ -85,23 +87,32 @@ def profile():
     return redirect("/login")
 
 #------------------------------
-@socket.on("connect", namespace="/play")
+@socket.on("connect")#, namespace="/play")
 def initUser():
-    socket.emit("init",session["user"])
-    
+    print "ay"
+    if ("user" in session):
+        print "i have a message from the most high"
+        emit("init",{"user":session["user"],"room":session["room"]})
+    else:
+        emit("init",{"user":os.urandom(5).encode("hex"),"room":session["room"]})
+        
 @socket.on("message")
 def message(data):
-    socket.emit("chat",data,include_self=False)
+    socket.emit("chat",data,include_self=False,room=session["room"])
     #print "received message from client: "+msg
     
 @socket.on("draw")
 def draw(data):
     #print "hey got draw event, sending Buf"
-    socket.emit("buf",data,include_self=False)
+    socket.emit("buf",data,include_self=False,room=session["room"])
 
 @socket.on("clear")
 def clear(data):
-    socket.emit("clear",data,include_self=False)
+    socket.emit("clear",data,include_self=False,room=session["room"])
+
+@socket.on("join")
+def join(data):
+    join_room(data)
 #------------------------------
 
 if (__name__ == '__main__'):

@@ -12,14 +12,16 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("chat",function(data) {
 	    var elem = document.createElement("p");
-	    elem.innerHTML = data;
+	    console.log(data.user);
+	    elem.innerHTML = "<b>"+data.user+"</b> "+data.msg;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
 	SocketMgr.socket.on("clear",function(data) {
 	    Canvas.ctx.clearRect(0,0,1000,800);
 	});
-	SocketMgr.socket.on("connect",function(data) {
-	    USERNAME = data;
+	SocketMgr.socket.on("init",function(data) {
+	    USERNAME = data.user;
+	    SocketMgr.socket.emit("join",data.room);
 	});
     },
 };
@@ -109,11 +111,12 @@ var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
     field.addEventListener("keypress", function(e) {
 	if (e.which == 13 && !e.shiftKey && field.value != "") {
-	    var data = field.value;
+	    var data = {user:USERNAME,msg:field.value};
 	    SocketMgr.socket.emit("message",data);
 	    field.value = "";
 	    var elem = document.createElement("p");
-	    elem.innerHTML = data;
+	    elem.style.color = "#4286f4";
+	    elem.innerHTML = "<b><span style='color: #4286f4'>"+data.user+"</span></b> <span style='color: #000'>"+data.msg+"</span>";
 	    document.getElementById("chat-display").appendChild(elem);
 	}
     });

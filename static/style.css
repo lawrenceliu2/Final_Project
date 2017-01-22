@@ -80,6 +80,7 @@ body {
     box-sizing: border-box;
     padding: 5px 10px;
     border-top: 2px solid #e7e7e7;
+    background-color: #efefef;
 }
 
 #chat-field {
@@ -93,6 +94,8 @@ body {
     /*height: 100%;*/
     margin: auto 0;
     font-family: monospace;
+    background-color: #fff;
+    color: #000;
 /*padding: 0;*/
     
 }

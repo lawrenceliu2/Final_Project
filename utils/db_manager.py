@@ -253,7 +253,7 @@ def removePlayer (roomname, username):
     if remove < len(users):
         shift = len(users)-remove
         while shift > 0:
-            q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
+            q = "SELECT user FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
             rooms.execute(q)
             placeholder = rooms.fetchall[0][0]
             q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (remove, placeholder, roomname)
@@ -264,4 +264,4 @@ def removePlayer (roomname, username):
     db.commit()
     return True
 
-print removePlayer("test", "Today")
+#print removePlayer("test", "Today")

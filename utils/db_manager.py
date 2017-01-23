@@ -139,7 +139,7 @@ def getUsersInRoom (roomname):
     i = 1
     a = []
     while (i < numUsers + 1):
-        q = "SELECT user%s FROM rooms where roomName = \"%s\";" %(i, roomname)
+        q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %(i, roomname)
         rooms.execute(q)
         person = str(rooms.fetchall()[0][0])
         a.append(person)
@@ -242,26 +242,24 @@ def removePlayer (roomname, username):
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]
-    numUsers -= 1 
-    for num in range(0,len(users)-1):
+    numUsers -= 1#why is this zerooo
+    for num in range(0,numUsers):
         if username == users[num]:
             remove = num + 1
     q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
     rooms.execute(q)
-    q = "UPDATE rooms SET user%s = "" WHERE roomName = \"%s\";" % (remove, roomname)
+    q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" %(remove, roomname)
     rooms.execute(q)
-    if remove < len(users):
-        shift = len(users)-remove
-        while shift > 0:
+    while remove < len(users):
             q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
             rooms.execute(q)
-            placeholder = rooms.fetchall[0][0]
+            placeholder = rooms.fetchall()[0][0]
             q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (remove, placeholder, roomname)
             rooms.execute(q)
-            q = "UPDATE rooms SET user%s = "" WHERE roomName \"%s\";" % (remove + 1, roomname)
+            q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" % (remove + 1, roomname)
             rooms.execute(q)
             remove += 1
     db.commit()
     return True
 
-print removePlayer("test", "Today")
+print removePlayer("test", "bobobo")

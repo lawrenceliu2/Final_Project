@@ -142,6 +142,11 @@ var pulseIndicator = function(str) {
     setTimeout(function(){ind.style.opacity="0";}, 3500);
 };
 
+var pulseInfoBar = function(str) {
+    var bar = document.getElementById("top-info-bar");
+    
+}
+
 var init = function() {
     SocketMgr.init();
     Canvas.init();

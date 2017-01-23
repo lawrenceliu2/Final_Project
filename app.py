@@ -18,6 +18,7 @@ def root():
 
 #------------------------------
 @app.route("/play/<roomname>")
+
 def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
@@ -87,6 +88,12 @@ def profile():
     return redirect("/login")
 
 #------------------------------
+@app.route("/rooms")
+
+def rooms():
+    return render_template("rooms.html")
+
+#------------------------------
 @socket.on("connect")#, namespace="/play")
 def initUser():
     print "ay"
@@ -94,7 +101,7 @@ def initUser():
         print "i have a message from the most high"
         emit("init",{"user":session["user"],"room":session["room"]})
     else:
-        emit("init",{"user":os.urandom(5).encode("hex"),"room":session["room"]})
+        emit("init",{"user":"Guest_"+os.urandom(5).encode("hex"),"room":session["room"]})
         
 @socket.on("message")
 def message(data):

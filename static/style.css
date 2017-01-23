@@ -62,9 +62,10 @@ body {
 
 #chat-display {
     /*width: 100%;*/
-    height: calc(100% - 85px);
+    height: calc(100% - 75px);
     margin: auto;
     padding: 15px;
+    overflow-y: scroll;
 }
 
 #chat-display > p {
@@ -109,6 +110,21 @@ body {
 #chat-list > li {
     margin: 0;
     white-space: pre;
+}
+
+#top-info-bar {
+    width: 700px;
+    height: 150px;
+    background-color: rgba(33,33,33,0.85);
+    border: 3px solid #3e3e3e;
+    border-radius: 3px;
+    pointer-events: none;
+    box-sizing: border-box;
+    padding: 15px;
+    transition: opacity ease-in 0.25s;
+    transition: top ease-in 0.5s;
+    opacity: 0;
+    top: -150px;
 }
 
 #floating-indicator {

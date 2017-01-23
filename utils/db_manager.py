@@ -231,3 +231,37 @@ def addPlayer (roomname, username):
         db.commit()
         return True
     return False # MESSAGE: FAILED TO JOIN ROOM
+
+#Removes the specified player from the room
+def removePlayer (roomname, username):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    users = getUsersInRoom(roomname)
+    remove = 0
+    q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    numUsers = rooms.fetchall()[0][0]
+    numUsers -= 1 
+    for num in range(0,len(users)-1):
+        if username == users[num]:
+            remove = num + 1
+    q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
+    rooms.execute(q)
+    q = "UPDATE rooms SET user%s = "" WHERE roomName = \"%s\";" % (remove, roomname)
+    rooms.execute(q)
+    if remove < len(users):
+        shift = len(users)-remove
+        while shift > 0:
+            q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
+            rooms.execute(q)
+            placeholder = rooms.fetchall[0][0]
+            q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (remove, placeholder, roomname)
+            rooms.execute(q)
+            q = "UPDATE rooms SET user%s = "" WHERE roomName \"%s\";" % (remove + 1, roomname)
+            rooms.execute(q)
+            remove += 1
+    db.commit()
+    return True
+
+print removePlayer("test", "Today")

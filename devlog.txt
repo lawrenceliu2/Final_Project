@@ -93,3 +93,6 @@ Added database methods for adding a room and a player to a room
 
 lawrenceL -- 2017-01-22 17:50
 Added changeTurn, changes the user drawing to the next one in line
+
+lawrenceL -- 2017-01-22 20:52
+Created removePlayer to remove a player from a room, but it doesn't work yet. Something's wrong with the SQLite syntax. Will fix tomorrow.

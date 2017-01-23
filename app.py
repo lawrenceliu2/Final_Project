@@ -18,6 +18,7 @@ def root():
 
 #------------------------------
 @app.route("/play/<roomname>")
+
 def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
@@ -85,6 +86,12 @@ def profile():
     if "user" in session:
         return render_template("profile.html", user=session["user"])
     return redirect("/login")
+
+#------------------------------
+@app.route("/rooms")
+
+def rooms():
+    return render_template("rooms.html")
 
 #------------------------------
 @socket.on("connect")#, namespace="/play")

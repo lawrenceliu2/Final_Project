@@ -94,7 +94,7 @@ def initUser():
         print "i have a message from the most high"
         emit("init",{"user":session["user"],"room":session["room"]})
     else:
-        emit("init",{"user":os.urandom(5).encode("hex"),"room":session["room"]})
+        emit("init",{"user":"Guest_"+os.urandom(5).encode("hex"),"room":session["room"]})
         
 @socket.on("message")
 def message(data):

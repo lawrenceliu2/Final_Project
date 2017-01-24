@@ -105,7 +105,6 @@ def rooms():
         dict[str(x[0])] = str(x[1])
     return render_template("rooms.html", tabledict=dict)
 
-<<<<<<< HEAD
 #------------------------------
 @app.route("/mkroom")
 
@@ -117,8 +116,6 @@ def mkroom():
     return redirect("/rooms")
 
 #------------------------------
-=======
->>>>>>> af2ba6dc9dabaccc1a36781a24965263d03f3967
 @app.route("/leave")
 
 def leave():
@@ -141,18 +138,17 @@ def initUser():
         emit("init",{"user":tempname,"room":session["room"]})
         join_room(session["room"])
         addPlayer(session["room"],tempname)
-    
-    
+
 @socket.on("message")
 def message(data):
     socket.emit("chat",data,include_self=False,room=session["room"])
 #print "received message from client: "+msg
-    
+
 @socket.on("draw")
 def draw(data):
     #print "hey got draw event, sending Buf"
     socket.emit("buf",data,include_self=False,room=session["room"])
-        
+
 @socket.on("clear")
 def clear(data):
     socket.emit("clear",data,include_self=False,room=session["room"])
@@ -160,7 +156,7 @@ def clear(data):
 @socket.on("off")
 def off(data):
     socket.emit("closepath",null,room=session["room"])
-    
+
 @socket.on("turnreq")
 def turnCheck():
     user = getCurrentUser(session["room"])

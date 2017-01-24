@@ -101,6 +101,12 @@ def rooms():
     return render_template("rooms.html", tabledict=dict)
 
 #------------------------------
+@app.route("/mkroom")
+
+def mkroom():
+    
+    
+#------------------------------
 @socket.on("connect")#, namespace="/play")
 def initUser():
     print "ay"

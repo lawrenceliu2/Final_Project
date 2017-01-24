@@ -1,5 +1,45 @@
 import sqlite3, hashlib, random
 
+'''USER STUFF
+getWins ("username")
+getGamesPlayed ("username")
+getWinrate ("username") [as a decimal, returns -1 if you have no games played]
+
+addLoss("username")
+addWin("username")
+'''
+
+
+'''WORD STUFF
+getWords() [idk if you need this method]
+
+getRandomWord() [Use this as main method of getting a random word to draw, might need to keep track of ones already used to prevent repeats]
+
+checkWord ("actual word", "the user's guess")
+'''
+
+
+'''ROOM STUFF
+Sequence of creating a room:
+makeRoom ("roomname", "username")
+newCurrentWord ("roomname", "the word")
+addPlayer ("roomname", "username")
+
+Use removePlayer ("roomname", "username") and 
+    newCurrentUser ("roomname", "username") and
+    changeTurn ("roomname") 
+  [NOTE: use when you want the next user to draw: user1 to user2, user5 to user1, etc. 
+  use newCurrentUser if the current drawer leaves or something]
+    removeRoom ("roomname") as needed
+
+Getting stuff:
+getRooms()
+getCurrentWord ("roomname")
+getCurrentUser ("roomname")
+getUsersInRoom ("roomname")
+'''
+
+
 #Methods for users table
 
 #Checks if username and password exist
@@ -274,3 +314,15 @@ def getRooms():
     for room in roomList:
         realRoomList.append(room)
     return realRoomList
+
+#Removes the room specified
+def removeRoom(roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "DELETE FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    db.commit()
+    return True
+
+

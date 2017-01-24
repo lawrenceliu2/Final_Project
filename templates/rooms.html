@@ -5,7 +5,11 @@
     <title>Available Rooms</title>
     <style>
       table, th, td{
-        border: 1px solid black
+      border: 1px solid black;
+      border-collapse: collapse;
+      }
+      th, td{
+      padding: 5px;
       }
     </style>
   </head>
@@ -13,25 +17,26 @@
   <body>
     <h1>Available Rooms</h1>
     
-    <table>
+    <table style="width:50%">
       <tr>
         <th>Room Name</th>
         <th>Number of Players</th>
-        <th>Join</th>
       </tr>
       {% if tabledict|length > 0 %}
         {% for key, value in tabledict.items() %}
           <tr>
-            <td>{{key}}</td>
+            <td><a href="/play/{{key}}">{{key}}</a></td>
             <td>{{value}}</td>
           </tr>
         {% endfor %}
       {% endif %}
     </table>
-    
-    <form action="/mkroom">
-      <input type="submit" value="Make a Room">
-    </form>
+
+    <p>
+      <form action="/mkroom">
+	<input type="submit" value="Make a Room">
+      </form>
+    </p>
     
   </body>
 

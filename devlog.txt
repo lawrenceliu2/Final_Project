@@ -102,3 +102,7 @@ removePlayer works as it should. BUG TO BE WORKED ON: if the player who is drawi
 
 lawrenceL -- 2017-01-22 19:58
 Created getRooms to get a list of currently open/created rooms
+
+chanJ -- 2017-01-24 11:45
+Finished route and html for available rooms
+

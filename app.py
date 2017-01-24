@@ -91,7 +91,7 @@ def profile():
 @app.route("/rooms")
 
 def rooms():
-    return render_template("rooms.html")
+    return render_template("rooms.html", roomlist=getRooms())
 
 #------------------------------
 @socket.on("connect")#, namespace="/play")

@@ -250,27 +250,27 @@ def removePlayer (roomname, username):
     rooms.execute(q)
     q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" %(remove, roomname)
     rooms.execute(q)
-<<<<<<< HEAD
     while remove < len(users):
-            q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
-=======
-    if remove < len(users):
-        shift = len(users)-remove
-        while shift > 0:
-            q = "SELECT user FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
->>>>>>> 6a8f1a62ee0e295543f5cfa9625149a51fe738fc
-            rooms.execute(q)
-            placeholder = rooms.fetchall()[0][0]
-            q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (remove, placeholder, roomname)
-            rooms.execute(q)
-            q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" % (remove + 1, roomname)
-            rooms.execute(q)
-            remove += 1
-    db.commit()
+        q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
+        rooms.execute(q)
+        placeholder = rooms.fetchall()[0][0]
+        q = "UPDATE rooms SET user%s = \"%s\" WHERE roomName = \"%s\";" % (remove, placeholder, roomname)
+        rooms.execute(q)
+        q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" % (remove + 1, roomname)
+        rooms.execute(q)
+        remove += 1
+        db.commit()
     return True
 
-<<<<<<< HEAD
-print removePlayer("test", "bobobo")
-=======
-#print removePlayer("test", "Today")
->>>>>>> 6a8f1a62ee0e295543f5cfa9625149a51fe738fc
+#Returns a list of open rooms (but with that weird u thing. Just ignore it pls Jordan, it functions properly as like a 2d list or something)
+def getRooms():
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "SELECT * FROM rooms;"
+    rooms.execute(q)
+    roomList = rooms.fetchall()
+    realRoomList = []
+    for room in roomList:
+        realRoomList.append(room)
+    return realRoomList

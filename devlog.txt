@@ -106,3 +106,7 @@ Created getRooms to get a list of currently open/created rooms
 chanJ -- 2017-01-24 11:45
 Finished route and html for available rooms
 
+chanJ -- 2017-01-24 17:40
+Finished route for leaving rooms
+
+

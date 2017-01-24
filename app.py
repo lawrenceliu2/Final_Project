@@ -95,11 +95,10 @@ def rooms():
     users = []
     for x in roomlist:
         users.append(getUsersInRoom(x))
-    mergedlist = []
+    dict = {}
     while (len(roomlist) > 0):
-        mergedlist.append(roomlist.pop(0))
-        mergedlist.append(users.pop(0))
-    return render_template("rooms.html", tablelist=mergedlist)
+        dict[roomlist.pop(0)] = users.pop(0)
+    return render_template("rooms.html", tabledict=dict)
 
 #------------------------------
 @socket.on("connect")#, namespace="/play")

@@ -1,4 +1,4 @@
-var USERNAME;
+var USERNAME, ROOMNAME;
 
 var SocketMgr = {
     socket: null,
@@ -21,7 +21,9 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("init",function(data) {
 	    USERNAME = data.user;
-	    SocketMgr.socket.emit("join",data.room);
+	    ROOMNAME = data.room;
+	    TurnCheck.updateTurn();
+	    //SocketMgr.socket.emit("join",data);
 	});
     },
 };
@@ -31,7 +33,6 @@ var Canvas = {
     panel: null,
     wrapper: null,
     ctx: null,
-    isTurn: null,
     init: function() {
 	//initializing canvas settings
 	this.canv = document.getElementById("canv");
@@ -97,6 +98,20 @@ var Canvas = {
     },
 };
 
+var TurnCheck = (function() {
+    var isTurn = false;
+    var module = {
+	checkTurn: function() {
+	    return isTurn;
+	},
+	updateTurn: function() {
+	    isTurn = SocketMgr.socket.emit("turnreq");
+	    return isTurn;
+	}
+    };
+    return module;
+})();
+
 var initStyle = function() {
     var width = window.innerWidth - (300 + 15 + 15); //width of viewport minus sidebar and margin
     Canvas.wrapper.style.width = Math.max(375,Math.min(width,1000))+"px";
@@ -134,18 +149,27 @@ var bindMiscEvents = function() {
     });
 };
 
-var pulseIndicator = function(str) {
+var pulseIndicator = function(str,ms) {
     var ind = document.getElementById("floating-indicator");
     var txt = document.getElementById("indicator-text");
     txt.innerHTML = str;
     ind.style.opacity = "1";
-    setTimeout(function(){ind.style.opacity="0";}, 3500);
+    setTimeout(function(){ind.style.opacity="0";}, ms);
 };
 
-var pulseInfoBar = function(str) {
+var dispInfobar = function(str) {
     var bar = document.getElementById("top-info-bar");
-    
-}
+    var txt = document.getElementById("indicator-text-2");
+    if (str) {
+	bar.style.top = "-50px";
+	bar.style.opacity = "1";
+	txt.innerHTML = str;
+    }
+    else {
+	bar.style.opacity = "0";
+	bar.style.top = "-165px";
+    }  
+};
 
 var init = function() {
     SocketMgr.init();

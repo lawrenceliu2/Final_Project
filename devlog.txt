@@ -97,13 +97,11 @@ Added changeTurn, changes the user drawing to the next one in line
 lawrenceL -- 2017-01-22 20:52
 Created removePlayer to remove a player from a room, but it doesn't work yet. Something's wrong with the SQLite syntax. Will fix tomorrow
 
-lawrenceL -- 2017-01-22 19:41
+lawrenceL -- 2017-01-23 19:41
 removePlayer works as it should. BUG TO BE WORKED ON: if the player who is drawing leaves, the table doesn't recognize that and their name is still in the table as the current drawer
 
-lawrenceL -- 2017-01-22 19:58
+lawrenceL -- 2017-01-23 19:58
 Created getRooms to get a list of currently open/created rooms
-
-lawrenceL -- 2017-01-23 14:10
 
 chanJ -- 2017-01-24 11:45
 Finished route and html for available rooms
@@ -111,6 +109,11 @@ Finished route and html for available rooms
 chanJ -- 2017-01-24 17:40
 Finished route for leaving rooms
 
-lawrenceL -- 2017-01-25 18:05
+lawrenceL -- 2017-01-24 18:05
 Created removeRoom, also made a short kinda guide to the db methods
 
+julianA -- 2017-01-24 18:03
+Streamlined client initialization process and began work on turn checking
+
+lawrenceL -- 2017-01-24 18:05
+Created removeRoom, also made a short kinda guide to the db methods

@@ -88,6 +88,12 @@ def profile():
     return redirect("/login")
 
 #------------------------------
+@app.route("/instructions")
+
+def instructions():
+    return render_template("instructions.html")
+
+#------------------------------
 @app.route("/rooms")
 
 def rooms():

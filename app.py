@@ -98,16 +98,7 @@ def rooms():
     for x in roomlist:
         dict[str(x[0])] = str(x[1])
     return render_template("rooms.html", tabledict=dict)
-<<<<<<< HEAD
-=======
 
-#------------------------------
-@app.route("/mkroom")
-
-def mkroom():
-    return
-
-#------------------------------
 @app.route("/leave")
 
 def leave():
@@ -116,7 +107,6 @@ def leave():
             return render_template("rooms.html")
     return redirect("/play/"+session["room"])
 
->>>>>>> 7be0ea14cb0ceeb90203b986b98a0a355e14d584
 #------------------------------
 @socket.on("connect")#, namespace="/play")
 def initUser():

@@ -115,16 +115,20 @@ body {
 #top-info-bar {
     width: 700px;
     height: 150px;
+    position: fixed;
+    margin: 0 auto;
+    z-index: 999;
     background-color: rgba(33,33,33,0.85);
     border: 3px solid #3e3e3e;
-    border-radius: 3px;
+    border-radius: 10px;
     pointer-events: none;
     box-sizing: border-box;
     padding: 15px;
     transition: opacity ease-in 0.25s;
-    transition: top ease-in 0.5s;
+    transition: top ease-out 0.25s;
     opacity: 0;
-    top: -150px;
+    top: -165px;
+    left: 345px;
 }
 
 #floating-indicator {
@@ -137,7 +141,7 @@ body {
     /*background: linear-gradient(0deg, rgba(33,33,33,0.75), rgba(33,33,33,0.85));*/
     background-color: rgba(33,33,33,0.85);
     border: 3px solid #3e3e3e;
-    border-radius: 3px;
+    border-radius: 10px;
     pointer-events: none;
     box-sizing: border-box;
     padding: 15px;
@@ -145,12 +149,17 @@ body {
     opacity: 0;
 }
 
-#indicator-text {
+#indicator-text, #indicator-text-2 {
+    margin: auto 0;
     color: #e7e7e7;
     font-family: sans-serif;
     text-align: center;
     position: relative;
     font-weight: 700;
+}
+
+#indicator-text-2 {
+    top: 50px;
 }
 
 #erase-board {

@@ -23,8 +23,10 @@ def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
     session["room"] = roomname
-    if "user" in session:
-        return render_template("index.html")
+    if not (roomname in getRooms()):
+        makeRoom(roomname,"julian")
+    #if "user" in session:
+        #return render_template("index.html")
     return render_template("index.html")
 
 #------------------------------
@@ -96,22 +98,20 @@ def rooms():
     for x in roomlist:
         dict[str(x[0])] = str(x[1])
     return render_template("rooms.html", tabledict=dict)
-
-#------------------------------
-@app.route("/mkroom")
-
-def mkroom():
-    return
-    
 #------------------------------
 @socket.on("connect")#, namespace="/play")
 def initUser():
-    print "ay"
     if ("user" in session):
-        print "i have a message from the most high"
         emit("init",{"user":session["user"],"room":session["room"]})
+        join_room(session["room"])
+        addPlayer(session["room"],session["user"])
     else:
-        emit("init",{"user":"Guest_"+os.urandom(5).encode("hex"),"room":session["room"]})
+        tempname = "Guest_"+os.urandom(5).encode("hex")
+        session["user"] = tempname
+        emit("init",{"user":tempname,"room":session["room"]})
+        join_room(session["room"])
+        addPlayer(session["room"],tempname)
+    
     
 @socket.on("message")
 def message(data):
@@ -130,10 +130,15 @@ def clear(data):
 @socket.on("off")
 def off(data):
     socket.emit("closepath",null,room=session["room"])
-                
-@socket.on("join")
-def join(data):
-    join_room(data)
+    
+@socket.on("turnreq")
+def turnCheck():
+    user = getCurrentUser(session["room"])
+    print user
+    if user == session["user"]:
+    	return True
+    else:
+    	return False
 #------------------------------
 
 if (__name__ == '__main__'):

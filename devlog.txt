@@ -106,3 +106,5 @@ Created getRooms to get a list of currently open/created rooms
 chanJ -- 2017-01-24 11:45
 Finished route and html for available rooms
 
+julianA -- 2017-01-24 18:03
+Streamlined client initialization process and began work on turn checking

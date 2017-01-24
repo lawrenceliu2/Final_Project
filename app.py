@@ -105,11 +105,26 @@ def rooms():
         dict[str(x[0])] = str(x[1])
     return render_template("rooms.html", tabledict=dict)
 
+<<<<<<< HEAD
+#------------------------------
+@app.route("/mkroom")
+
+def mkroom():
+    rmname = "room" + os.urandom(5).encode("hex")
+    if ("user" in session):
+        if makeRoom(rmname, session["user"]):
+            return redirect("/play/"+rmname)
+    return redirect("/rooms")
+
+#------------------------------
+=======
+>>>>>>> af2ba6dc9dabaccc1a36781a24965263d03f3967
 @app.route("/leave")
 
 def leave():
     if ("user" in session):
         if removePlayer(session["room"], session["user"]):
+            session.pop("room")
             return render_template("rooms.html")
     return redirect("/play/"+session["room"])
 

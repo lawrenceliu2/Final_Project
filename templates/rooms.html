@@ -3,15 +3,35 @@
 
   <head>
     <title>Available Rooms</title>
+    <style>
+      table, th, td{
+        border: 1px solid black
+      }
+    </style>
   </head>
 
   <body>
     <h1>Available Rooms</h1>
-
+    
+    <table>
+      <tr>
+        <th>Room Name</th>
+        <th>Number of Players</th>
+        <th>Join</th>
+      </tr>
+      {% if tabledict|length > 0 %}
+        {% for key, value in tabledict.items() %}
+          <tr>
+            <td>{{key}}</td>
+            <td>{{value}}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+    
     <form action="/mkroom">
       <input type="submit" value="Make a Room">
     </form>
-
     
   </body>
 

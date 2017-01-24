@@ -102,7 +102,16 @@ def rooms():
 
 def mkroom():
     return
-    
+
+#------------------------------
+@app.route("/leave")
+
+def leave():
+    if ("user" in session):
+        if removePlayer(session["room"], session["user"]):
+            return render_template("rooms.html")
+    return redirect("/play/"+session["room"])
+
 #------------------------------
 @socket.on("connect")#, namespace="/play")
 def initUser():

@@ -25,17 +25,26 @@ def play(roomname):
     if (roomname == "" or roomname not in getRooms(True)):
         return redirect(url_for("root"))
     if ("user" in session):
-        session["room"] = roomname
-        if ((session["user"] not in getUsersInRoom(roomname))):
-            addPlayer(roomname, session["user"])
-            if (len(getUsersInRoom(roomname)) <= 2):
-                changeTurn(roomname)
-            print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        
+        if (session["user"] in getUsersInRoom(roomname)):
+            session["room"] = roomname
+        else:
+            if addPlayer(roomname, session["user"]):
+                print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                if (len(getUsersInRoom(roomname)) <= 2):
+                    changeTurn(roomname)
+                session["room"] = roomname
+                
+       # if ((session["user"] not in getUsersInRoom(roomname))):
+       #     if (addPlayer(roomname, session["user"])):
+        #        session["room"] = roomname
+       #     if (len(getUsersInRoom(roomname)) <= 2):
+         #       changeTurn(roomname)
+       #     print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        #else:
+        #    session["room"] = roomname
+            
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
-    #if not (roomname in getRooms()):
-        #makeRoom(roomname,"julian")
-    #if "user" in session:
-        #return render_template("index.html")
     return redirect(url_for("root"))
 
 #------------------------------
@@ -145,7 +154,8 @@ def leave():
             print "REMOVED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             session.pop("room")
             return redirect(url_for("rooms"))
-    return redirect(url_for("play",roomname=session["room"]))
+    #return redirect(url_for("play",roomname=session["room"]))
+    return redirect(url_for("root"))
 
 #------------------------------
 @socket.on("join")#, namespace="/play")

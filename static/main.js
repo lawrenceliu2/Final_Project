@@ -64,8 +64,6 @@ var Canvas = {
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
 	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
-	    Canvas.ctx.strokeStyle = Canvas.color;
-	    Canvas.ctx.lineWidth = Canvas.width;
 	    Canvas.canv.style.cursor = "sw-resize";
       	    Canvas.ctx.beginPath();
 	    Canvas.ctx.moveTo(coords.x,coords.y);
@@ -166,6 +164,7 @@ var bindMiscEvents = function() {
 	var b = data[2];
 	var color = tinycolor("rgb("+r+","+g+","+b+")");
 	Canvas.color = color.toHexString();
+	Canvas.ctx.strokeStyle = Canvas.color;
     };
     hueCanv.addEventListener("mousedown", function() {
 	bar.addEventListener("mousemove",pickColor);
@@ -184,6 +183,7 @@ var bindMiscEvents = function() {
 	ctx.fillRect(n-1,0,3,40);
 	var size = ((n/40)*7)+3;
 	Canvas.width = size;
+	Canvas.ctx.lineWidth = size;
     };
     sizeCanv.addEventListener("mousedown", function() {
 	bar.addEventListener("mousemove",pickSize);

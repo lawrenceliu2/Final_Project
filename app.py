@@ -26,12 +26,12 @@ def play(roomname):
     if ("user" in session):
         if (addPlayer(roomname, session["user"])):
             print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            return render_template("index.html")
+            return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     #if not (roomname in getRooms()):
         #makeRoom(roomname,"julian")
     #if "user" in session:
         #return render_template("index.html")
-    return redirect(url_for(root))
+    return redirect(url_for("root"))
 
 #------------------------------
 @app.route("/login")

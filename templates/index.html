@@ -30,14 +30,12 @@
       </div>
       <div id="right-sidebar">
 	<div id="room-info">
-	  <span id="room-name"><b>Room:</b> <i>roomname</i></span>
+	  <span id="room-name"><b>Room:</b> <i>{{ roomname }}</i></span>
 	  <ul id="player-list"><hr style="height: 2px; background-color: #e7e7e7; border: none;">
 	    Players:<br>
-	    <li class="player-item"><span class="player-item-span">Guest_57cb5250ab</li>
-	    <li class="player-item"><span class="player-item-span">Guest_57cb5250ab</li>
-	    <li class="player-item"><span class="player-item-span">Guest_57cb5250ab</li>
-	    <li class="player-item"><span class="player-item-span">Guest_57cb5250ab</li>
-	    <li class="player-item"><span class="player-item-span">Guest_57cb5250ab</li>
+	    {% for user in  users  %}
+	    <li class="player-item"><span class="player-item-span"><a href="/profile/user">{{ user }}</a></li>
+	    {% endfor %}
 	  </ul>
 	</div>
 	<div id="chat-display">

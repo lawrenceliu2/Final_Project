@@ -60,7 +60,7 @@ var Canvas = {
       	var fx = function(e) {
 	    console.log("e.clientX: "+e.clientX+", e.clientY: "+e.clientY);
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true});
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true,color:Canvas.colo});
 	    Canvas.ctx.lineTo(coords.x,coords.y);
       	    Canvas.ctx.stroke();
         };	
@@ -88,6 +88,7 @@ var Canvas = {
       	});
     },
     draw: function(data) {
+	Canvas.ctx.strokeStyle = data.color;
 	if (!(data.isDrawing)) {
 	    Canvas.ctx.closePath();
 	    Canvas.ctx.beginPath();

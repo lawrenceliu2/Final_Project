@@ -131,13 +131,13 @@ def initUser():
     if ("user" in session):
         emit("init",{"user":session["user"],"room":session["room"]})
         join_room(session["room"])
-        addPlayer(session["room"],session["user"])
+        #addPlayer(session["room"],session["user"])
     else:
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
         emit("init",{"user":tempname,"room":session["room"]})
         join_room(session["room"])
-        addPlayer(session["room"],tempname)
+        #addPlayer(session["room"],tempname)
 
 @socket.on("message")
 def message(data):
@@ -159,11 +159,11 @@ def off(data):
 
 @socket.on("turnreq")
 def turnCheck():
-    user = getCurrentUser(session["room"])
-    print user
-    if user == session["user"]:
-    	return True
-    else:
+    #user = getCurrentUser(session["room"])
+    #print user
+    #if user == session["user"]:
+    #	return True
+    #else:
     	return False
 #------------------------------
 

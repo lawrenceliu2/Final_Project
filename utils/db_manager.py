@@ -157,6 +157,7 @@ def getRandomWord():
     which = random.randint(0,len(words)-1)
     return words[which]
 
+################ GET RID OF THISSSSSSSSs
 #Checks if the word the user guessed is the word being drawn, actual is the word being drawn
 #Not sure if this is necessary but whatever
 def checkWord(actual, guess):
@@ -195,6 +196,7 @@ def getCurrentUser (roomname):
     q = rooms.fetchall()[0][0]
     return q
 
+#Changes the drawer to next in line and sets a new random word to draw
 def changeTurn (roomname):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -210,6 +212,7 @@ def changeTurn (roomname):
                 nextUser = num + 1
     currentUser = users[nextUser]
     newCurrentWord(roomname, getRandomWord())
+    resetGuesses(roomname)
     return newCurrentUser(roomname, currentUser)
 
 #Returns the room's current word being drawn
@@ -255,6 +258,7 @@ def makeRoom (roomname, username):
         db.commit()
         word = getRandomWord()
         newCurrentWord(roomname, word)
+        addPlayerScore(username)
         return True
     return False #room with that name already exists
 
@@ -277,6 +281,7 @@ def addPlayer (roomname, username):
         q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname,)
         rooms.execute(q)
         db.commit()
+        addPlayerScore(username)
         return True
     return False # MESSAGE: FAILED TO JOIN ROOM
 
@@ -285,6 +290,7 @@ def removePlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
+    removePlayerScore(username)
     users = getUsersInRoom(roomname)
     remove = 0
     current = getCurrentUser(roomname)
@@ -300,9 +306,6 @@ def removePlayer (roomname, username):
     for num in range(0,numUsers+1):
         if username == str(users[num]):
             remove = num + 1
-            print remove
-    if remove == 0:
-        return False
     q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
     rooms.execute(q)
     q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" %(remove, roomname)
@@ -348,3 +351,90 @@ def removeRoom(roomname):
     rooms.execute(q)
     db.commit()
     return True
+
+
+
+######## Methods for score table
+
+
+#Adds the player to the score table
+def addPlayerScore (username):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    q = "INSERT INTO score VALUES (\"%s\", 0, 0)" % (username)
+    scores.execute(q)
+    db.commit()
+    return True
+
+#Removes the player from the score table
+def removePlayerScore (username):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    q = "DELETE FROM score WHERE username = \"%s\";" % (username)
+    scores.execute(q)
+    db.commit()
+    return True
+
+#Acknowledges that the user has guessed the word and gives them points
+def gotWord (username, points):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    q = "UPDATE score SET gotWord = 1 WHERE username = \"%s\";" % (username)
+    scores.execute(q)
+    score = getScore(username) + points
+    q = "UPDATE score SET score = %s WHERE username = \"%s\";" % (score, username)
+    scores.execute(q)
+    db.commit()
+    return True
+
+#Sets everyone's gotWord to 0, start of new round
+def resetGuesses (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    users = getUsersInRoom(roomname)
+    for user in users:
+        q = "UPDATE score SET gotWord = 0 WHERE username = \"%s\";" % (user)
+        scores.execute(q)
+    db.commit()
+    return True
+
+#Returns the score of a player
+def getScore (username):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    q = "SELECT score FROM score WHERE username = \"%s\";" % (username)
+    scores.execute(q)
+    return scores.fetchall()[0][0]
+
+#Returns a string declaring the winner(s) and how many points they had
+def getWinner (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    points = []
+    users = getUsersInRoom(roomname)
+    for user in users:
+        points.append(getScore(user))
+    winner = max(points)
+    q = "SELECT username FROM score WHERE score = %s" % (winner)
+    scores.execute(q)
+    winners = scores.fetchall()
+    text = ""
+    if len(winners) > 1:
+        count = len (winners)
+        for guy in winners:
+            if count == 1:
+                text += guy[0]
+            else:
+                text += guy[0] + " and "
+                count -= 1
+        text += " are the winners with " + str(winner) + " points!"
+        return text
+    else:
+        text += winners [0][0] + " is the winner with " + str(winner) + " points!"
+        return text

@@ -261,7 +261,11 @@ def makeRoom (roomname, username):
 def addPlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
-    
+
+    stuff = getRooms(False)
+    for room in stuff:
+        if username in room:
+            return False
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]
@@ -313,8 +317,7 @@ def removePlayer (roomname, username):
         db.commit()
     return True
 
-#Returns a list of open rooms (but with that weird u thing. Just ignore it pls Jordan, it functions properly as like a 2d list or something)
-
+#Returns a list of open rooms
 #Returns only names if <names> is True
 
 def getRooms(names):

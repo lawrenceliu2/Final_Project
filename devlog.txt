@@ -126,3 +126,6 @@ Wrote instructions.html
 
 lawrenceL -- 2017-01-24 21:00
 Fixed the bug where if you were currently drawing and left your username would still be recognized as the current drawer
+
+julianA -- 2017-01-24 22:30
+Added a display for the room name and list of players

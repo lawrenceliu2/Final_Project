@@ -226,13 +226,13 @@ var dispInfobar = function(str) {
     var bar = document.getElementById("top-info-bar");
     var txt = document.getElementById("indicator-text-2");
     if (str) {
-	bar.style.top = "-50px";
+	bar.style.top = "0";
 	bar.style.opacity = "1";
 	txt.innerHTML = str;
     }
     else {
 	bar.style.opacity = "0";
-	bar.style.top = "-165px";
+	bar.style.top = "0";
     }  
 };
 

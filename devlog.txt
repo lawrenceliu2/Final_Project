@@ -165,3 +165,6 @@ Got leaving rooms to work on the app.py end
 
 lawrenceL -- 2017-01-25 16:02
 Creating a room now adds a new word to draw
+
+lawrenceL -- 2017-01-25 16:37
+Fixed bug with removePlayer, removePlayer can now remove that last person in the room

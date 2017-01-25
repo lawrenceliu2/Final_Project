@@ -298,17 +298,18 @@ def removePlayer (roomname, username):
     if numUsers == 0:
         removeRoom(roomname)
         return True
-    for num in range(0,numUsers):
-        print "@@@@@@ USER BEING REMOVED: " + username
-        print "@@@@@@ USER BEING COMPARED TO IN ROOM: " + str(users[num])
+    for num in range(0,numUsers+1):
         if username == str(users[num]):
             remove = num + 1
+            print remove
     if remove == 0:
         return False
     q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
     rooms.execute(q)
     q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" %(remove, roomname)
     rooms.execute(q)
+    if remove == len(users):
+        db.commit()
     while remove < len(users):
         q = "SELECT user%s FROM rooms WHERE roomName = \"%s\";" %  (remove + 1, roomname)
         rooms.execute(q)

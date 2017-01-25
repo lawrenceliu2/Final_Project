@@ -141,3 +141,6 @@ Fixed makeRoom so that it only works if that roomName is unique
 
 fortuneS -- 2017-01-24 23:44
 Because globals are bad, changed session["isGuest"] to session["verified"]
+
+julianA -- 2017-01-25 12:47
+Added room name and player list jinja

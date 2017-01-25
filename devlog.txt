@@ -126,3 +126,6 @@ Wrote instructions.html
 
 lawrenceL -- 2017-01-24 21:00
 Fixed the bug where if you were currently drawing and left your username would still be recognized as the current drawer
+
+chanJ -- 2017-01-24 22:11
+Added guest user functionality. make rooms and leave rooms BUG from databases

@@ -38,7 +38,7 @@ def login():
 #-----------------------------
 @app.route("/loginauth", methods=['GET', 'POST'])
 
-def loginauth():
+def loginauth(): 
     user = request.form["user"]
     pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):
@@ -99,6 +99,9 @@ def instructions():
 @app.route("/rooms")
 
 def rooms():
+    if ("user" not in session):
+        tempname = "Guest_"+os.urandom(5).encode("hex")
+        session["user"] = tempname
     roomlist = getRooms()
     dict = {}
     for x in roomlist:
@@ -122,7 +125,7 @@ def leave():
     if ("user" in session):
         if removePlayer(session["room"], session["user"]):
             session.pop("room")
-            return render_template("rooms.html")
+            return redirect("/rooms")
     return redirect("/play/"+session["room"])
 
 #------------------------------

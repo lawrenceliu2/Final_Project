@@ -135,3 +135,6 @@ Added a display for the room name and list of players
 
 fortuneS -- 2017-01-24 22:53
 Added session["isGuest"] to differentiate between logged in users and guests
+
+lawrenceL -- 2017-01-24 22:57
+Fixed makeRoom so that it only works if that roomName is unique

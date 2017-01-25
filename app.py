@@ -8,13 +8,16 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 socket = SocketIO(app)
 
-session["isGuest"] = True
+isGuest = True
 
 #------------------------------
 @app.route("/")
 
 def root():
-    if (!session["isGuest"]):
+    global isGuest
+    session["isGuest"] = isGuest
+    print session["isGuest"]
+    if (not session["isGuest"]):
         return render_template("home.html", isLoggedIn=True)
     return render_template("home.html", isLoggedIn=False)
 
@@ -41,6 +44,7 @@ def login():
 @app.route("/loginauth", methods=['GET', 'POST'])
 
 def loginauth(): 
+    global isGuest
     user = request.form["user"]
     pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):
@@ -49,8 +53,8 @@ def loginauth():
         return render_template("login.html", msg="Username does not exist.")
     if UserAuth(user, pwd):
         session["user"] = user
+        isGuest = False
         return redirect("/")
-        session["isGuest"] = False
     return render_template("login.html", msg="Username or password incorrect.")
 
 #------------------------------
@@ -80,16 +84,19 @@ def regauth():
 @app.route("/logout")
 
 def logout():
+    global isGuest
     if "user" in session:
         session.pop("user")
-        session["isGuest"] = True
+        isGuest = True
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
 @app.route("/profile")
 
 def profile():
-    if (!session["isGuest"] and "user" in session):
+    global isGuest
+    session["isGuest"] = isGuest
+    if (not session["isGuest"] and "user" in session):
         return render_template("profile.html", user=session["user"])
     return redirect("/login")
 

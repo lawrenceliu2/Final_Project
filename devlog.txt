@@ -162,3 +162,6 @@ New check to addPlayer, player won't be added if they are already in any other r
 
 fortuneS -- 2017-01-25 14:53
 Got leaving rooms to work on the app.py end
+
+lawrenceL -- 2017-01-25 16:02
+Creating a room now adds a new word to draw

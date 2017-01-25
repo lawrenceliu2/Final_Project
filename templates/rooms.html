@@ -23,7 +23,9 @@
         <th>Number of Players</th>
       </tr>
       {% if tabledict|length > 0 %}
-        {% for key, value in tabledict.items() %}
+      {% for i in tabledict|sort(attribute="size") %}
+      {% set value=i.size %}
+      {% set key=i.name %}
           <tr>
             <td>{% if value|int < 5 %}<a href="/play/{{key}}">{{key}}</a>{% else %}{{key}}<span style="float: right">FULL</span>{% endif %}</td>
             <td>{{value}}</td>

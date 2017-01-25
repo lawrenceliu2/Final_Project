@@ -282,7 +282,10 @@ def removePlayer (roomname, username):
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]
-    numUsers -= 1#why is this zerooo
+    numUsers -= 1
+    if numUsers == 0:
+        removeRoom(roomname)
+        return True
     for num in range(0,numUsers):
         if username == users[num]:
             remove = num + 1
@@ -324,5 +327,4 @@ def removeRoom(roomname):
     rooms.execute(q)
     db.commit()
     return True
-
 

@@ -28,7 +28,7 @@ def play(roomname):
             if (len(getUsersInRoom(roomname)) == 2):
                 changeTurn(roomname)
             print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            session["room"] = roomname
+                session["room"] = roomname
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     #if not (roomname in getRooms()):
         #makeRoom(roomname,"julian")

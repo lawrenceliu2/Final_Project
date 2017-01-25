@@ -110,6 +110,7 @@ body {
     word-break: break-all;
     font-family: monospace;
     margin: 0 0 15px 0;
+    word-wrap: break-word;
 }
 
 #chat-input {

@@ -210,6 +210,7 @@ def changeTurn (roomname):
             else:
                 nextUser = num + 1
     currentUser = users[nextUser]
+    newCurrentWord(roomname, getRandomWord())
     return newCurrentUser(roomname, currentUser)
 
 #Returns the room's current word being drawn

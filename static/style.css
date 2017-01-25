@@ -250,6 +250,7 @@ body {
     left: 3px;
     font-family: monospace;
     user-select: none;
+    z-index: 1000;
 }
 
 #leave-room > a {

@@ -25,12 +25,12 @@ def play(roomname):
     if (roomname == "" or roomname not in getRooms(True)):
         return redirect(url_for("root"))
     if ("user" in session):
+        session["room"] = roomname
         if ((session["user"] not in getUsersInRoom(roomname))):
             addPlayer(roomname, session["user"])
-            if (len(getUsersInRoom(roomname)) == 2):
+            if (len(getUsersInRoom(roomname)) <= 2):
                 changeTurn(roomname)
             print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            session["room"] = roomname
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     #if not (roomname in getRooms()):
         #makeRoom(roomname,"julian")
@@ -160,10 +160,10 @@ def initUser():
 def message(data):
     word = getCurrentWord(session["room"])
     print word
-    #if word.lower() in data["msg"].lower():
-        #if (data["user"] == getCurrentUser(session["room"])): 
-            #data["msg"] = data["msg"].replace(word,"****")
-        #emit("gotWord");
+    if word.lower() in data["msg"].lower():
+        if (data["user"] == getCurrentUser(session["room"])): 
+            data["msg"] = data["msg"].replace(word,"****")
+        emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg

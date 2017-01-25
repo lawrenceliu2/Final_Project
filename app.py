@@ -23,8 +23,8 @@ def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
     session["room"] = roomname
-    if not (roomname in getRooms()):
-        makeRoom(roomname,"julian")
+    #if not (roomname in getRooms()):
+        #makeRoom(roomname,"julian")
     #if "user" in session:
         #return render_template("index.html")
     return render_template("index.html")

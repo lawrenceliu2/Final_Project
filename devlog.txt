@@ -144,3 +144,6 @@ Because globals are bad, changed session["isGuest"] to session["verified"]
 
 julianA -- 2017-01-25 12:47
 Added room name and player list jinja
+
+julianA -- 2017-01-25 13:05
+Improved room list page

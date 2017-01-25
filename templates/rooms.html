@@ -17,22 +17,16 @@
   <body>
     <h1>Available Rooms</h1>
     
-    <table style="width:75%">
+    <table style="width:50%; margin: 0 auto;">
       <tr>
         <th>Room Name</th>
         <th>Number of Players</th>
-	<th>Join this Room</th>
       </tr>
       {% if tabledict|length > 0 %}
         {% for key, value in tabledict.items() %}
           <tr>
-            <td><a href="/play/{{key}}">{{key}}</a></td>
+            <td>{% if value|int < 5 %}<a href="/play/{{key}}">{{key}}</a>{% else %}{{key}}<span style="float: right">FULL</span>{% endif %}</td>
             <td>{{value}}</td>
-	    <td>
-	      <form action="/play/{{key}}">
-		<input type="submit" value="Play!">
-	      </form>
-	    </td>
           </tr>
         {% endfor %}
       {% endif %}

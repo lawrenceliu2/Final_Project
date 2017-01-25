@@ -91,11 +91,11 @@ def logout():
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
-@app.route("/profile")
+@app.route("/profile/<username>")
 
-def profile():
+def profile(username):
     if ("verified" in session and "user" in session):
-        return render_template("profile.html", user=session["user"])
+        return render_template("profile.html", user=username)
     return redirect("/login")
 
 #------------------------------
@@ -144,7 +144,7 @@ def leave():
 #------------------------------
 @socket.on("disconnect")
 def notifDisc():
-    socket.emit("departure",session["user"])
+    socket.emit("departure",session["user"],room=session["room"])
 
 @socket.on("join")#, namespace="/play")
 def initUser():

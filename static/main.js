@@ -51,15 +51,13 @@ var SockMan = {
 	    elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
 	    document.getElementById("chat-display").appendChild(elem);
 	    players.push(data);
-	    //initPlayerList();
-	    console.log(players);
 	    
 	    var list = document.getElementById("player-list");
 	    var li = document.createElement("li");
 	    li.className = "player-item";
 	    //var span = document.createElement("span");
 	    //span.addClass("player-item-span");
-	    li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+players[i]+'">'+players[i]+"</a></span>");
+	    li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+data+'">'+data+"</a></span>");
 	    list.appendChild(li);
 	});
 	SockMan.socket.on("departure",function(data) {

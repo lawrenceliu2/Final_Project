@@ -30,16 +30,16 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid" style="height: 100%; background: url('/static/bg.jpg'); background-repeat: no-repeat; background-position: right top;">
       <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>{%if isInRoom %}Play{% else %}View Rooms{% endif %}</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/rooms" role="button">{%if isInRoom %}Play{% else %}View Rooms{% endif %}</a>
 	  </p>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>Instructions</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/instructions" role="button">How to Play</a>
@@ -48,14 +48,14 @@
 
 	{% if isLoggedIn %}
 
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>Profile</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/profile/{{ username }}" role="button">Profile</a>
 	  </p>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>Log Out</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/logout" role="button">Log Out</a>
@@ -64,14 +64,14 @@
 
 	{% else %}
 	
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>Sign Up</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/register" role="button">Sign Up</a>
 	  </p>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-12">
 	  <h2>Log In</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/login" role="button">Log In</a>

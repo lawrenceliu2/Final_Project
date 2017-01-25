@@ -117,3 +117,6 @@ Streamlined client initialization process and began work on turn checking
 
 lawrenceL -- 2017-01-24 18:05
 Created removeRoom, also made a short kinda guide to the db methods
+
+julianA -- 2017-01-24 19:08
+Added color picker for /play/ route

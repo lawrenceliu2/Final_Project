@@ -12,7 +12,6 @@ var SocketMgr = {
 	});
 	SocketMgr.socket.on("chat",function(data) {
 	    var elem = document.createElement("p");
-	    console.log(data.user);
 	    elem.innerHTML = "<b>"+data.user+"</b> "+data.msg;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
@@ -23,7 +22,6 @@ var SocketMgr = {
 	    USERNAME = data.user;
 	    ROOMNAME = data.room;
 	    TurnCheck.updateTurn();
-	    //SocketMgr.socket.emit("join",data);
 	});
     },
 };
@@ -53,14 +51,11 @@ var Canvas = {
 	var computeCanvasCoords = function(ix,iy) {
 	    var cx = parseInt(getComputedStyle(Canvas.canv).width);
 	    var cy = parseInt(getComputedStyle(Canvas.canv).height);
-	    console.log("cy: "+cy);
 	    var x = (ix - Canvas.wrapper.offsetLeft) / cx * 1000;
 	    var y = ((iy - (window.innerHeight - cy)/2)) / cy * 800;
-	    console.log("x: "+x+", "+"y: "+y);
 	    return {x:x,y:y};
 	};
       	var fx = function(e) {
-	    console.log("e.clientX: "+e.clientX+", e.clientY: "+e.clientY);
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
 	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true,color:Canvas.color,width:Canvas.width});
 	    Canvas.ctx.lineTo(coords.x,coords.y);
@@ -150,7 +145,6 @@ var bindMiscEvents = function() {
 	this.innerHTML = "[X] erase board";
     });
     board.addEventListener("mouseout",function() {
-	console.log("hey");
 	this.innerHTML = "[X]";
     });
     board.addEventListener("click",function() {
@@ -162,20 +156,15 @@ var bindMiscEvents = function() {
     var pickColor = function(e) {
 	hueBarInit();
 	var offset = bar.offsetLeft+hueCanv.offsetLeft+2;//parseInt(bar.offsetLeft,10) + parseInt(hueCanv.offsetLeft,10);
-	console.log(offset);
-	console.log("e: "+e.clientX);
 	var n = (Math.min(Math.max(e.clientX,offset),offset+200) - offset);
-	console.log(n);
 	var ctx = hueCanv.getContext("2d");
 	var data = ctx.getImageData(n,0,1,1).data;
-	console.log(data);
 	ctx.fillStyle = "#333";
 	ctx.fillRect(n-1,0,3,1);
 	var r = data[0];
 	var g = data[1];
 	var b = data[2];
 	var color = tinycolor("rgb("+r+","+g+","+b+")");
-	console.log(color.toHexString());
 	Canvas.color = color.toHexString();
     };
     hueCanv.addEventListener("mousedown", function() {
@@ -226,13 +215,13 @@ var dispInfobar = function(str) {
     var bar = document.getElementById("top-info-bar");
     var txt = document.getElementById("indicator-text-2");
     if (str) {
-	bar.style.top = "-50px";
+	bar.style.top = "0";
 	bar.style.opacity = "1";
 	txt.innerHTML = str;
     }
     else {
 	bar.style.opacity = "0";
-	bar.style.top = "-165px";
+	bar.style.top = "0";
     }  
 };
 

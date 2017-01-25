@@ -130,5 +130,16 @@ Fixed the bug where if you were currently drawing and left your username would s
 chanJ -- 2017-01-24 22:11
 Added guest user functionality. make rooms and leave rooms BUG from databases
 
+<<<<<<< HEAD
 fortuneS -- 2017-01-24 23:44
 Added session["isGuest"] but, because globals are bad, changed to session["verified"]
+=======
+julianA -- 2017-01-24 22:30
+Added a display for the room name and list of players
+
+fortuneS -- 2017-01-24 22:53
+Added session["isGuest"] to differentiate between logged in users and guests
+
+lawrenceL -- 2017-01-24 22:57
+Fixed makeRoom so that it only works if that roomName is unique
+>>>>>>> 5cb1cbe57a6149fc2ced67a8571c0b4964738293

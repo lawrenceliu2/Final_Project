@@ -1,6 +1,6 @@
 import sqlite3, hashlib, random
 
-'''USER STUFF
+'''PROFILE STUFF
 getWins ("username")
 getGamesPlayed ("username")
 getWinrate ("username") [as a decimal, returns -1 if you have no games played]
@@ -26,10 +26,8 @@ newCurrentWord ("roomname", "the word")
 addPlayer ("roomname", "username")
 
 Use removePlayer ("roomname", "username") and 
-    newCurrentUser ("roomname", "username") and
     changeTurn ("roomname") 
-  [NOTE: use when you want the next user to draw: user1 to user2, user5 to user1, etc. 
-  use newCurrentUser if the current drawer leaves or something]
+  [NOTE: use when you want the next user to draw: user1 to user2, user5 to user1, etc.]
     removeRoom ("roomname") as needed
 
 Getting stuff:
@@ -249,10 +247,14 @@ def makeRoom (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
-    q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
+    q = "SELECT roomName FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
-    db.commit()
-    return True
+    if rooms.fetchall() == []:
+        q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
+        rooms.execute(q)
+        db.commit()
+        return True
+    return False #room with that name already exists
 
 #Add the player to the room; return false if there is no space
 def addPlayer (roomname, username):
@@ -330,4 +332,3 @@ def removeRoom(roomname):
     rooms.execute(q)
     db.commit()
     return True
-

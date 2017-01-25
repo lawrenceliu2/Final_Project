@@ -279,6 +279,9 @@ def removePlayer (roomname, username):
 
     users = getUsersInRoom(roomname)
     remove = 0
+    current = getCurrentUser(roomname)
+    if current == username:
+        changeTurn(roomname)
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]

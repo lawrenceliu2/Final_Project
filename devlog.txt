@@ -123,3 +123,6 @@ Added color picker for /play/ route
 
 fortuneS -- 2017-01-24 20:34
 Wrote instructions.html
+
+lawrenceL -- 2017-01-24 21:00
+Fixed the bug where if you were currently drawing and left your username would still be recognized as the current drawer

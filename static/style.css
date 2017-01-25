@@ -21,6 +21,7 @@ body {
     position: relative;
     float: right;
     right: 0;
+    z-index: 998;
     /*border-left: 2px solid #e7e7e7;*/
     background-color: white;
     box-shadow: 0 0 15px #aaa;
@@ -69,7 +70,7 @@ body {
     background-color: #efefef;
     border-bottom: 2px solid #e7e7e7;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 10px 15px;
 }
 
 #room-name {
@@ -149,11 +150,11 @@ body {
 }
 
 #top-info-bar {
-    width: 700px;
+    width: 50%;
     height: 75px;
     position: fixed;
     margin: 0 auto;
-    z-index: 999;
+    z-index: 997;
     background-color: rgba(33,33,33,0.85);
     border: 3px solid #3e3e3e;
     border-radius: 0 0 10px 10px;
@@ -164,7 +165,7 @@ body {
     transition: top ease-out 0.25s;
     opacity: 0;
     top: -75px;
-    left: 345px;
+    left: calc((50% - 300px)/2);
     user-select: none;
 }
 

@@ -84,6 +84,8 @@ var Canvas = {
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
 	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
+	    Canvas.ctx.strokeStyle = Canvas.color;
+	    Canvas.ctx.lineWidth = Canvas.width;
 	    Canvas.canv.style.cursor = "sw-resize";
       	    Canvas.ctx.beginPath();
 	    Canvas.ctx.moveTo(coords.x,coords.y);

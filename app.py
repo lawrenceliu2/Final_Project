@@ -25,7 +25,6 @@ def play(roomname):
     if (roomname == "" or roomname not in getRooms(True)):
         return redirect(url_for("root"))
     if ("user" in session):
-        
         if (session["user"] in getUsersInRoom(roomname)):
             session["room"] = roomname
         else:
@@ -34,16 +33,6 @@ def play(roomname):
                 if (len(getUsersInRoom(roomname)) <= 2):
                     changeTurn(roomname)
                 session["room"] = roomname
-                
-       # if ((session["user"] not in getUsersInRoom(roomname))):
-       #     if (addPlayer(roomname, session["user"])):
-        #        session["room"] = roomname
-       #     if (len(getUsersInRoom(roomname)) <= 2):
-         #       changeTurn(roomname)
-       #     print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-        #else:
-        #    session["room"] = roomname
-            
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     return redirect(url_for("root"))
 

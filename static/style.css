@@ -30,6 +30,7 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
+    user-select: none;
 }
 
 #canvas-panel {
@@ -39,6 +40,7 @@ body {
     margin: 0 auto;
     top: 50%;
     transform: translateY(-50%);
+    user-select: none;
 }
 
 #canvas-wrapper {
@@ -46,6 +48,7 @@ body {
     height: 100%;
     width: auto;
     margin: 0 auto;
+    user-select: none;
 }
 
 #selection-footer {
@@ -132,7 +135,7 @@ body {
 }
 
 #bottom-tool-bar {
-    width: 600px;
+    width: 400px;
     height: 75px;
     position: fixed;
     margin: 0 auto;
@@ -146,7 +149,7 @@ body {
     transition: bottom ease-out 0.25s;
     bottom: -60px;
     opacity: 0.75;
-    left: calc((100% - 300px - 600px)/2);
+    left: calc((100% - 300px - 400px)/2);
 }
 
 #floating-indicator {
@@ -183,18 +186,19 @@ body {
 #erase-board {
     position: relative;
     width: auto;
-    height: 25px;
+    height: 20px;
     font-family: sans-serif;
     font-weight: 400;
     font-size: 12px;
     /*left: calc(100% - 75px);*/
     float: right;
-    top: calc(100% - 25px);
+    top: calc(100% - 20px);
     user-select: none;
     cursor: pointer;
     margin-right: 5px;
     background-color: #fff;
     z-index: 999;
+			
 }
 
 #leave-room {
@@ -203,9 +207,14 @@ body {
     bottom: 3px;
     left: 3px;
     font-family: monospace;
+    user-select: none;
 }
 
 #hue-canv, #size-canv {
     border: solid 1px #666;
     cursor: crosshair;
+}
+
+#size-canv {
+    margin-left: 2px;
 }

@@ -46,6 +46,7 @@ var Canvas = {
 	this.ctx.lineWidth = 3;
 	this.ctx.fillStyle = "#000";
 	this.ctx.strokeStyle = "#000";
+	this.ctx.lineCap = "round";
 	//this.canv.imageSmoothingEnabled = false;
     },
     bindCanvasEvents: function() {

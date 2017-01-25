@@ -240,7 +240,6 @@ def newCurrentUser (roomname, username):
     q = "UPDATE rooms SET currentTurn = \"%s\" WHERE roomName = \"%s\";" % (username, roomname,)
     rooms.execute(q)
     db.commit()
-    socket.emit("turnupdate",username);
     return True
 
 #Create a room based on name and creator's username

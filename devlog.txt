@@ -111,3 +111,6 @@ Finished route for leaving rooms
 
 julianA -- 2017-01-24 18:03
 Streamlined client initialization process and began work on turn checking
+
+julianA -- 2017-01-24 19:08
+Added color picker for /play/ route

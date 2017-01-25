@@ -5,6 +5,7 @@
   </head>
   <body onload="init()">
     <script type="text/javascript" src="/static/socket.io.js" <!--src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"-->></script>
+    <script type="text/javascript" src="/static/tinycolor.js"></script>
     <script type="text/javascript" src="/static/main.js"></script>
     <div id="wrapper">
       <div id="floating-indicator">
@@ -12,6 +13,9 @@
 	</div>
       <div id="top-info-bar">
 	<span id="indicator-text-2">Hello world!</span>
+      </div>
+      <div id="bottom-tool-bar">
+	<canvas id="hue-canv" width="210px" height="1px" style="width: 210px; height: 40px;"></canvas>
       </div>
       <span id="leave-room"><a href="/">leave room</a></span>
       <div id="canvas-wrapper">

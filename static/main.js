@@ -33,6 +33,7 @@ var Canvas = {
     panel: null,
     wrapper: null,
     ctx: null,
+    color: "#000000",
     init: function() {
 	//initializing canvas settings
 	this.canv = document.getElementById("canv");
@@ -65,7 +66,8 @@ var Canvas = {
         };	
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false});
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color});
+	    Canvas.ctx.strokeStyle = Canvas.color;
 	    Canvas.canv.style.cursor = "sw-resize";
       	    Canvas.ctx.beginPath();
 	    Canvas.ctx.moveTo(coords.x,coords.y);
@@ -147,6 +149,43 @@ var bindMiscEvents = function() {
 	SocketMgr.socket.emit("clear",{hey:"hey"});
 	Canvas.ctx.clearRect(0,0,1000,800);
     });
+
+    var hueCanv = document.getElementById("hue-canv");
+    var pickColor = function(e) {
+	hueBarInit();
+	var offset = bar.offsetLeft+hueCanv.offsetLeft+2;//parseInt(bar.offsetLeft,10) + parseInt(hueCanv.offsetLeft,10);
+	console.log(offset);
+	console.log("e: "+e.clientX);
+	var n = (Math.min(Math.max(e.clientX,offset),offset+210) - offset);
+	console.log(n);
+	var ctx = hueCanv.getContext("2d");
+	var data = ctx.getImageData(n,0,1,1).data;
+	console.log(data);
+	ctx.fillStyle = "#333";
+	ctx.fillRect(n-1,0,3,1);
+	var r = data[0];
+	var g = data[1];
+	var b = data[2];
+	var color = tinycolor("rgb("+r+","+g+","+b+")");
+	console.log(color.toHexString());
+	Canvas.color = color.toHexString();
+    };
+    hueCanv.addEventListener("mousedown", function() {
+	bar.addEventListener("mousemove",pickColor);
+    });
+    document.addEventListener("mouseup", function(){
+	bar.removeEventListener("mousemove",pickColor);
+    });
+
+    var bar = document.getElementById("bottom-tool-bar");
+    bar.addEventListener("mouseover", function() {
+	this.style.opacity = "1";
+	this.style.bottom = "0";
+    });
+    bar.addEventListener("mouseout", function() {
+	this.style.opacity = "0.75";
+	this.style.bottom = "-60px";
+    });
 };
 
 var pulseIndicator = function(str,ms) {
@@ -171,11 +210,30 @@ var dispInfobar = function(str) {
     }  
 };
 
+var hueBarInit = function() {
+    var canv = document.getElementById("hue-canv");
+    var ctx = canv.getContext("2d");
+    var w = canv.width-10;
+    var h = canv.height;
+    for (var i=0; i<h; i++) {
+	for (var j=0; j<=w; j++) {
+	    var color = tinycolor("hsl("+(j/w)*360+",75%,50%)");
+	    ctx.fillStyle = color.toHexString();
+	    ctx.fillRect(j,i,1,1);
+	}
+	ctx.fillStyle = "#000";
+	for (var j=1; j<=10; j++) {
+	    ctx.fillRect(w+j,i,1,1);
+	}
+    }
+};
+
 var init = function() {
     SocketMgr.init();
     Canvas.init();
     SocketMgr.bindSocketEvents();
     initStyle();
+    hueBarInit();
     Canvas.bindCanvasEvents();
     bindMiscEvents();
 };

@@ -12,7 +12,7 @@
       <a href="/instructions">How To Play</a>
     </p>
     <p>
-    <a href="/rooms">Available Rooms</a>
+    <a href="/rooms">{% if isInRoom %}Play{% else %}Available Rooms{% endif %}</a>
     </p>
     <p>
       {% if isLoggedIn %}

@@ -12,9 +12,11 @@ socket = SocketIO(app)
 @app.route("/")
 
 def root():
-    if ("verified" in session):
-        return render_template("home.html", isLoggedIn=True)
-    return render_template("home.html", isLoggedIn=False)
+    verified = ("verified" in session)
+    inroom = ("room" in session)
+    #if ("verified" in session):
+        #return render_template("home.html", isLoggedIn=True)
+    return render_template("home.html", isLoggedIn=verified, isInRoom=inroom)
 
 #------------------------------
 @app.route("/play/<roomname>")

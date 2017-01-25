@@ -1,10 +1,11 @@
-var USERNAME, ROOMNAME;
+var USERNAME, ROOMNAME, CUR_TURN, CUR_WORD;
 
 var SocketMgr = {
     socket: null,
     init: function() {
 	//var for socket connection
 	SocketMgr.socket = io.connect("127.0.0.1:5000");
+	SocketMgr.socket.emit("join");
     },
     bindSocketEvents: function() {
 	SocketMgr.socket.on("buf",function(data) {
@@ -21,7 +22,26 @@ var SocketMgr = {
 	SocketMgr.socket.on("init",function(data) {
 	    USERNAME = data.user;
 	    ROOMNAME = data.room;
-	    TurnCheck.updateTurn();
+	    CUR_TURN = data.turn;
+	    CUR_WORD = data.word;
+	    FlagCheck.updateTurn();
+	});
+	SocketMgr.socket.on("turnupdate",function(data) {
+	    //if (data == USERNAME) {
+	    var turn = FlagCheck.updateTurn();
+	    
+	    if (turn) {
+		SocketMgr.socket.emit("turnconf",turn);
+	    }
+	    //}
+	});
+	SocketMgr.socket.on("startNewTurn",function(data) {
+	    CUR_TURN = data.user;
+	    CUR_WORD = data.word;
+	    startTimer();
+	});
+	SocketMgr.socket.on("gotWord",function(data) {
+	    FlagCheck.updateStatus();
 	});
     },
 };
@@ -99,8 +119,9 @@ var Canvas = {
 };
 
 //module so the turn flag can be accessed but not changed by the user
-var TurnCheck = (function() {
+var FlagCheck = (function() {
     var isTurn = false;
+    var gotWord = false;
     var module = {
 	checkTurn: function() {
 	    return isTurn;
@@ -108,7 +129,13 @@ var TurnCheck = (function() {
 	updateTurn: function() {
 	    isTurn = SocketMgr.socket.emit("turnreq");
 	    return isTurn;
-	}
+	},
+	gotWord: function() {
+	    return gotWord;
+	},
+	updateStatus: function() {
+	    gotWord = SocketMgr.emit("wordconf");
+	},
     };
     return module;
 })();
@@ -248,8 +275,12 @@ var startTimer = function(i) {
     var timer = document.getElementById("timer");
     var i = i;
     var f = function() {
-	if (--i < 0)
+	if (--i < 0) {
 	    clearInterval(iid);
+	    if (FlagCheck.checkTurn()) {
+		SocketMgr.socket.emit("cycleturn");
+	    }
+	}
 	else {
 	    timer.innerHTML = i;
 	    if (i < 10) {

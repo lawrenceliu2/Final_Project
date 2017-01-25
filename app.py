@@ -25,6 +25,8 @@ def play(roomname):
     if ("user" in session):
         if ((session["user"] not in getUsersInRoom(roomname))):
             addPlayer(roomname, session["user"])
+            if (len(getUsersInRoom(roomname)) == 2):
+                changeTurn(roomname)
             print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             session["room"] = roomname
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
@@ -140,26 +142,28 @@ def leave():
         if (removePlayer(session["room"], session["user"])):
             print "REMOVED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             session.pop("room")
-            return redirect("/rooms")
-    return redirect("/play/"+session["room"])
+            return redirect(url_for("rooms"))
+    return redirect(url_for("play",roomname=session["room"]))
 
 #------------------------------
-@socket.on("connect")#, namespace="/play")
+@socket.on("join")#, namespace="/play")
 def initUser():
-    if ("user" in session):
-        emit("init",{"user":session["user"],"room":session["room"]})
-        join_room(session["room"])
-        #addPlayer(session["room"],session["user"])
-    else:
+    if ("user" not in session):
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
-        emit("init",{"user":tempname,"room":session["room"]})
-        join_room(session["room"])
-        #addPlayer(session["room"],tempname)
-
+    emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"])})
+    join_room(session["room"])
+    
 @socket.on("message")
 def message(data):
+    word = getCurrentWord(session["room"])
+    print word
+    if word.lower() in data["msg"].lower():
+        if (data["user"] == getCurrentUser(session["room"])): 
+            data["msg"] = data["msg"].replace(word,"****")
+        emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
+        
 #print "received message from client: "+msg
 
 @socket.on("draw")
@@ -177,12 +181,24 @@ def off(data):
 
 @socket.on("turnreq")
 def turnCheck():
-    #user = getCurrentUser(session["room"])
+    user = getCurrentUser(session["room"])
     #print user
-    #if user == session["user"]:
-    #	return True
-    #else:
+    if user == session["user"]:
+    	return True
+    else:
     	return False
+
+@socket.on("turnconf")
+def turnConf(data):
+    socket.emit("startNewTurn",{"user":session["user"],"word":getCurrentWord(session["room"])})
+
+@socket.on("cycleturn")
+def cycleTurn():
+    changeTurn(session["room"])
+
+socket.on("wordconf")
+def conf_word():
+    return True
 #------------------------------
 
 if (__name__ == '__main__'):

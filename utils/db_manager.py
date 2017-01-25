@@ -348,5 +348,3 @@ def removeRoom(roomname):
     rooms.execute(q)
     db.commit()
     return True
-
-print changeTurn("test")

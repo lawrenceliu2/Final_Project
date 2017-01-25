@@ -244,6 +244,22 @@ var hueBarInit = function() {
     }
 };
 
+var startTimer = function(i) {
+    var timer = document.getElementById("timer");
+    var i = i;
+    var f = function() {
+	if (--i < 0)
+	    clearInterval(iid);
+	else {
+	    timer.innerHTML = i;
+	    if (i < 10) {
+		timer.style.color = (i%2!=0) ? "#e53b44" : "#ffffff";
+	    }
+	}
+    };
+    var iid = setInterval(f,1000);
+};
+
 var sizeBarInit = function() {
     var canv = document.getElementById("size-canv");
     var ctx = canv.getContext("2d");

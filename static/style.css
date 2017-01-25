@@ -222,6 +222,7 @@ body {
 #timer {
     float: right;
     font-size: 30px;
+    transition: font-size: 0.5s;
 }
 
 #erase-board {

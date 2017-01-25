@@ -22,11 +22,12 @@ def root():
 def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
-    session["room"] = roomname
     if ("user" in session):
-        if (addPlayer(roomname, session["user"])):
+        if ((session["user"] not in getUsersInRoom(roomname))):
+            addPlayer(roomname, session["user"])
             print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
+            session["room"] = roomname
+        return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     #if not (roomname in getRooms()):
         #makeRoom(roomname,"julian")
     #if "user" in session:
@@ -42,8 +43,7 @@ def login():
 #-----------------------------
 @app.route("/loginauth", methods=['GET', 'POST'])
 
-def loginauth(): 
-    global isGuest
+def loginauth():
     user = request.form["user"]
     pwd = request.form["pwd"]
     if (user == "") or (pwd == ""):
@@ -107,6 +107,9 @@ def instructions():
 @app.route("/rooms")
 
 def rooms():
+    if (("user" in session) and ("room" in session)):
+        print url_for("play",roomname=session["room"])
+        return redirect(url_for("play",roomname=session["room"]))
     if ("user" not in session):
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname

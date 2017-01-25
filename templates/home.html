@@ -33,9 +33,9 @@
     <div class="container">
       <div class="row">
 	<div class="col-md-3">
-	  <h2>View Rooms</h2>
+	  <h2>{%if isInRoom %}Play{% else %}View Rooms{% endif %}</h2>
 	  <p>
-	    <a class="btn btn-primary" href="/rooms" role="button">View Rooms</a>
+	    <a class="btn btn-primary" href="/rooms" role="button">{%if isInRoom %}Play{% else %}View Rooms{% endif %}</a>
 	  </p>
 	</div>
 
@@ -51,7 +51,7 @@
 	<div class="col-md-3">
 	  <h2>Profile</h2>
 	  <p>
-	    <a class="btn btn-primary" href="/profile" role="button">Profile</a>
+	    <a class="btn btn-primary" href="/profile/{{ username }}" role="button">Profile</a>
 	  </p>
 	</div>
 

@@ -159,3 +159,6 @@ Slight changes to getRooms() in db_manager, made /play/<roomname> redirect to ro
 
 lawrenceL -- 2017-01-25 14:05
 New check to addPlayer, player won't be added if they are already in any other room
+
+fortuneS -- 2017-01-25 14:53
+Got leaving rooms to work on the app.py end

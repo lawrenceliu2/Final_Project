@@ -299,6 +299,8 @@ def removePlayer (roomname, username):
         removeRoom(roomname)
         return True
     for num in range(0,numUsers):
+        print "@@@@@@ USER BEING REMOVED: " + username
+        print "@@@@@@ USER BEING COMPARED TO IN ROOM: " + str(users[num])
         if username == str(users[num]):
             remove = num + 1
     if remove == 0:

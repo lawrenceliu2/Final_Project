@@ -159,10 +159,10 @@ def initUser():
 def message(data):
     word = getCurrentWord(session["room"])
     print word
-    if word.lower() in data["msg"].lower():
-        if (data["user"] == getCurrentUser(session["room"])): 
-            data["msg"] = data["msg"].replace(word,"****")
-        emit("gotWord");
+    #if word.lower() in data["msg"].lower():
+        #if (data["user"] == getCurrentUser(session["room"])): 
+            #data["msg"] = data["msg"].replace(word,"****")
+        #emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg

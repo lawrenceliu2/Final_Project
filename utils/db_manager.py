@@ -254,6 +254,8 @@ def makeRoom (roomname, username):
         q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
         rooms.execute(q)
         db.commit()
+        word = getRandomWord()
+        newCurrentWord(roomname, word)
         return True
     return False #room with that name already exists
 

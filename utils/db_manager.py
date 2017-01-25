@@ -8,12 +8,10 @@ getWinrate ("username") [as a decimal, returns -1 if you have no games played]
 
 addLoss("username")
 addWin("username")
-^^^^^^^^^^^^^^^^^^ use these
 '''
 
 
 '''WORD STUFF
-getWords()
 
 getRandomWord() [Use this as main method of getting a random word to draw, might need to keep track of ones already used to prevent repeats]
 
@@ -36,6 +34,12 @@ getRooms()
 getCurrentWord ("roomname")
 getCurrentUser ("roomname")
 getUsersInRoom ("roomname")
+'''
+
+'''SCORE STUFF
+gotWord ("username", points)
+getScore ("username")
+getWinner ("roomname")
 '''
 
 

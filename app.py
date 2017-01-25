@@ -16,7 +16,10 @@ def root():
     inroom = ("room" in session)
     #if ("verified" in session):
         #return render_template("home.html", isLoggedIn=True)
-    return render_template("home.html", isLoggedIn=verified, isInRoom=inroom)
+    if (verified):
+        return render_template("home.html", isLoggedIn=verified, isInRoom=inroom, username=session["user"])
+    else:
+        return render_template("home.html", isLoggedIn=verified, isInRoom=inroom)
 
 #------------------------------
 @app.route("/play/<roomname>")
@@ -91,11 +94,11 @@ def logout():
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
-@app.route("/profile")
+@app.route("/profile/<username>")
 
-def profile():
+def profile(username):
     if ("verified" in session and "user" in session):
-        return render_template("profile.html", user=session["user"])
+        return render_template("profile.html", user=username)
     return redirect("/login")
 
 #------------------------------
@@ -144,7 +147,7 @@ def leave():
 #------------------------------
 @socket.on("disconnect")
 def notifDisc():
-    socket.emit("departure",session["user"])
+    socket.emit("departure",session["user"],room=session["room"])
 
 @socket.on("join")#, namespace="/play")
 def initUser():
@@ -153,7 +156,7 @@ def initUser():
         session["user"] = tempname
     emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"]),"players":getUsersInRoom(session["room"])})
     join_room(session["room"])
-    socket.emit("entry",session["user"],room=session["room"])
+    socket.emit("entry",session["user"],room=session["room"],include_self=False)
     
 @socket.on("message")
 def message(data):

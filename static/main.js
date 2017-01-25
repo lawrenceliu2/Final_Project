@@ -51,6 +51,20 @@ var SockMan = {
 	    elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
 	    document.getElementById("chat-display").appendChild(elem);
 	    players.push(data);
+	    
+	    var list = document.getElementById("player-list");
+	    var li = document.createElement("li");
+	    li.className = "player-item";
+	    //var span = document.createElement("span");
+	    //span.addClass("player-item-span");
+	    li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+data+'">'+data+"</a></span>");
+	    list.appendChild(li);
+	});
+	SockMan.socket.on("departure",function(data) {
+	    var elem = document.createElement("p");
+	    elem.innerHTML = "<i><b>"+data+"</b> has exited the room.</i>";
+	    document.getElementById("chat-display").appendChild(elem);
+	    players.splice(players.indexOf(data),1);
 	    initPlayerList();
 	});
     },
@@ -164,15 +178,16 @@ var initStyle = function() {
 
 var initPlayerList = function() {
     console.log(players);
+    var list = document.getElementById("player-list");
+    list.innerHTML = "";
     for (i in players) {
-	var list = document.getElementById("player-list");
-	list.innerHTML = "";
 	var li = document.createElement("li");
 	li.className = "player-item";
 	//var span = document.createElement("span");
 	//span.addClass("player-item-span");
 	li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+players[i]+'">'+players[i]+"</a></span>");
 	list.appendChild(li);
+	console.log("added "+players[i]+": "+li.innerHTML);
     }
 };
 
@@ -342,5 +357,5 @@ var init = function() {
     hueBarInit();
     sizeBarInit();
     bindMiscEvents();
-    initPlayerList();
+    //initPlayerList();
 };

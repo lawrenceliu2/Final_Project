@@ -23,24 +23,24 @@
     
     <div class="jumbotron">
       <div class="container">
-        <h1>Welcome to Pictionaire!</h1>
-	<br>
+        <h1>Pictionaire</h1>
         <p>
-	  Challenge your friends in an online game of pictionary to see who has the best drawing skills! Create your own custom-named room or join an existing game!
-	</p>
-        <p>
-	  <a class="btn btn-primary" href="/rooms" role="button">View Rooms!</a>
+	  Guess what your friend is drawing before the time runs out!
 	</p>
       </div>
     </div>
 
     <div class="container">
       <div class="row">
-	<div class="col-md-4">
-	  <h2>Instructions</h2>
+	<div class="col-md-3">
+	  <h2>{%if isInRoom %}Play{% else %}View Rooms{% endif %}</h2>
 	  <p>
-	    New here? Read up on the rules and instructions!
+	    <a class="btn btn-primary" href="/rooms" role="button">{%if isInRoom %}Play{% else %}View Rooms{% endif %}</a>
 	  </p>
+	</div>
+
+	<div class="col-md-3">
+	  <h2>Instructions</h2>
 	  <p>
 	    <a class="btn btn-primary" href="/instructions" role="button">How to Play</a>
 	  </p>
@@ -48,21 +48,15 @@
 
 	{% if isLoggedIn %}
 
-	<div class="col-md-4">
+	<div class="col-md-3">
 	  <h2>Profile</h2>
 	  <p>
-	    You are already logged in!  View your statistics on your profile page here!
-	  </p>
-	  <p>
-	    <a class="btn btn-primary" href="/profile" role="button">Profile</a>
+	    <a class="btn btn-primary" href="/profile/{{ username }}" role="button">Profile</a>
 	  </p>
 	</div>
 
-	<div class="col-md-4">
+	<div class="col-md-3">
 	  <h2>Log Out</h2>
-	  <p>
-	    Done playing? Log out of your account to keep it secure.
-	  </p>
 	  <p>
 	    <a class="btn btn-primary" href="/logout" role="button">Log Out</a>
 	  </p>
@@ -70,28 +64,21 @@
 
 	{% else %}
 	
-	<div class="col-md-4">
+	<div class="col-md-3">
 	  <h2>Sign Up</h2>
-	  <p>
-	    Don't want to play as a guest? Make an account! See instructions for benefits of having an account.
-	  </p>
 	  <p>
 	    <a class="btn btn-primary" href="/register" role="button">Sign Up</a>
 	  </p>
 	</div>
 
-	<div class="col-md-4">
+	<div class="col-md-3">
 	  <h2>Log In</h2>
-	  <p>
-	    Already have an account? Log in here!
-	  </p>
 	  <p>
 	    <a class="btn btn-primary" href="/login" role="button">Log In</a>
 	  </p>
 	</div>
 
 	{% endif %}
-	
   </body>
   
 </html>

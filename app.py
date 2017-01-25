@@ -20,8 +20,8 @@ def root():
 @app.route("/play/<roomname>")
 
 def play(roomname):
-    if (roomname == ""):
-        return redirect(url_for(root))
+    if (roomname == "" or roomname not in getRooms(True)):
+        return redirect(url_for("root"))
     if ("user" in session):
         if ((session["user"] not in getUsersInRoom(roomname))):
             addPlayer(roomname, session["user"])
@@ -113,7 +113,7 @@ def rooms():
     if ("user" not in session):
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
-    roomlist = getRooms()
+    roomlist = getRooms(False)
     rooms = []
     for x in roomlist:
         rooms.append({"name":str(x[0]),"size":str(x[1])})

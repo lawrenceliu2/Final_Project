@@ -153,3 +153,6 @@ Made room list page sort by number of players
 
 julianA -- 2017-01-25 13:50
 Visiting the room list endpoint now redirects to the game, if you are in a room
+
+julianA -- 2017-01-25 14:03
+Slight changes to getRooms() in db_manager, made /play/<roomname> redirect to root if roomname doesn't exist

@@ -313,7 +313,10 @@ def removePlayer (roomname, username):
     return True
 
 #Returns a list of open rooms (but with that weird u thing. Just ignore it pls Jordan, it functions properly as like a 2d list or something)
-def getRooms():
+
+#Returns only names if <names> is True
+
+def getRooms(names):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
@@ -322,7 +325,10 @@ def getRooms():
     roomList = rooms.fetchall()
     realRoomList = []
     for room in roomList:
-        realRoomList.append(room)
+        if names:
+            realRoomList.append(room[0])
+        else:
+            realRoomList.append(room)
     return realRoomList
 
 #Removes the room specified

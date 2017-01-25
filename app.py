@@ -55,6 +55,7 @@ def loginauth():
     if UserAuth(user, pwd):
         session["user"] = user
         session["verified"] = True
+        session.pop("room")
         return redirect("/")
     return render_template("login.html", msg="Username or password incorrect.")
 
@@ -85,10 +86,10 @@ def regauth():
 @app.route("/logout")
 
 def logout():
-    global isGuest
     if "user" in session:
         session.pop("user")
         session.pop("verified")
+        session.pop("room")
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------

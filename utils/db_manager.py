@@ -261,7 +261,7 @@ def addPlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
-    stuff = getRooms()
+    stuff = getRooms(False)
     for room in stuff:
         if username in room:
             return False

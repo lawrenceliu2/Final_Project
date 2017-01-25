@@ -5,13 +5,15 @@ getWins ("username")
 getGamesPlayed ("username")
 getWinrate ("username") [as a decimal, returns -1 if you have no games played]
 
+
 addLoss("username")
 addWin("username")
+^^^^^^^^^^^^^^^^^^ use these
 '''
 
 
 '''WORD STUFF
-getWords() [idk if you need this method]
+getWords()
 
 getRandomWord() [Use this as main method of getting a random word to draw, might need to keep track of ones already used to prevent repeats]
 
@@ -22,13 +24,12 @@ checkWord ("actual word", "the user's guess")
 '''ROOM STUFF
 Sequence of creating a room:
 makeRoom ("roomname", "username")
-newCurrentWord ("roomname", "the word")
 addPlayer ("roomname", "username")
 
-Use removePlayer ("roomname", "username") and 
-    changeTurn ("roomname") 
-  [NOTE: use when you want the next user to draw: user1 to user2, user5 to user1, etc.]
-    removeRoom ("roomname") as needed
+
+removePlayer ("roomname", "username")
+changeTurn ("roomname") 
+
 
 Getting stuff:
 getRooms()
@@ -194,8 +195,6 @@ def getCurrentUser (roomname):
     q = rooms.fetchall()[0][0]
     return q
 
-#Changes the current user drawing to the next user
-#ie user1 finished their turn, user2 is next to draw after changeTurn
 def changeTurn (roomname):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
@@ -349,3 +348,5 @@ def removeRoom(roomname):
     rooms.execute(q)
     db.commit()
     return True
+
+print changeTurn("test")

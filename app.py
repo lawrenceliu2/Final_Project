@@ -55,7 +55,6 @@ def loginauth():
     if UserAuth(user, pwd):
         session["user"] = user
         session["verified"] = True
-        session.pop("room")
         return redirect("/")
     return render_template("login.html", msg="Username or password incorrect.")
 
@@ -86,10 +85,10 @@ def regauth():
 @app.route("/logout")
 
 def logout():
+    global isGuest
     if "user" in session:
         session.pop("user")
         session.pop("verified")
-        session.pop("room")
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
@@ -126,7 +125,7 @@ def rooms():
 @app.route("/mkroom")
 
 def mkroom():
-    rmname = "room" + os.urandom(5).encode("hex")
+    rmname = "room_" + os.urandom(5).encode("hex")
     if ("user" in session):
         print "User in session++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         if makeRoom(rmname, session["user"]):
@@ -148,13 +147,18 @@ def leave():
     return redirect(url_for("root"))
 
 #------------------------------
+@socket.on("disconnect")
+def notifDisc():
+    socket.emit("departure",session["user"])
+
 @socket.on("join")#, namespace="/play")
 def initUser():
     if ("user" not in session):
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
-    emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"])})
+    emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"]),"players":getUsersInRoom(session["room"])})
     join_room(session["room"])
+    socket.emit("entry",session["user"],room=session["room"])
     
 @socket.on("message")
 def message(data):

@@ -87,8 +87,8 @@ body {
 }
 
 .player-item {
-    display: inline;
-    margin: 0 18px;
+    display: inline-block;
+    margin: 0 10px;
     font-family: monospace;
     font-size: 10px;
 }

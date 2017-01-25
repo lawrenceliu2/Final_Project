@@ -1,47 +1,57 @@
-var USERNAME, ROOMNAME, CUR_TURN, CUR_WORD;
+var USERNAME, ROOMNAME, CUR_TURN, CUR_WORD, players;
 
-var SocketMgr = {
+var SockMan = {
     socket: null,
     init: function() {
 	//var for socket connection
-	SocketMgr.socket = io.connect("127.0.0.1:5000");
-	SocketMgr.socket.emit("join");
+	SockMan.socket = io.connect("127.0.0.1:5000");
+	SockMan.socket.emit("join");
     },
     bindSocketEvents: function() {
-	SocketMgr.socket.on("buf",function(data) {
+	SockMan.socket.on("buf",function(data) {
 	    Canvas.draw(data);
 	});
-	SocketMgr.socket.on("chat",function(data) {
+	SockMan.socket.on("chat",function(data) {
 	    var elem = document.createElement("p");
 	    elem.innerHTML = "<b>"+data.user+"</b> "+data.msg;
 	    document.getElementById("chat-display").appendChild(elem);
 	});
-	SocketMgr.socket.on("clear",function(data) {
+	SockMan.socket.on("clear",function(data) {
 	    Canvas.ctx.clearRect(0,0,1000,800);
 	});
-	SocketMgr.socket.on("init",function(data) {
+	SockMan.socket.on("init",function(data) {
+	    console.log(data);
 	    USERNAME = data.user;
 	    ROOMNAME = data.room;
 	    CUR_TURN = data.turn;
 	    CUR_WORD = data.word;
+	    players = data.players;
+	    initPlayerList();
 	    FlagCheck.updateTurn();
 	});
-	SocketMgr.socket.on("turnupdate",function(data) {
+	SockMan.socket.on("turnupdate",function(data) {
 	    //if (data == USERNAME) {
 	    var turn = FlagCheck.updateTurn();
 	    
 	    if (turn) {
-		SocketMgr.socket.emit("turnconf",turn);
+		SockMan.socket.emit("turnconf",turn);
 	    }
 	    //}
 	});
-	SocketMgr.socket.on("startNewTurn",function(data) {
+	SockMan.socket.on("startNewTurn",function(data) {
 	    CUR_TURN = data.user;
 	    CUR_WORD = data.word;
 	    startTimer();
 	});
-	SocketMgr.socket.on("gotWord",function(data) {
+	SockMan.socket.on("gotWord",function(data) {
 	    FlagCheck.updateStatus();
+	});
+	SockMan.socket.on("entry",function(data) {
+	    var elem = document.createElement("p");
+	    elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
+	    document.getElementById("chat-display").appendChild(elem);
+	    players.push(data);
+	    initPlayerList();
 	});
     },
 };
@@ -77,13 +87,13 @@ var Canvas = {
 	};
       	var fx = function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true,color:Canvas.color,width:Canvas.width});
+	    SockMan.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true,color:Canvas.color,width:Canvas.width});
 	    Canvas.ctx.lineTo(coords.x,coords.y);
       	    Canvas.ctx.stroke();
         };	
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
+	    SockMan.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
 	    Canvas.ctx.strokeStyle = Canvas.color;
 	    Canvas.ctx.lineWidth = Canvas.width;
 	    Canvas.canv.style.cursor = "sw-resize";
@@ -129,14 +139,14 @@ var FlagCheck = (function() {
 	    return isTurn;
 	},
 	updateTurn: function() {
-	    isTurn = SocketMgr.socket.emit("turnreq");
+	    isTurn = SockMan.socket.emit("turnreq");
 	    return isTurn;
 	},
 	gotWord: function() {
 	    return gotWord;
 	},
 	updateStatus: function() {
-	    gotWord = SocketMgr.emit("wordconf");
+	    gotWord = SockMan.emit("wordconf");
 	},
     };
     return module;
@@ -152,13 +162,27 @@ var initStyle = function() {
     Canvas.panel.style.height = Math.max(300,Math.min((width * 0.8),800))+"px";
 };
 
+var initPlayerList = function() {
+    console.log(players);
+    for (i in players) {
+	var list = document.getElementById("player-list");
+	list.innerHTML = "";
+	var li = document.createElement("li");
+	li.className = "player-item";
+	//var span = document.createElement("span");
+	//span.addClass("player-item-span");
+	li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+players[i]+'">'+players[i]+"</a></span>");
+	list.appendChild(li);
+    }
+};
+
 //binding of events without a category
 var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
     field.addEventListener("keypress", function(e) {
 	if (e.which == 13 && !e.shiftKey && field.value != "") {
 	    var data = {user:USERNAME,msg:field.value};
-	    SocketMgr.socket.emit("message",data);
+	    SockMan.socket.emit("message",data);
 	    field.value = "";
 	    var elem = document.createElement("p");
 	    elem.style.color = "#4286f4";
@@ -175,7 +199,7 @@ var bindMiscEvents = function() {
 	this.innerHTML = "[X]";
     });
     board.addEventListener("click",function() {
-	SocketMgr.socket.emit("clear",{hey:"hey"});
+	SockMan.socket.emit("clear",{hey:"hey"});
 	Canvas.ctx.clearRect(0,0,1000,800);
     });
 
@@ -280,7 +304,7 @@ var startTimer = function(i) {
 	if (--i < 0) {
 	    clearInterval(iid);
 	    if (FlagCheck.checkTurn()) {
-		SocketMgr.socket.emit("cycleturn");
+		SockMan.socket.emit("cycleturn");
 	    }
 	}
 	else {
@@ -310,12 +334,13 @@ var sizeBarInit = function() {
 };
 
 var init = function() {
-    SocketMgr.init();
+    SockMan.init();
+    SockMan.bindSocketEvents();
     Canvas.init();
-    SocketMgr.bindSocketEvents();
+    Canvas.bindCanvasEvents();
     initStyle();
     hueBarInit();
     sizeBarInit();
-    Canvas.bindCanvasEvents();
     bindMiscEvents();
+    initPlayerList();
 };

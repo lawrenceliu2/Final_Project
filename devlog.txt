@@ -132,3 +132,6 @@ Added guest user functionality. make rooms and leave rooms BUG from databases
 
 julianA -- 2017-01-24 22:30
 Added a display for the room name and list of players
+
+fortuneS -- 2017-01-24 22:53
+Added session["isGuest"] to differentiate between logged in users and guests

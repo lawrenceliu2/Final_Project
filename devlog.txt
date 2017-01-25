@@ -153,3 +153,6 @@ Made room list page sort by number of players
 
 julianA -- 2017-01-25 13:50
 Visiting the room list endpoint now redirects to the game, if you are in a room
+
+lawrenceL -- 2017-01-25 14:05
+New check to addPlayer, player won't be added if they are already in any other room

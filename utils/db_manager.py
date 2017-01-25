@@ -260,7 +260,11 @@ def makeRoom (roomname, username):
 def addPlayer (roomname, username):
     db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
-    
+
+    stuff = getRooms()
+    for room in stuff:
+        if username in room:
+            return False
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]

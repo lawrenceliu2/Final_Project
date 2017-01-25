@@ -44,7 +44,7 @@ getUsersInRoom ("roomname")
 
 #Checks if username and password exist
 def UserAuth(username, password):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
     m = hashlib.sha1(password).hexdigest()
      
@@ -58,7 +58,7 @@ def UserAuth(username, password):
 
 #Checks if username is taken
 def nameAvail(username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT * FROM users WHERE username = \"%s\";" % (username)
@@ -70,7 +70,7 @@ def nameAvail(username):
 
 #Adds a new user to the database if the username is not taken already
 def addUser(username, password):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
     m = hashlib.sha1(password).hexdigest()
  
@@ -83,7 +83,7 @@ def addUser(username, password):
 
 #Returns how many wins a user has
 def getWins (username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT wins FROM users WHERE username = \"%s\";" % (username)
@@ -92,7 +92,7 @@ def getWins (username):
 
 #Returns how many games the user has played
 def getGamesPlayed (username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     q = "SELECT gamesPlayed FROM users WHERE username = \"%s\";" % (username)
@@ -102,7 +102,7 @@ def getGamesPlayed (username):
 #Returns the users winrate as a decimal
 #Note that if you have not played any games, this returns -1
 def getWinrate (username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     wins = getWins(username)
@@ -113,7 +113,7 @@ def getWinrate (username):
 
 #Adds a game played to the specified user
 def addLoss (username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     gamesPlayed = getGamesPlayed(username)+1
@@ -124,7 +124,7 @@ def addLoss (username):
 
 #Adds a game played and a win to the specified user
 def addWin (username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     users = db.cursor()
 
     wins = getWins(username) + 1
@@ -141,7 +141,7 @@ def addWin (username):
 
 #Returns an array of the words in the database
 def getWords():
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     words = db.cursor()
 
     q = "SELECT noun FROM words"
@@ -170,7 +170,7 @@ def checkWord(actual, guess):
 
 #Returns an array of the users currently playing
 def getUsersInRoom (roomname):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
@@ -188,7 +188,7 @@ def getUsersInRoom (roomname):
 
 #Returns the user who is currently drawing
 def getCurrentUser (roomname):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT currentTurn FROM rooms WHERE roomName = \"%s\";" % (roomname)
@@ -199,7 +199,7 @@ def getCurrentUser (roomname):
 #Changes the current user drawing to the next user
 #ie user1 finished their turn, user2 is next to draw after changeTurn
 def changeTurn (roomname):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     users = getUsersInRoom(roomname)
@@ -216,7 +216,7 @@ def changeTurn (roomname):
 
 #Returns the room's current word being drawn
 def getCurrentWord (roomname):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT currWord FROM rooms WHERE roomName = \"%s\";" % (roomname)
@@ -226,7 +226,7 @@ def getCurrentWord (roomname):
 
 #Updates the current word to the new one provided
 def newCurrentWord (roomname, newWord):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
     
     q = "UPDATE rooms SET currWord = \"%s\" WHERE roomName = \"%s\";" % (newWord, roomname,)
@@ -236,7 +236,7 @@ def newCurrentWord (roomname, newWord):
 
 #Updates the current drawer to the new one provided
 def newCurrentUser (roomname, username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "UPDATE rooms SET currentTurn = \"%s\" WHERE roomName = \"%s\";" % (username, roomname,)
@@ -246,7 +246,7 @@ def newCurrentUser (roomname, username):
 
 #Create a room based on name and creator's username
 def makeRoom (roomname, username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
@@ -256,7 +256,7 @@ def makeRoom (roomname, username):
 
 #Add the player to the room; return false if there is no space
 def addPlayer (roomname, username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
     
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
@@ -274,7 +274,7 @@ def addPlayer (roomname, username):
 
 #Removes the specified player from the room
 def removePlayer (roomname, username):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     users = getUsersInRoom(roomname)
@@ -307,7 +307,7 @@ def removePlayer (roomname, username):
 
 #Returns a list of open rooms (but with that weird u thing. Just ignore it pls Jordan, it functions properly as like a 2d list or something)
 def getRooms():
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "SELECT * FROM rooms;"
@@ -320,7 +320,7 @@ def getRooms():
 
 #Removes the room specified
 def removeRoom(roomname):
-    db = sqlite3.connect("/data/dbsm.db")
+    db = sqlite3.connect("data/dbsm.db")
     rooms = db.cursor()
 
     q = "DELETE FROM rooms WHERE roomName = \"%s\";" % (roomname)

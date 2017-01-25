@@ -23,11 +23,15 @@ def play(roomname):
     if (roomname == ""):
         return redirect(url_for(root))
     session["room"] = roomname
+    if ("user" in session):
+        if (addPlayer(roomname, session["user"])):
+            print "User Added++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            return render_template("index.html")
     #if not (roomname in getRooms()):
         #makeRoom(roomname,"julian")
     #if "user" in session:
         #return render_template("index.html")
-    return render_template("index.html")
+    return redirect(url_for(root))
 
 #------------------------------
 @app.route("/login")
@@ -118,7 +122,9 @@ def rooms():
 def mkroom():
     rmname = "room" + os.urandom(5).encode("hex")
     if ("user" in session):
+        print "User in session++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         if makeRoom(rmname, session["user"]):
+            print "Room made++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             return redirect("/play/"+rmname)
     return redirect("/rooms")
 
@@ -127,7 +133,9 @@ def mkroom():
 
 def leave():
     if ("user" in session):
-        if removePlayer(session["room"], session["user"]):
+        print "User in session+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        if (removePlayer(session["room"], session["user"])):
+            print "REMOVED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             session.pop("room")
             return redirect("/rooms")
     return redirect("/play/"+session["room"])

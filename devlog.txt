@@ -147,3 +147,6 @@ Added room name and player list jinja
 
 julianA -- 2017-01-25 13:05
 Improved room list page
+
+julianA -- 2017-01-25 13:15
+Made room list page sort by number of players

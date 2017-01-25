@@ -111,10 +111,10 @@ def rooms():
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
     roomlist = getRooms()
-    dict = {}
+    rooms = []
     for x in roomlist:
-        dict[str(x[0])] = str(x[1])
-    return render_template("rooms.html", tabledict=dict)
+        rooms.append({"name":str(x[0]),"size":str(x[1])})
+    return render_template("rooms.html", tabledict=rooms)
 
 #------------------------------
 @app.route("/mkroom")

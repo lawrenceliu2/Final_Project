@@ -280,7 +280,7 @@ def removePlayer (roomname, username):
     users = getUsersInRoom(roomname)
     remove = 0
     current = getCurrentUser(roomname)
-    if current == username:
+    if str(current) == username:
         changeTurn(roomname)
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
@@ -290,7 +290,7 @@ def removePlayer (roomname, username):
         removeRoom(roomname)
         return True
     for num in range(0,numUsers):
-        if username == users[num]:
+        if username == str(users[num]):
             remove = num + 1
     q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
     rooms.execute(q)

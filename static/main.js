@@ -66,7 +66,8 @@ var SockMan = {
 	    var elem = document.createElement("p");
 	    elem.innerHTML = "<i><b>"+data+"</b> has exited the room.</i>";
 	    document.getElementById("chat-display").appendChild(elem);
-	    players.splice(players.indexOf(data));
+	    players.splice(players.indexOf(data),1);
+	    initPlayerList();
 	});
     },
 };

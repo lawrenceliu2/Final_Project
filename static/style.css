@@ -132,7 +132,7 @@ body {
 }
 
 #bottom-tool-bar {
-    width: 700px;
+    width: 600px;
     height: 75px;
     position: fixed;
     margin: 0 auto;
@@ -146,7 +146,7 @@ body {
     transition: bottom ease-out 0.25s;
     bottom: -60px;
     opacity: 0.75;
-    left: calc((100% - 300px - 700px)/2);
+    left: calc((100% - 300px - 600px)/2);
 }
 
 #floating-indicator {
@@ -205,7 +205,7 @@ body {
     font-family: monospace;
 }
 
-#hue-canv {
+#hue-canv, #size-canv {
     border: solid 1px #666;
     cursor: crosshair;
 }

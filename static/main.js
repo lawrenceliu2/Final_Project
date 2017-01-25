@@ -34,6 +34,7 @@ var Canvas = {
     wrapper: null,
     ctx: null,
     color: "#000000",
+    width: 3,
     init: function() {
 	//initializing canvas settings
 	this.canv = document.getElementById("canv");
@@ -60,14 +61,15 @@ var Canvas = {
       	var fx = function(e) {
 	    console.log("e.clientX: "+e.clientX+", e.clientY: "+e.clientY);
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true});
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:true,color:Canvas.color,width:Canvas.width});
 	    Canvas.ctx.lineTo(coords.x,coords.y);
       	    Canvas.ctx.stroke();
         };	
       	Canvas.canv.addEventListener("mousedown",function(e) {
 	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color});
+	    SocketMgr.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
 	    Canvas.ctx.strokeStyle = Canvas.color;
+	    Canvas.ctx.lineWidth = Canvas.width;
 	    Canvas.canv.style.cursor = "sw-resize";
       	    Canvas.ctx.beginPath();
 	    Canvas.ctx.moveTo(coords.x,coords.y);
@@ -88,6 +90,8 @@ var Canvas = {
       	});
     },
     draw: function(data) {
+	Canvas.ctx.strokeStyle = data.color;
+	Canvas.ctx.lineWidth = data.width;
 	if (!(data.isDrawing)) {
 	    Canvas.ctx.closePath();
 	    Canvas.ctx.beginPath();
@@ -100,6 +104,7 @@ var Canvas = {
     },
 };
 
+//module so the turn flag can be accessed but not changed by the user
 var TurnCheck = (function() {
     var isTurn = false;
     var module = {
@@ -114,6 +119,7 @@ var TurnCheck = (function() {
     return module;
 })();
 
+//init style for items that have variable css
 var initStyle = function() {
     var width = window.innerWidth - (300 + 15 + 15); //width of viewport minus sidebar and margin
     Canvas.wrapper.style.width = Math.max(375,Math.min(width,1000))+"px";
@@ -123,6 +129,7 @@ var initStyle = function() {
     Canvas.panel.style.height = Math.max(300,Math.min((width * 0.8),800))+"px";
 };
 
+//binding of events without a category
 var bindMiscEvents = function() {
     var field = document.getElementById("chat-field");
     field.addEventListener("keypress", function(e) {
@@ -156,7 +163,7 @@ var bindMiscEvents = function() {
 	var offset = bar.offsetLeft+hueCanv.offsetLeft+2;//parseInt(bar.offsetLeft,10) + parseInt(hueCanv.offsetLeft,10);
 	console.log(offset);
 	console.log("e: "+e.clientX);
-	var n = (Math.min(Math.max(e.clientX,offset),offset+210) - offset);
+	var n = (Math.min(Math.max(e.clientX,offset),offset+200) - offset);
 	console.log(n);
 	var ctx = hueCanv.getContext("2d");
 	var data = ctx.getImageData(n,0,1,1).data;
@@ -175,6 +182,24 @@ var bindMiscEvents = function() {
     });
     document.addEventListener("mouseup", function(){
 	bar.removeEventListener("mousemove",pickColor);
+    });
+
+    var sizeCanv = document.getElementById("size-canv");
+    var pickSize = function(e) {
+	sizeBarInit();
+	var offset = bar.offsetLeft+sizeCanv.offsetLeft+3;
+	var n = (Math.min(Math.max(e.clientX,offset),offset+150) - offset);
+	var ctx = sizeCanv.getContext("2d");
+	ctx.fillStyle = "#333";
+	ctx.fillRect(n-1,0,3,40);
+	var size = ((n/40)*7)+3;
+	Canvas.width = size;
+    };
+    sizeCanv.addEventListener("mousedown", function() {
+	bar.addEventListener("mousemove",pickSize);
+    });
+    document.addEventListener("mouseup", function(){
+	bar.removeEventListener("mousemove",pickSize);
     });
 
     var bar = document.getElementById("bottom-tool-bar");
@@ -215,6 +240,7 @@ var hueBarInit = function() {
     var ctx = canv.getContext("2d");
     var w = canv.width-10;
     var h = canv.height;
+    //canvas is actually 200x1 pixels, uses css to stretch it to 200x40
     for (var i=0; i<h; i++) {
 	for (var j=0; j<=w; j++) {
 	    var color = tinycolor("hsl("+(j/w)*360+",75%,50%)");
@@ -228,12 +254,29 @@ var hueBarInit = function() {
     }
 };
 
+var sizeBarInit = function() {
+    var canv = document.getElementById("size-canv");
+    var ctx = canv.getContext("2d");
+    var w = canv.width;
+    var h = canv.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.moveTo(0,h);
+    ctx.beginPath();
+    ctx.lineTo(w,0);
+    ctx.lineTo(w,h);
+    ctx.lineTo(0,h);
+    ctx.closePath();
+    ctx.fillStyle = "#e7e7e7";
+    ctx.fill();
+};
+
 var init = function() {
     SocketMgr.init();
     Canvas.init();
     SocketMgr.bindSocketEvents();
     initStyle();
     hueBarInit();
+    sizeBarInit();
     Canvas.bindCanvasEvents();
     bindMiscEvents();
 };

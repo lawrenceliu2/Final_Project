@@ -25,12 +25,29 @@
   </head>
 
   <body>
+    {% if isGuest %}
     <div class="jumbotron">
       <div class="container">
-	<h1>My Profile</h1>
+	<h1>Uh Oh!</h1>
+	<p>
+	  The user you are trying to reach is a guest and their progress hasn't been saved.
+	</p>
+	<a href="/rooms" class="btn btn-primary">Back to Room</a>
       </div>
     </div>
 
+    {% else %}
+    
+    <div class="jumbotron">
+      <div class="container">
+	{% if isUser %}
+	<h1>My Profile</h1>
+	{% else %}
+	<h1>{{user}}'s Profile</h1>
+	{% endif %}
+      </div>
+    </div>
+    
     <div class="container">
       <p>
 	<h2>Wins:</h2>
@@ -46,7 +63,11 @@
 	<h2>Win Rate:</h2>
 	{{ rate }}
       </p>
-
+      
+      <br>
+      <p>
+	<a href="/rooms" class="btn btn-primary">Back to Rooms</a>
+      </p>
       <br>
       <p>
 	<a href="/logout" class="btn btn-primary">Log Out</a>
@@ -56,7 +77,9 @@
 	<a href="/" class="btn btn-primary">Back Home</a>
       </p>
     </div>
+
+    {% endif %}
     
   </body>
-
+  
 </html>

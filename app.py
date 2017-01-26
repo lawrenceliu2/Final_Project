@@ -110,7 +110,7 @@ def profile(username):
         if (username == session["user"]):
             return render_template("profile.html", user=username, isUser=True, wins = wins, games = games, rate = rate)
         else:
-            return render_template("profile.html", user = session["user"], wins = wins, games = games, rate = rate)
+            return render_template("profile.html", user = username, wins = wins, games = games, rate = rate)
     return redirect("/login")
 
 #------------------------------

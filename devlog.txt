@@ -189,3 +189,6 @@ Implemented groundwork for turns
 
 julianA -- 2017-01-26 00:54
 Improved turn mechanism
+
+julianA -- 2017-01-26 01:55
+Fixed turn rotation

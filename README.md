@@ -8,3 +8,6 @@ Packages:
 
 To Launch:  
 -Simply run `python app.py` and go to the loopback address in your browser.
+
+YouTube Video:
+https://www.youtube.com/watch?v=sUX_fxOpq0g&feature=youtu.be

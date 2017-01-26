@@ -271,7 +271,7 @@ def makeRoom (roomname, username):
     q = "SELECT roomName FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     if rooms.fetchall() == []:
-        q = "INSERT INTO rooms(roomName, userNum, currentTurn, user1) VALUES (\"%s\", 1, \"%s\", \"%s\");" % (roomname, username, username,)
+        q = "INSERT INTO rooms(roomName, userNum, currentTurn, roundNum, user1) VALUES (\"%s\", 1, \"%s\", 1, \"%s\");" % (roomname, username, username,)
         rooms.execute(q)
         db.commit()
         word = getRandomWord()

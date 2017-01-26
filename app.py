@@ -188,7 +188,7 @@ def message(data):
     if (word):
         if word.lower() in data["msg"].lower():
             data["msg"] = data["msg"].replace(word,"****")
-            emit("gotWord");
+            #emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg

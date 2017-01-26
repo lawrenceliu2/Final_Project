@@ -445,3 +445,16 @@ def getWinner (roomname):
     else:
         text += winners [0][0] + " is the winner with " + str(winner) + " points!"
         return text
+
+    #Checks if anyone guessed the word correctly
+def checkGotWord (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    users = getUsersInRoom(roomname)
+    for user in users:
+        q = "SELECT gotWord FROM score WHERE username = \"%s\";" % (user)
+        scores.execute(q)
+        if scores.fetchall()[0][0] == 1:
+            return True
+    return False

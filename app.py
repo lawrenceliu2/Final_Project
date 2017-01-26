@@ -265,7 +265,7 @@ def timeUpdate(data):
 def init_game(roomname):
     changeTurn(session["room"])
     print getRoundNum(session["room"])
-    if (getRoundNum(session["room"]) > 5):#(2*len(getUsersInRoom(session["room"])))):
+    if (getRoundNum(session["room"]) > 5:#(2*len(getUsersInRoom(session["room"])))):
         socket.emit("end",getWinner(session["room"]))
         
     socket.emit("startNewTurn",{"user":getCurrentUser(roomname),"word":getCurrentWord(roomname),"numplayers":len(getUsersInRoom(roomname))},room=roomname)

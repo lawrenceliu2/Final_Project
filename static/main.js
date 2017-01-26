@@ -113,7 +113,7 @@ var SockMan = {
 	    startTimer(-1);
 	    initInfobar("<center>"+data+"</center>",false);
 	    setTimeout(function() {
-		window.location = "/rooms";
+		window.location = "/leave";
 	    }, 7000);
 	});
     },

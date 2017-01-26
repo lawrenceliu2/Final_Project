@@ -33,14 +33,14 @@
     <div class="container-fluid" style="height: 100%; background: url('/static/bg.jpg'); background-repeat: no-repeat; background-position: right top;">
       <div class="row">
 	<div class="col-md-12">
-	  <h2>{%if isInRoom %}Play{% else %}View Rooms{% endif %}</h2>
+	  <h2><b>{%if isInRoom %}Play{% else %}View Rooms{% endif %}</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/rooms" role="button">{%if isInRoom %}Play{% else %}View Rooms{% endif %}</a>
 	  </p>
 	</div>
 
 	<div class="col-md-12">
-	  <h2>Instructions</h2>
+	  <h2><b>Instructions</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/instructions" role="button">How to Play</a>
 	  </p>
@@ -49,14 +49,14 @@
 	{% if isLoggedIn %}
 
 	<div class="col-md-12">
-	  <h2>Profile</h2>
+	  <h2><b>Profile</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/profile/{{ username }}" role="button">Profile</a>
 	  </p>
 	</div>
 
 	<div class="col-md-12">
-	  <h2>Log Out</h2>
+	  <h2><b>Log Out</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/logout" role="button">Log Out</a>
 	  </p>
@@ -65,14 +65,14 @@
 	{% else %}
 	
 	<div class="col-md-12">
-	  <h2>Sign Up</h2>
+	  <h2><b>Sign Up</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/register" role="button">Sign Up</a>
 	  </p>
 	</div>
 
 	<div class="col-md-12">
-	  <h2>Log In</h2>
+	  <h2><b>Log In</b></h2>
 	  <p>
 	    <a class="btn btn-primary" href="/login" role="button">Log In</a>
 	  </p>

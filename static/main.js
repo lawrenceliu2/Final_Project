@@ -357,5 +357,6 @@ var init = function() {
     hueBarInit();
     sizeBarInit();
     bindMiscEvents();
+    dispInfobar("ayy lmao");
     //initPlayerList();
 };

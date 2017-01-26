@@ -18,16 +18,16 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
   </head>
-    <title>Available Rooms</title>
-  </head>
+  <title>Available Rooms</title>
+</head>
 
 <body>
   
-    <div class="jumbotron">
-  <div class="container">
-    <h1>Available Rooms</h1>
-      </div>
-      </div>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Available Rooms</h1>
+    </div>
+  </div>
   <div class="container">
     <table class="table table-striped table-bordered">
       <tr>
@@ -35,30 +35,23 @@
         <th>Number of Players</th>
       </tr>
       {% if tabledict|length > 0 %}
-      {% for i in tabledict|sort(attribute="size") %}
-      {% set value=i.size %}
-      {% set key=i.name %}
-          <tr>
-            <td>{% if value|int < 5 %}<a href="/play/{{key}}">{{key}}</a>{% else %}{{key}}<span style="float: right">FULL</span>{% endif %}</td>
-            <td>{{value}}</td>
-          </tr>
-        {% endfor %}
-      {% endif %}
-    </table>
-      </div>
+	{% for i in tabledict|sort(attribute="size") %}
+	{% set value=i.size %}
+	{% set key=i.name %}
+    <tr>
+      <td>{% if value|int < 5 %}<a href="/play/{{key}}">{{key}}</a>{% else %}{{key}}<span style="float: right">FULL</span>{% endif %}</td>
+			    <td>{{value}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+</table>
 
-    <p>
-      <form action="/mkroom">
-	<input type="text" placeholder="Room Name" name="rname">
-	<input type="submit" value="Make a Room">
-      </form>
-      <button onclick="window.location=window.location;">Refresh</button>
-    </p>
-
-    <p>
-      <a href="/">Home</a>
-    </p>
-    
-  </body>
-
+  <a href="/"><input class="btn btn-primary pull-left" type="button" value="Home"></a>
+<form class="form-inline pull-right" action="/mkroom">
+  <input class="form-control" type="text" placeholder="Room Name" name="rname">
+  <input class="btn btn-primary" type="submit" value="Make a Room">
+  <input  class="btn btn-primary" type="button" onclick="window.location=window.location;" value="Refresh">
+</form>
+</div>
+</body>
 </html>

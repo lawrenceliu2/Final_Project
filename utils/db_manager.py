@@ -409,8 +409,6 @@ def checkGotWord (roomname):
             return True
     return False
 
-print checkGotWord("test")
-
 #Sets everyone's gotWord to 0, start of new round
 def resetGuesses (roomname):
     db = sqlite3.connect("data/dbsm.db")

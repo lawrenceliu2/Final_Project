@@ -7,4 +7,4 @@ Packages:
   * `pip install eventlet`
 
 To Launch:  
--Simply run `python app.py`
+-Simply run `python app.py` and go to the loopback address in your browser.

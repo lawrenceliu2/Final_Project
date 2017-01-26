@@ -127,7 +127,9 @@ def rooms():
 @app.route("/mkroom", methods=["POST","GET"])
 
 def mkroom():
-    rmname = "room_" + os.urandom(5).encode("hex")
+    rmname = request.form["rname"]
+    if (rmname == ""):
+        rmname = "room_" + os.urandom(5).encode("hex")
     if ("user" in session):
         if makeRoom(rmname, session["user"]):
             return redirect("/play/"+rmname)

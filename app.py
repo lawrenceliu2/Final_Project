@@ -124,10 +124,10 @@ def rooms():
     return render_template("rooms.html", tabledict=rooms)
 
 #------------------------------
-@app.route("/mkroom", methods=["POST","GET"])
+@app.route("/mkroom", methods=["GET"])
 
 def mkroom():
-    rmname = request.form["rname"]
+    rmname = request.args.get("rname")
     if (rmname == ""):
         rmname = "room_" + os.urandom(5).encode("hex")
     if ("user" in session):

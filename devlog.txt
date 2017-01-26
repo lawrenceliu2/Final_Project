@@ -183,3 +183,6 @@ Added data to profile page and improved bootstrap of instructions page
 
 lawrenceL -- 2017-01-25 22:56
 Removed some hard to draw words from database and created method checkGotWord to help with when to cycle turns
+
+julianA -- 2017-01-26 00:21
+Implemented groundwork for turns

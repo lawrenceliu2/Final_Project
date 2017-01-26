@@ -279,9 +279,10 @@ var pulseIndicator = function(str,ms) {
     setTimeout(function(){ind.style.opacity="0";}, ms);
 };
 
-var dispInfobar = function(str) {
+var initInfobar = function(str,timer) {
     var bar = document.getElementById("top-info-bar");
     var txt = document.getElementById("indicator-text-2");
+    var timer = document.getElementById("timer");
     if (str) {
 	bar.style.top = "0";
 	bar.style.opacity = "1";
@@ -289,8 +290,13 @@ var dispInfobar = function(str) {
     }
     else {
 	bar.style.opacity = "0";
-	bar.style.top = "0";
-    }  
+	bar.style.top = "-75px";
+    }
+
+    if (timer == true)
+	timer.style.display = "block";
+    else
+	timer.style.display = "none"; 
 };
 
 var hueBarInit = function() {

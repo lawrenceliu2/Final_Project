@@ -221,7 +221,7 @@ var bindMiscEvents = function() {
     var hueCanv = document.getElementById("hue-canv");
     var pickColor = function(e) {
 	hueBarInit();
-	var offset = bar.offsetLeft+hueCanv.offsetLeft+2;//parseInt(bar.offsetLeft,10) + parseInt(hueCanv.offsetLeft,10);
+	var offset = bar.offsetLeft+hueCanv.offsetLeft+4;//parseInt(bar.offsetLeft,10) + parseInt(hueCanv.offsetLeft,10);
 	var n = (Math.min(Math.max(e.clientX,offset),offset+200) - offset);
 	var ctx = hueCanv.getContext("2d");
 	var data = ctx.getImageData(n,0,1,1).data;
@@ -244,7 +244,7 @@ var bindMiscEvents = function() {
     var sizeCanv = document.getElementById("size-canv");
     var pickSize = function(e) {
 	sizeBarInit();
-	var offset = bar.offsetLeft+sizeCanv.offsetLeft+3;
+	var offset = bar.offsetLeft+sizeCanv.offsetLeft+4;
 	var n = (Math.min(Math.max(e.clientX,offset),offset+150) - offset);
 	var ctx = sizeCanv.getContext("2d");
 	ctx.fillStyle = "#333";

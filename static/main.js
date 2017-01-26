@@ -108,6 +108,13 @@ var SockMan = {
 	    players = data;
 	    initPlayerList();
 	});
+	SockMan.socket.on("end", function(data) {
+	    startTimer(-1);
+	    initInfobar("<center>"+data+"</center>",false);
+	    setTimeout(function() {
+		window.location = "/rooms";
+	    }, 7000);
+	});
     },
 };
 
@@ -372,6 +379,10 @@ var hueBarInit = function() {
 var startTimer = function(i) {
     var timer = document.getElementById("timer");
     this.i = i;
+    if (i<0) {
+	clearInterval(iid);
+	return;
+    }
     var f = function() {
 	if (--i < 0) {
 	    clearInterval(iid);

@@ -98,7 +98,16 @@ def logout():
 
 def profile(username):
     if ("verified" in session and "user" in session):
-        return render_template("profile.html", user=username)
+        wins = getWins(username)
+        games = getGamesPlayed(username)
+        rate = getWinrate(username)
+        if (rate == -1):
+            rate = "No games played."
+        else:
+            rate = str(rate * 100) + "%"
+        if (username == session["user"]):
+            return render_template("profile.html", user=username, isSame=True, wins=wins, games=games, rate=rate)
+        return render_template("profile.html", user=username, isSame=False, wins=wins, games=games, rate=rate)
     return redirect("/login")
 
 #------------------------------

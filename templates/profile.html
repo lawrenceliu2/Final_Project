@@ -6,11 +6,36 @@
   </head>
 
   <body>
+    {% if isSame %}
+    <h1>My Profile</h1>
+    
+    {% else %}
     <h1>{{user}}'s Profile</h1>
-    <br>
-    <a href="/logout">Log Out</a>
-    <br>
-    <a href="/">Go HOMERRINO</a>
+    
+    {% endif %}
+
+    <p>
+      <h2>Wins:</h2>
+      {{ wins }}
+    </p>
+
+    <p>
+      <h2>Games:</h2>
+      {{ games }}
+    </p>
+
+    <p>
+      <h2>Win Rate:</h2>
+      {{ rate }}
+    </p>
+        
+    <p>
+      <a href="/logout">Log Out</a>
+    </p>
+    
+    <p>
+      <a href="/">Back Home</a>
+    </p>
   </body>
 
 </html>

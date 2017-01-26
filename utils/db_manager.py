@@ -310,6 +310,8 @@ def removePlayer (roomname, username):
     for num in range(0,numUsers+1):
         if username == str(users[num]):
             remove = num + 1
+    if remove == 0:
+        return False
     q = "UPDATE rooms SET userNum = %s WHERE roomName = \"%s\";" % (numUsers, roomname)
     rooms.execute(q)
     q = "UPDATE rooms SET user%s = \"\" WHERE roomName = \"%s\";" %(remove, roomname)

@@ -147,16 +147,19 @@ def mkroom():
 @app.route("/leave")
 
 def leave():
-    if ("user" in session):
-        socket.emit("departure",session["user"],room=session["room"])
-        if (removePlayer(session["room"], session["user"])):
-            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
-                changeTurn(session["room"])
-                init_game(session["room"])
-            session.pop("room")
-            return redirect(url_for("rooms"))
+    #if ("user" in session):
+    #    socket.emit("departure",session["user"],room=session["room"])
+    #if (removePlayer(session["room"], session["user"])):
+    #if (session["user"]):
+    #        if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
+     #           changeTurn(session["room"])
+      #          init_game(session["room"])
+      #      session.pop("room")
+    if "room" in session:
+        session.pop("room")
+    return redirect(url_for("rooms"))
     #return redirect(url_for("play",roomname=session["room"]))
-    return redirect(url_for("root"))
+    #return redirect(url_for("root"))
 
 #------------------------------
 @socket.on("disconnect")

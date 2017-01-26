@@ -17,6 +17,7 @@ var SockMan = {
 	    document.getElementById("chat-display").appendChild(elem);
 	});
 	SockMan.socket.on("clear",function(data) {
+	    Canvas.ctx.closePath();
 	    Canvas.ctx.clearRect(0,0,1000,800);
 	});
 	SockMan.socket.on("init",function(data) {
@@ -35,7 +36,7 @@ var SockMan = {
 		    //startTimer(60);
 		}
 		else
-		    initInfobar(data.user+" is drawing.",true);
+		    initInfobar(CUR_TURN+" is drawing.",true);
 		console.log("turn changed");
 	    }
 	    /*if (players.length < 2)
@@ -62,7 +63,7 @@ var SockMan = {
 		    startTimer(60);
 		}
 		else
-		    initInfobar(data.user+" is drawing.",true);
+		    initInfobar(CUR_TURN+" is drawing.",true);
 		console.log("turn changed");
 	    }
 	});
@@ -73,7 +74,8 @@ var SockMan = {
 	    var elem = document.createElement("p");
 	    elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
 	    document.getElementById("chat-display").appendChild(elem);
-	    players.push(data);
+	    if (players.indexOf(data) <= -1)
+		players.push(data);
 	    
 	    var list = document.getElementById("player-list");
 	    var li = document.createElement("li");
@@ -94,7 +96,10 @@ var SockMan = {
 	    pulseIndicator("The word was "+data,7000);
 	});
 	SockMan.socket.on("timecheck",function(data) {
-	    document.getElementById("timer").innerHTML = data;
+	    var timerElem = document.getElementById("timer");
+	    timerElem.innerHTML = data;
+	    if (data < 10)
+		timerElem.style.color = (data%2==0) ? "#ffffff" : "#e53b44";
 	});
     },
 };
@@ -249,7 +254,7 @@ var bindMiscEvents = function() {
     });
     board.addEventListener("click",function() {
 	SockMan.socket.emit("clear");
-	Canvas.ctx.clearRect(0,0,1000,800);
+	//Canvas.ctx.clearRect(0,0,1000,800);
     });
 
     var hueCanv = document.getElementById("hue-canv");
@@ -360,6 +365,7 @@ var startTimer = function(i) {
 	    clearInterval(iid);
 	    if (FlagCheck.checkTurn()) {
 		SockMan.socket.emit("cycleturn");
+		SockMan.socket.emit("clear");
 	    }
 	}
 	else {

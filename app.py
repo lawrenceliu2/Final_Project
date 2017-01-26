@@ -194,7 +194,7 @@ def draw(data):
 
 @socket.on("clear")
 def clear():
-    socket.emit("clear",data,room=session["room"])
+    socket.emit("clear",room=session["room"])
     
 @socket.on("turnreq")
 def turnCheck():
@@ -218,9 +218,9 @@ def cycleTurn():
     print "turn cycled"
     word = getCurrentWord(session["room"])
     changeTurn(session["room"])
-    clear(None)
+    #clear(None)
     socket.emit("pulseWord",word,room=session["room"])
-    socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"])})
+    socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"]),"numplayers":len(getUsersInRoom(session["room"]))})
 
 @socket.on("wordconf")
 def conf_word():

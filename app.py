@@ -272,5 +272,5 @@ def init_game(roomname):
     
 
 if (__name__ == '__main__'):
-    app.debug = True
+    app.debug = False
     socket.run(app)

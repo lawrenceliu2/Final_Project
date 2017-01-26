@@ -261,8 +261,10 @@ def timeUpdate(data):
 
 #------------------------------
 def init_game(roomname):
-    resetGuesses(session["room"])
     changeTurn(session["room"])
+    if (getRoundNum() > (2*len(getPlayersInRoom(session["room"])))):
+        socket.emit("end",getWinner(session["room"]))
+        
     socket.emit("startNewTurn",{"user":getCurrentUser(roomname),"word":getCurrentWord(roomname),"numplayers":len(getUsersInRoom(roomname))},room=roomname)
     
 

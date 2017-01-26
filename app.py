@@ -94,19 +94,23 @@ def logout():
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
-@app.route("/profile")
+@app.route("/profile/<username>")
 
-def profile():
-    if ("verified" in session and "user" in session):
-        user = session["user"]
-        wins = getWins(user)
-        games = getGamesPlayed(user)
-        rate = getWinrate(user)
+def profile(username):
+    if ("user" in session):
+        if (nameAvail(username)):
+            return render_template("profile.html", isGuest=True)
+        wins = getWins(username)
+        games = getGamesPlayed(username)
+        rate = getWinrate(username)
         if (rate == -1):
             rate = "No games played."
         else:
             rate = str(rate * 100) + "%"
-        return render_template("profile.html", wins=wins, games=games, rate=rate)
+        if (username == session["user"]):
+            return render_template("profile.html", user=username, isUser=True, wins=wins, games=games, rate=rate)
+        else:
+            return render_template("profile.html", user=username, wins=wins, games=games, rate=rate)
     return redirect("/login")
 
 #------------------------------

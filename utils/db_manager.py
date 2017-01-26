@@ -458,3 +458,13 @@ def checkGotWord (roomname):
         if scores.fetchall()[0][0] == 1:
             return True
     return False
+
+def checkPlayerGotWord(roomname,user):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+    q = "SELECT gotWord FROM score WHERE username = \"%s\";" % (user)
+    scores.execute(q)
+    if scores.fetchall()[0][0] == 1:
+        return True
+    return False
+    

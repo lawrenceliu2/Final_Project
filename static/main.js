@@ -71,9 +71,9 @@ var SockMan = {
 	    FlagCheck.updateStatus();
 	});
 	SockMan.socket.on("entry",function(data) {
-	    //var elem = document.createElement("p");
-	    //elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
-	    //document.getElementById("chat-display").appendChild(elem);
+	    var elem = document.createElement("p");
+	    elem.innerHTML = "<i><b>"+data.name+"</b> has entered the room.</i>";
+	    document.getElementById("chat-display").appendChild(elem);
 	    var names = [];
 	    for (i in players)
 		names[i] = players[i].name;
@@ -245,7 +245,10 @@ var bindMiscEvents = function() {
     field.addEventListener("keypress", function(e) {
 	if (e.which == 13 && !e.shiftKey && field.value != "") {
 	    var data = {user:USERNAME,msg:field.value};
-	    SockMan.socket.emit("message",data);
+	    SockMan.socket.emit("message",data,function(ret) {
+		if (ret)
+		    initInfobar("You got it! The word was "+CUR_WORD+".",true);
+	    });
 	    field.value = "";
 	    var elem = document.createElement("p");
 	    elem.style.color = "#4286f4";

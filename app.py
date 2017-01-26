@@ -172,7 +172,6 @@ def notifDisc():
         socket.emit("departure",session["user"],room=session["room"])
         if (removePlayer(session["room"], session["user"])):
             if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
-                changeTurn(session["room"])
                 init_game(session["room"])
             session.pop("room")
 
@@ -195,19 +194,22 @@ def initUser():
 @socket.on("message")
 def message(data):
     word = getCurrentWord(session["room"])
-    print word
+    ret = False
     if (word):
         if word.lower() in data["msg"].lower():
             if (session["user"] != getCurrentUser(session["room"])):
                 if (checkGotWord(session["room"])):
-                    gotWord(session["user"],1)
+                    if not checkPlayerGotWord(session["room"],session["user"]):
+                        gotWord(session["user"],1)
                 else:
             	    gotWord(session["user"],3)
                     gotWord(getCurrentUser(session["room"]),2)
+                ret = True
                 socket.emit("playerUpdate",getPlayers());
             data["msg"] = data["msg"].replace(word,"****")
             #emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
+    return ret
         
 #print "received message from client: "+msg
 
@@ -242,10 +244,11 @@ def turnConf(data):
 def cycleTurn():
     print "turn cycled"
     word = getCurrentWord(session["room"])
-    changeTurn(session["room"])
+    #changeTurn(session["room"])
     #clear(None)
+    init_game(session["room"])
     socket.emit("pulseWord",word,room=session["room"])
-    socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"]),"numplayers":len(getUsersInRoom(session["room"]))})
+    #socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"]),"numplayers":len(getUsersInRoom(session["room"]))})
 
 @socket.on("wordconf")
 def conf_word():
@@ -258,6 +261,8 @@ def timeUpdate(data):
 
 #------------------------------
 def init_game(roomname):
+    resetGuesses(session["room"])
+    changeTurn(session["room"])
     socket.emit("startNewTurn",{"user":getCurrentUser(roomname),"word":getCurrentWord(roomname),"numplayers":len(getUsersInRoom(roomname))},room=roomname)
     
 

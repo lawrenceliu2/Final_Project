@@ -2,6 +2,6 @@
 
 Packages:
 * socketio
-* - pip install flask_socketio
+  * `pip install flask_socketio`
 * eventlet
-* - pip install eventlet
+  * `pip install eventlet`

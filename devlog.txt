@@ -171,3 +171,6 @@ Fixed bug with removePlayer, removePlayer can now remove that last person in the
 
 lawrenceL -- 2017-01-25 18:53
 New score table to keep track of points and all, new integration into addPlayer and removePlayer to add/remove them from the score table, methods to declare winner, acknowledge correct guesses, and clear guesses
+
+fortuneS -- 2017-01-25 19:21
+Added score table to database schema in design doc

@@ -124,7 +124,7 @@ def rooms():
     return render_template("rooms.html", tabledict=rooms)
 
 #------------------------------
-@app.route("/mkroom")
+@app.route("/mkroom", methods=["POST","GET"])
 
 def mkroom():
     rmname = "room_" + os.urandom(5).encode("hex")

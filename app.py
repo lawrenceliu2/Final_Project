@@ -94,23 +94,19 @@ def logout():
     return render_template("login.html", msg="You have been logged out. Log back in here:")
 
 #------------------------------
-@app.route("/profile/<username>")
+@app.route("/profile")
 
-def profile(username):
-    if ("user" in session):
-        if (nameAvail(username)):
-            return render_template("profile.html", isGuest=True)
-        wins = getWins(username)
-        games = getGamesPlayed(username)
-        rate = getWinrate(username)
+def profile():
+    if ("verified" in session and "user" in session):
+        user = session["user"]
+        wins = getWins(user)
+        games = getGamesPlayed(user)
+        rate = getWinrate(user)
         if (rate == -1):
             rate = "No games played."
         else:
             rate = str(rate * 100) + "%"
-        if (username == session["user"]):
-            return render_template("profile.html", user=username, isUser=True, wins=wins, games=games, rate=rate)
-        else:
-            return render_template("profile.html", user=username, wins=wins, games=games, rate=rate)
+        return render_template("profile.html", wins=wins, games=games, rate=rate)
     return redirect("/login")
 
 #------------------------------
@@ -184,9 +180,8 @@ def message(data):
     print word
     if (word):
         if word.lower() in data["msg"].lower():
-            if (data["user"] == getCurrentUser(session["room"])): 
-                data["msg"] = data["msg"].replace(word,"****")
-                emit("gotWord");
+            data["msg"] = data["msg"].replace(word,"****")
+            emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg
@@ -198,8 +193,8 @@ def draw(data):
     socket.emit("buf",data,include_self=False,room=session["room"])
 
 @socket.on("clear")
-def clear(data):
-    socket.emit("clear",data,include_self=False,room=session["room"])
+def clear():
+    socket.emit("clear",data,room=session["room"])
     
 @socket.on("turnreq")
 def turnCheck():
@@ -223,6 +218,7 @@ def cycleTurn():
     print "turn cycled"
     word = getCurrentWord(session["room"])
     changeTurn(session["room"])
+    clear(None)
     socket.emit("pulseWord",word,room=session["room"])
     socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"])})
 

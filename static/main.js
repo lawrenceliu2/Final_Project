@@ -248,7 +248,7 @@ var bindMiscEvents = function() {
 	this.innerHTML = "[X]";
     });
     board.addEventListener("click",function() {
-	SockMan.socket.emit("clear",{hey:"hey"});
+	SockMan.socket.emit("clear");
 	Canvas.ctx.clearRect(0,0,1000,800);
     });
 

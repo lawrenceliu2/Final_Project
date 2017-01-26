@@ -396,6 +396,21 @@ def gotWord (username, points):
     db.commit()
     return True
 
+#Checks if anyone guessed the word correctly
+def checkGotWord (roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    scores = db.cursor()
+
+    users = getUsersInRoom(roomname)
+    for user in users:
+        q = "SELECT gotWord FROM score WHERE username = \"%s\";" % (user)
+        scores.execute(q)
+        if scores.fetchall()[0][0] == 1:
+            return True
+    return False
+
+print checkGotWord("test")
+
 #Sets everyone's gotWord to 0, start of new round
 def resetGuesses (roomname):
     db = sqlite3.connect("data/dbsm.db")

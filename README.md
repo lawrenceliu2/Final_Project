@@ -5,3 +5,6 @@ Packages:
   * `pip install flask_socketio`
 * eventlet
   * `pip install eventlet`
+
+To Launch:
+ Simply run `python app.py`

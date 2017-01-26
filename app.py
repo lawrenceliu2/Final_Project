@@ -159,11 +159,15 @@ def leave():
     return redirect(url_for("root"))
 
 #------------------------------
-#@socket.on("disconnect")
-#def notifDisc():
-    #if ("user" in session):
-     #   if (removePlayer(session["room"], session["user"])):
-        #    session.pop("room")
+@socket.on("disconnect")
+def notifDisc():
+    if ("user" in session):
+        socket.emit("departure",session["user"],room=session["room"])
+        if (removePlayer(session["room"], session["user"])):
+            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
+                changeTurn(session["room"])
+                init_game(session["room"])
+            session.pop("room")
 
 @socket.on("join")#, namespace="/play")
 def initUser():

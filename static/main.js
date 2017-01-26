@@ -76,14 +76,14 @@ var SockMan = {
 	    document.getElementById("chat-display").appendChild(elem);
 	    if (players.indexOf(data) <= -1)
 		players.push(data);
-	    
-	    var list = document.getElementById("player-list");
-	    var li = document.createElement("li");
-	    li.className = "player-item";
+	    //var list = document.getElementById("player-list");
+	    //var li = document.createElement("li");
+	    //li.className = "player-item";
 	    //var span = document.createElement("span");
 	    //span.addClass("player-item-span");
-	    li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+data+'">'+data+"</a></span>");
-	    list.appendChild(li);
+	    //li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+data+'">'+data+"</a></span>");
+	    //list.appendChild(li);
+	    initPlayerList();
 	});
 	SockMan.socket.on("departure",function(data) {
 	    var elem = document.createElement("p");

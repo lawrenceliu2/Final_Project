@@ -151,16 +151,19 @@ def mkroom():
 @app.route("/leave")
 
 def leave():
-    if ("user" in session):
-        socket.emit("departure",session["user"],room=session["room"])
-        if (removePlayer(session["room"], session["user"])):
-            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
-                changeTurn(session["room"])
-                init_game(session["room"])
-            session.pop("room")
-            return redirect(url_for("rooms"))
+    #if ("user" in session):
+    #    socket.emit("departure",session["user"],room=session["room"])
+    #if (removePlayer(session["room"], session["user"])):
+    #if (session["user"]):
+    #        if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
+     #           changeTurn(session["room"])
+      #          init_game(session["room"])
+      #      session.pop("room")
+    if "room" in session:
+        session.pop("room")
+    return redirect(url_for("rooms"))
     #return redirect(url_for("play",roomname=session["room"]))
-    return redirect(url_for("root"))
+    #return redirect(url_for("root"))
 
 #------------------------------
 @socket.on("disconnect")
@@ -189,7 +192,7 @@ def message(data):
     if (word):
         if word.lower() in data["msg"].lower():
             data["msg"] = data["msg"].replace(word,"****")
-            emit("gotWord");
+            #emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg

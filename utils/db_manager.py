@@ -298,8 +298,8 @@ def removePlayer (roomname, username):
     users = getUsersInRoom(roomname)
     remove = 0
     current = getCurrentUser(roomname)
-    if str(current) == username:
-        changeTurn(roomname)
+    #if str(current) == username:
+     #   changeTurn(roomname)
     q = "SELECT userNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
     numUsers = rooms.fetchall()[0][0]
@@ -395,19 +395,6 @@ def gotWord (username, points):
     scores.execute(q)
     db.commit()
     return True
-
-#Checks if anyone guessed the word correctly
-def checkGotWord (roomname):
-    db = sqlite3.connect("data/dbsm.db")
-    scores = db.cursor()
-
-    users = getUsersInRoom(roomname)
-    for user in users:
-        q = "SELECT gotWord FROM score WHERE username = \"%s\";" % (user)
-        scores.execute(q)
-        if scores.fetchall()[0][0] == 1:
-            return True
-    return False
 
 #Sets everyone's gotWord to 0, start of new round
 def resetGuesses (roomname):

@@ -32,7 +32,7 @@ var SockMan = {
 	    else {
 		if (FlagCheck.updateTurn()) {
 		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
-		    startTimer(60);
+		    //startTimer(60);
 		}
 		else
 		    initInfobar(data.user+" is drawing.",true);
@@ -54,9 +54,9 @@ var SockMan = {
 	    CUR_WORD = data.word;
 	    console.log(FlagCheck.updateTurn());
 	    console.log(players);
-	    //if (players.length < 2)
-	//	initInfobar("Waiting for one more player...",false);
-	    //else {
+	    if (data.numplayers < 2)
+		initInfobar("Waiting for one more player...",false);
+	    else {
 		if (FlagCheck.updateTurn()) {
 		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
 		    startTimer(60);
@@ -64,7 +64,7 @@ var SockMan = {
 		else
 		    initInfobar(data.user+" is drawing.",true);
 		console.log("turn changed");
-	    //}
+	    }
 	});
 	SockMan.socket.on("gotWord",function(data) {
 	    FlagCheck.updateStatus();

@@ -177,3 +177,6 @@ Added score table to database schema in design doc
 
 julianA -- 2017-01-26 00:21
 Implemented groundwork for turns
+
+julianA -- 2017-01-26 00:54
+Improved turn mechanism

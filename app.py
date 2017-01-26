@@ -172,14 +172,21 @@ def notifDisc():
                 init_game(session["room"])
             session.pop("room")
 
+def getPlayers():
+    users = getUsersInRoom(session["room"])
+    players = []
+    for player in users:
+        players.append({"name": player,"score": getScore(player)})
+    return players
+
 @socket.on("join")#, namespace="/play")
 def initUser():
     if ("user" not in session):
         tempname = "Guest_"+os.urandom(5).encode("hex")
         session["user"] = tempname
-    emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"]),"players":getUsersInRoom(session["room"])})
+    emit("init",{"user":session["user"],"room":session["room"],"word":getCurrentWord(session["room"]),"turn":getCurrentUser(session["room"]),"players":getPlayers()})
     join_room(session["room"])
-    socket.emit("entry",session["user"],room=session["room"],include_self=False)
+    socket.emit("entry",{"name":session["user"],"score":getScore(session["user"])},room=session["room"],include_self=False)
     
 @socket.on("message")
 def message(data):
@@ -187,6 +194,13 @@ def message(data):
     print word
     if (word):
         if word.lower() in data["msg"].lower():
+            if (session["user"] != getCurrentUser(session["room"])):
+                if (checkGotWord(session["room"])):
+                    gotWord(session["user"],1)
+                else:
+            	    gotWord(session["user"],3)
+                    gotWord(getCurrentUser(session["room"]),2)
+                socket.emit("playerUpdate",getPlayers());
             data["msg"] = data["msg"].replace(word,"****")
             #emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])

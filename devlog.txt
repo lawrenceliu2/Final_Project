@@ -192,3 +192,6 @@ Improved turn mechanism
 
 julianA -- 2017-01-26 01:55
 Fixed turn rotation
+
+julianA -- 2017-01-26 02:59
+Began implementation of scores

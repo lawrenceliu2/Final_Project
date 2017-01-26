@@ -71,10 +71,13 @@ var SockMan = {
 	    FlagCheck.updateStatus();
 	});
 	SockMan.socket.on("entry",function(data) {
-	    var elem = document.createElement("p");
-	    elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
-	    document.getElementById("chat-display").appendChild(elem);
-	    if (players.indexOf(data) <= -1)
+	    //var elem = document.createElement("p");
+	    //elem.innerHTML = "<i><b>"+data+"</b> has entered the room.</i>";
+	    //document.getElementById("chat-display").appendChild(elem);
+	    var names = [];
+	    for (i in players)
+		names[i] = players[i].name;
+	    if (names.indexOf(data.name) <= -1)
 		players.push(data);
 	    //var list = document.getElementById("player-list");
 	    //var li = document.createElement("li");
@@ -100,6 +103,10 @@ var SockMan = {
 	    timerElem.innerHTML = data;
 	    if (data < 10)
 		timerElem.style.color = (data%2==0) ? "#ffffff" : "#e53b44";
+	});
+	SockMan.socket.on("playerUpdate", function(data) {
+	    players = data;
+	    initPlayerList();
 	});
     },
 };
@@ -224,7 +231,9 @@ var initPlayerList = function() {
 	li.className = "player-item";
 	//var span = document.createElement("span");
 	//span.addClass("player-item-span");
-	li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+players[i]+'">'+players[i]+"</a></span>");
+	var name = players[i].name;
+	var score = players[i].score;
+	li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+name+'">'+name+"</a></span><span class='player-item-span' style='float: right;'>"+score+"</span>");
 	list.appendChild(li);
 	//console.log("added "+players[i]+": "+li.innerHTML);
     }

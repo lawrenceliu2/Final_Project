@@ -198,8 +198,11 @@ def getCurrentUser (roomname):
 
     q = "SELECT currentTurn FROM rooms WHERE roomName = \"%s\";" % (roomname)
     rooms.execute(q)
-    q = rooms.fetchall()[0][0]
-    return q
+    q = rooms.fetchall()
+    if (len(q) > 0):
+        return q[0][0]
+    else:
+        return q
 
 def getRoundNum(roomname):
     db = sqlite3.connect("data/dbsm.db")

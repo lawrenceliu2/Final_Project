@@ -201,6 +201,14 @@ def getCurrentUser (roomname):
     q = rooms.fetchall()[0][0]
     return q
 
+def getRoundNum(roomname):
+    db = sqlite3.connect("data/dbsm.db")
+    rooms = db.cursor()
+
+    q = "SELECT roundNum FROM rooms WHERE roomName = \"%s\";" % (roomname)
+    rooms.execute(q)
+    return rooms.fetchall()[0][0]
+
 #Changes the drawer to next in line and sets a new random word to draw
 def changeTurn (roomname):
     db = sqlite3.connect("data/dbsm.db")
@@ -209,6 +217,11 @@ def changeTurn (roomname):
     users = getUsersInRoom(roomname)
     currentUser = getCurrentUser(roomname)
     nextUser = 0
+    roundNum = getRoundNum(roomname)
+    roundNum += 1
+    q = "UPDATE rooms SET roundNum = %s WHERE roomname = \"%s\";" % (roundNum, roomname,)
+    rooms.execute(q)
+    db.commit()
     for num in range(0, len(users) - 1):
         if users[num] == currentUser:
             if num == len(users) - 1:

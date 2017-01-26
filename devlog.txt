@@ -195,3 +195,6 @@ Fixed turn rotation
 
 julianA -- 2017-01-26 02:59
 Began implementation of scores
+
+fortuneS -- 2017-01-26 03:21
+Added round number to rooms table in database, wrote methods

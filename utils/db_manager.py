@@ -39,6 +39,7 @@ getUsersInRoom ("roomname")
 '''SCORE STUFF
 gotWord ("username", points)
 getScore ("username")
+checkGotWord("roomname")
 getWinner ("roomname")
 '''
 

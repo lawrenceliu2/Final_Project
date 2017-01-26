@@ -103,10 +103,10 @@ removePlayer works as it should. BUG TO BE WORKED ON: if the player who is drawi
 lawrenceL -- 2017-01-23 19:58
 Created getRooms to get a list of currently open/created rooms
 
-chanJ -- 2017-01-24 11:45
+jordanC -- 2017-01-24 11:45
 Finished route and html for available rooms
 
-chanJ -- 2017-01-24 17:40
+jordanC -- 2017-01-24 17:40
 Finished route for leaving rooms
 
 lawrenceL -- 2017-01-24 18:05
@@ -127,7 +127,7 @@ Wrote instructions.html
 lawrenceL -- 2017-01-24 21:00
 Fixed the bug where if you were currently drawing and left your username would still be recognized as the current drawer
 
-chanJ -- 2017-01-24 22:11
+jordanC -- 2017-01-24 22:11
 Added guest user functionality. make rooms and leave rooms BUG from databases
 
 julianA -- 2017-01-24 22:30
@@ -169,8 +169,17 @@ Creating a room now adds a new word to draw
 lawrenceL -- 2017-01-25 16:37
 Fixed bug with removePlayer, removePlayer can now remove that last person in the room
 
+julianA -- 2017-01-25 18:48
+Various fixes, including player list, homepage styling, links, etc
+
 lawrenceL -- 2017-01-25 18:53
 New score table to keep track of points and all, new integration into addPlayer and removePlayer to add/remove them from the score table, methods to declare winner, acknowledge correct guesses, and clear guesses
 
 fortuneS -- 2017-01-25 19:21
 Added score table to database schema in design doc
+
+jordanC -- 2017-01-25 20:51
+Added data to profile page and improved bootstrap of instructions page
+
+lawrenceL -- 2017-01-25 22:56
+Removed some hard to draw words from database and created method checkGotWord to help with when to cycle turns

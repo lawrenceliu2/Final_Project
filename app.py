@@ -152,15 +152,16 @@ def mkroom():
 
 def leave():
     #if ("user" in session):
-    #    socket.emit("departure",session["user"],room=session["room"])
-    #if (removePlayer(session["room"], session["user"])):
-    #if (session["user"]):
-    #        if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
-     #           changeTurn(session["room"])
-      #          init_game(session["room"])
-      #      session.pop("room")
+        #socket.emit("departure",session["user"],room=session["room"])
+    if (removePlayer(session["room"], session["user"])):
+        if (session["user"]):
+            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
+                changeTurn(session["room"])
+                init_game(session["room"])
+            session.pop("room")
     if "room" in session:
         session.pop("room")
+    #if "user" in 
     return redirect(url_for("rooms"))
     #return redirect(url_for("play",roomname=session["room"]))
     #return redirect(url_for("root"))
@@ -170,10 +171,10 @@ def leave():
 def notifDisc():
     if ("user" in session):
         socket.emit("departure",session["user"],room=session["room"])
-        if (removePlayer(session["room"], session["user"])):
-            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
-                init_game(session["room"])
-            session.pop("room")
+#        if (removePlayer(session["room"], session["user"])):
+#            if ( session["room"] and (session["room"] in getRooms(True)) and (session["user"] == getCurrentUser(session["room"])) ):
+#                init_game(session["room"])
+#            session.pop("room")
 
 def getPlayers():
     users = getUsersInRoom(session["room"])
@@ -256,13 +257,15 @@ def conf_word():
 
 @socket.on("timeupdate")
 def timeUpdate(data):
+    print data
     socket.emit("timecheck",data,include_self=False);
 
 
 #------------------------------
 def init_game(roomname):
     changeTurn(session["room"])
-    if (getRoundNum() > (2*len(getPlayersInRoom(session["room"])))):
+    print getRoundNum(session["room"])
+    if (getRoundNum(session["room"]) > 5):#(2*len(getUsersInRoom(session["room"])))):
         socket.emit("end",getWinner(session["room"]))
         
     socket.emit("startNewTurn",{"user":getCurrentUser(roomname),"word":getCurrentWord(roomname),"numplayers":len(getUsersInRoom(roomname))},room=roomname)

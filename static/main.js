@@ -21,7 +21,7 @@ var SockMan = {
 	    Canvas.ctx.clearRect(0,0,1000,800);
 	});
 	SockMan.socket.on("init",function(data) {
-	    console.log(data);
+	    //console.log(data);
 	    USERNAME = data.user;
 	    ROOMNAME = data.room;
 	    CUR_TURN = data.turn;
@@ -33,7 +33,7 @@ var SockMan = {
 	    else {
 		if (FlagCheck.updateTurn()) {
 		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
-		    //startTimer(60);
+		    startTimer(60);
 		}
 		else
 		    initInfobar(CUR_TURN+" is drawing.",true);
@@ -60,6 +60,7 @@ var SockMan = {
 	    else {
 		if (FlagCheck.updateTurn()) {
 		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
+		    console.log("timer started");
 		    startTimer(60);
 		}
 		else
@@ -384,6 +385,7 @@ var startTimer = function(i) {
 	return;
     }
     var f = function() {
+	console.log("f'ed");
 	if (--i < 0) {
 	    clearInterval(iid);
 	    if (FlagCheck.checkTurn()) {

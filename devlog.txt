@@ -201,3 +201,6 @@ Added round number to rooms table in database, wrote methods
 
 julianA -- 2017-01-26 04:12
 Finished turn mechanism
+
+fortuneS -- 2017-01-26 5:08
+Pushed final error fixes

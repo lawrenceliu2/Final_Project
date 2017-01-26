@@ -32,9 +32,9 @@ def play(roomname):
             session["room"] = roomname
         else:
             if addPlayer(roomname, session["user"]):
-                if (len(getUsersInRoom(roomname)) <= 2):
-                    changeTurn(roomname)
                 session["room"] = roomname
+                if (len(getUsersInRoom(roomname)) == 2):
+                    init_game(roomname)
         return render_template("index.html",roomname=roomname,users=getUsersInRoom(roomname))
     return redirect(url_for("root"))
 
@@ -140,6 +140,7 @@ def mkroom():
 
 def leave():
     if ("user" in session):
+        socket.emit("departure",session["user"],room=session["room"])
         if (removePlayer(session["room"], session["user"])):
             session.pop("room")
             return redirect(url_for("rooms"))
@@ -147,9 +148,11 @@ def leave():
     return redirect(url_for("root"))
 
 #------------------------------
-@socket.on("disconnect")
-def notifDisc():
-    socket.emit("departure",session["user"],room=session["room"])
+#@socket.on("disconnect")
+#def notifDisc():
+    #if ("user" in session):
+     #   if (removePlayer(session["room"], session["user"])):
+        #    session.pop("room")
 
 @socket.on("join")#, namespace="/play")
 def initUser():
@@ -164,30 +167,31 @@ def initUser():
 def message(data):
     word = getCurrentWord(session["room"])
     print word
-    #if word.lower() in data["msg"].lower():
-        #if (data["user"] == getCurrentUser(session["room"])): 
-            #data["msg"] = data["msg"].replace(word,"****")
-        #emit("gotWord");
+    if (word):
+        if word.lower() in data["msg"].lower():
+            if (data["user"] == getCurrentUser(session["room"])): 
+                data["msg"] = data["msg"].replace(word,"****")
+                emit("gotWord");
     socket.emit("chat",data,include_self=False,room=session["room"])
         
 #print "received message from client: "+msg
 
 @socket.on("draw")
 def draw(data):
-    print "hey got draw event, sending Buf"
-    print session["room"]
+    #print "hey got draw event, sending Buf"
+    #print session["room"]
     socket.emit("buf",data,include_self=False,room=session["room"])
 
 @socket.on("clear")
 def clear(data):
     socket.emit("clear",data,include_self=False,room=session["room"])
-
-@socket.on("off")
-def off(data):
-    socket.emit("closepath",null,room=session["room"])
-
+    
 @socket.on("turnreq")
 def turnCheck():
+    #print getUsersInRoom(session["room"])
+    #if getUsersInRoom(session["room"]) <= 1:
+        #print "hey"
+       # return False
     user = getCurrentUser(session["room"])
     #print user
     if user == session["user"]:
@@ -197,16 +201,29 @@ def turnCheck():
 
 @socket.on("turnconf")
 def turnConf(data):
-    socket.emit("startNewTurn",{"user":session["user"],"word":getCurrentWord(session["room"])})
+    socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"])})
 
 @socket.on("cycleturn")
 def cycleTurn():
+    print "turn cycled"
+    word = getCurrentWord(session["room"])
     changeTurn(session["room"])
+    socket.emit("pulseWord",word,room=session["room"])
+    socket.emit("startNewTurn",{"user":getCurrentUser(session["room"]),"word":getCurrentWord(session["room"])})
 
-socket.on("wordconf")
+@socket.on("wordconf")
 def conf_word():
     return True
+
+@socket.on("timeupdate")
+def timeUpdate(data):
+    socket.emit("timecheck",data);
+
+
 #------------------------------
+def init_game(roomname):
+    socket.emit("startNewTurn",{"user":getCurrentUser(roomname),"word":getCurrentWord(roomname)},room=roomname)
+    
 
 if (__name__ == '__main__'):
     app.debug = True

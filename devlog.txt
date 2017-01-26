@@ -174,3 +174,6 @@ New score table to keep track of points and all, new integration into addPlayer 
 
 fortuneS -- 2017-01-25 19:21
 Added score table to database schema in design doc
+
+julianA -- 2017-01-26 00:21
+Implemented groundwork for turns

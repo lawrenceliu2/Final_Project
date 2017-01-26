@@ -27,21 +27,44 @@ var SockMan = {
 	    CUR_WORD = data.word;
 	    players = data.players;
 	    initPlayerList();
-	    FlagCheck.updateTurn();
-	});
-	SockMan.socket.on("turnupdate",function(data) {
-	    //if (data == USERNAME) {
-	    var turn = FlagCheck.updateTurn();
-	    
-	    if (turn) {
-		SockMan.socket.emit("turnconf",turn);
+	    if (players.length < 2)
+		initInfobar("Waiting for one more player...",false);
+	    else {
+		if (FlagCheck.updateTurn()) {
+		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
+		    startTimer(60);
+		}
+		else
+		    initInfobar(data.user+" is drawing.",true);
+		console.log("turn changed");
 	    }
-	    //}
+	    /*if (players.length < 2)
+		initInfobar("Waiting for one more player...",false);
+	    else {
+		if (FlagCheck.updateTurn())
+		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
+		else
+		    //initInfobar(data.turn+" is drawing.",true);
+		    initInfobar("You will join the game after this round.",false);
+	    }*/
+		//startTimer((function() {var timertime;SockMan.socket.emit("getTime",function(time) {timertime=time;});return timertime;})());
 	});
 	SockMan.socket.on("startNewTurn",function(data) {
 	    CUR_TURN = data.user;
 	    CUR_WORD = data.word;
-	    startTimer();
+	    console.log(FlagCheck.updateTurn());
+	    console.log(players);
+	    //if (players.length < 2)
+	//	initInfobar("Waiting for one more player...",false);
+	    //else {
+		if (FlagCheck.updateTurn()) {
+		    initInfobar("Your word is: <center><b>"+data.word+"</b></center>",true);
+		    startTimer(60);
+		}
+		else
+		    initInfobar(data.user+" is drawing.",true);
+		console.log("turn changed");
+	    //}
 	});
 	SockMan.socket.on("gotWord",function(data) {
 	    FlagCheck.updateStatus();
@@ -66,6 +89,12 @@ var SockMan = {
 	    document.getElementById("chat-display").appendChild(elem);
 	    players.splice(players.indexOf(data),1);
 	    initPlayerList();
+	});
+	SockMan.socket.on("pulseWord",function(data) {
+	    pulseIndicator("The word was "+data,7000);
+	});
+	SockMan.socket.on("timecheck",function(data) {
+	    document.getElementById("timer").innerHTML = data;
 	});
     },
 };
@@ -106,22 +135,24 @@ var Canvas = {
       	    Canvas.ctx.stroke();
         };	
       	Canvas.canv.addEventListener("mousedown",function(e) {
-	    var coords = computeCanvasCoords(e.clientX,e.clientY);
-	    SockMan.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
-	    Canvas.ctx.strokeStyle = Canvas.color;
-	    Canvas.ctx.lineWidth = Canvas.width;
-	    Canvas.canv.style.cursor = "sw-resize";
-      	    Canvas.ctx.beginPath();
-	    Canvas.ctx.moveTo(coords.x,coords.y);
-      	    Canvas.canv.addEventListener("mousemove",fx);
-	    Canvas.canv.addEventListener("mouseoff",function() {
-		Canvas.ctx.closePath();
-	    });
-	    Canvas.canv.addEventListener("mouseover",function(e) {
+	    if (FlagCheck.checkTurn()) {
 		var coords = computeCanvasCoords(e.clientX,e.clientY);
-		Canvas.ctx.beginPath();
+		SockMan.socket.emit("draw",{x:coords.x,y:coords.y,isDrawing:false,color:Canvas.color,width:Canvas.width});
+		Canvas.ctx.strokeStyle = Canvas.color;
+		Canvas.ctx.lineWidth = Canvas.width;
+		Canvas.canv.style.cursor = "sw-resize";
+      		Canvas.ctx.beginPath();
 		Canvas.ctx.moveTo(coords.x,coords.y);
-	    });
+      		Canvas.canv.addEventListener("mousemove",fx);
+		Canvas.canv.addEventListener("mouseoff",function() {
+		    Canvas.ctx.closePath();
+		});
+		Canvas.canv.addEventListener("mouseover",function(e) {
+		    var coords = computeCanvasCoords(e.clientX,e.clientY);
+		    Canvas.ctx.beginPath();
+		    Canvas.ctx.moveTo(coords.x,coords.y);
+		});
+	    }
       	});
       	document.addEventListener("mouseup",function() {
       	    Canvas.canv.removeEventListener("mousemove",fx);
@@ -150,17 +181,20 @@ var FlagCheck = (function() {
     var gotWord = false;
     var module = {
 	checkTurn: function() {
-	    return isTurn;
+	    //return isTurn;
+	    return CUR_TURN == USERNAME;
 	},
 	updateTurn: function() {
-	    isTurn = SockMan.socket.emit("turnreq");
-	    return isTurn;
+		//#SockMan.socket.emit("turnreq", function(turn) {
+		//isTurn = turn;
+	    //});
+	    return CUR_TURN == USERNAME;
 	},
 	gotWord: function() {
 	    return gotWord;
 	},
 	updateStatus: function() {
-	    gotWord = SockMan.emit("wordconf");
+	    gotWord = SockMan.socket.emit("wordconf");
 	},
     };
     return module;
@@ -177,7 +211,7 @@ var initStyle = function() {
 };
 
 var initPlayerList = function() {
-    console.log(players);
+    //console.log(players);
     var list = document.getElementById("player-list");
     list.innerHTML = "";
     for (i in players) {
@@ -187,7 +221,7 @@ var initPlayerList = function() {
 	//span.addClass("player-item-span");
 	li.innerHTML = ('<span class="player-item-span"><a href="/profile/'+players[i]+'">'+players[i]+"</a></span>");
 	list.appendChild(li);
-	console.log("added "+players[i]+": "+li.innerHTML);
+	//console.log("added "+players[i]+": "+li.innerHTML);
     }
 };
 
@@ -282,7 +316,7 @@ var pulseIndicator = function(str,ms) {
 var initInfobar = function(str,timer) {
     var bar = document.getElementById("top-info-bar");
     var txt = document.getElementById("indicator-text-2");
-    var timer = document.getElementById("timer");
+    var timerElem = document.getElementById("timer");
     if (str) {
 	bar.style.top = "0";
 	bar.style.opacity = "1";
@@ -293,10 +327,10 @@ var initInfobar = function(str,timer) {
 	bar.style.top = "-75px";
     }
 
-    if (timer == true)
-	timer.style.display = "block";
+    if (timer)
+	timerElem.style.display = "block";
     else
-	timer.style.display = "none"; 
+	timerElem.style.display = "none"; 
 };
 
 var hueBarInit = function() {
@@ -320,7 +354,7 @@ var hueBarInit = function() {
 
 var startTimer = function(i) {
     var timer = document.getElementById("timer");
-    var i = i;
+    this.i = i;
     var f = function() {
 	if (--i < 0) {
 	    clearInterval(iid);
@@ -329,6 +363,7 @@ var startTimer = function(i) {
 	    }
 	}
 	else {
+	    SockMan.socket.emit("timeupdate",i);
 	    timer.innerHTML = i;
 	    if (i < 10) {
 		timer.style.color = (i%2!=0) ? "#e53b44" : "#ffffff";
@@ -363,6 +398,6 @@ var init = function() {
     hueBarInit();
     sizeBarInit();
     bindMiscEvents();
-    dispInfobar("ayy lmao");
+    initInfobar("Waiting for one more player...",false);
     //initPlayerList();
 };

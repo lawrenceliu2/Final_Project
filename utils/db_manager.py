@@ -458,9 +458,11 @@ def getWinner (roomname):
         text += winners [0][0] + " is the winner with " + str(winner) + " points!"
     for user in users:
         if (winner != getScore(user)):
-            addLoss(user)
+            if (not nameAvail(user)):
+                addLoss(user)
         else:
-            addWin(user)
+            if (not nameAvail(user)):
+                addWin(user)
     return text
 
     #Checks if anyone guessed the word correctly

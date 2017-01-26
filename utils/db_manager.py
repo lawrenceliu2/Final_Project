@@ -454,10 +454,14 @@ def getWinner (roomname):
                 text += guy[0] + " and "
                 count -= 1
         text += " are the winners with " + str(winner) + " points!"
-        return text
     else:
         text += winners [0][0] + " is the winner with " + str(winner) + " points!"
-        return text
+    for user in users:
+        if (winner != getScore(user)):
+            addLoss(user)
+        else:
+            addWin(user)
+    return text
 
     #Checks if anyone guessed the word correctly
 def checkGotWord (roomname):
